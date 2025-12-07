@@ -500,7 +500,7 @@
 
 
         // **********************************************************
-        // *** LOGICA CLASSIFICA DINAMICA CORRETTA ***
+        // *** LOGICA CLASSIFICA DINAMICA CORRETTA (Ricerca ID migliorata) ***
         // **********************************************************
         
         const updateCategoryButtons = (activeCategory) => {
@@ -541,9 +541,9 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
-                // FASE 3: Estrazione del blocco specifico usando la query più robusta
-                // Ricerchiamo l'elemento all'interno del body del documento analizzato.
-                const categoryDiv = doc.body.querySelector(`#${categoryDivId}`);
+                // FASE 3: Estrazione del blocco specifico
+                // CERCHIAMO L'ID SU TUTTO IL DOCUMENTO PARSATO (più robusto per frammenti HTML)
+                const categoryDiv = doc.querySelector(`#${categoryDivId}`); 
                 
                 if (categoryDiv) {
                     // Successo: estrae il contenuto interno del div (tabelle)
@@ -552,15 +552,16 @@
                 } else {
                     // Fallimento: ID non trovato
                     console.error(`Errore di Parsing: Il contenitore #${categoryDivId} non è stato trovato nel documento analizzato.`);
-                    containerEl.innerHTML = `<p class="text-red-500 font-bold text-center p-8">❌ Errore di Parsing: Il contenitore <code>id="${categoryDivId}"</code> non è stato trovato in classifica.html. Controlla che gli ID siano corretti (ranking-A, ranking-B, etc.).</p>`;
+                    // **NOTA BENE:** Se ricevi ancora questo errore, il problema è *dentro* classifica.html (es. un errore di battitura nell'ID)
+                    containerEl.innerHTML = `<p class="text-red-500 font-bold text-center p-8">❌ Errore di Parsing: Il contenitore <code>id="${categoryDivId}"</code> non è stato trovato in classifica.html. Controlla che l'ID sia scritto esattamente così (es. <code>ranking-A</code>) nel file <code>classifica.html</code>.</p>`;
                 }
 
             } catch (error) {
                 console.error("Errore durante il caricamento o il parsing della classifica:", error);
-                // Messaggio di errore più specifico per il CORS/File not found
+                // Messaggio di errore più specifico per la rete
                 const userFriendlyError = error.message.includes("Status 404") || error.message.includes("Impossibile accedere") ? 
-                    "Verifica che il file classifica.html esista e sia nella stessa directory." :
-                    "Errore di rete/sicurezza (potrebbe essere un blocco CORS se lanciato localmente).";
+                    "Verifica che il file classifica.html esista e sia nella stessa directory del file mwt_page.html." :
+                    "Errore di rete (es. blocco CORS/sicurezza).";
                 
                 containerEl.innerHTML = `<p class="text-red-500 font-bold text-center p-8">❌ Errore nel caricamento: ${userFriendlyError}</p>`;
             }
@@ -587,9 +588,8 @@
             initChart();
             populateFilters();
             renderStages(tourStages);
-            // *** CHIAMATA ALLA FUNZIONE DI INIZIALIZZAZIONE CLASSIFICA ***
+            // CHIAMATA ALLA FUNZIONE DI INIZIALIZZAZIONE CLASSIFICA
             initRankingTabs();
-            // *************************************************************************
         });
 
     </script>
