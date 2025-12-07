@@ -60,7 +60,7 @@
 
         /* --- Mobile-First Layout (Stacked & Sidebar as Overlay) --- */
         #main-layout {
-            display: flex; /* Mobile default is flex column */
+            display: flex; 
             flex-direction: column;
             min-height: 100vh;
             position: relative;
@@ -68,7 +68,7 @@
         }
 
         #sidebar {
-            /* Mobile: Hidden, fixed overlay */
+            /* Mobile: Fixed overlay */
             position: fixed;
             top: 0;
             left: 0;
@@ -82,7 +82,7 @@
             box-shadow: 2px 0 5px rgba(0,0,0,0.5);
         }
         
-        /* Class to show sidebar on mobile */
+        /* Classe per mostrare la sidebar su mobile */
         .sidebar-open {
             transform: translateX(0);
         }
@@ -105,15 +105,20 @@
                 grid-template-columns: 250px 1fr; 
                 height: 100vh;
             }
+            /* Su desktop la sidebar è statica */
             #sidebar {
-                position: relative; /* Back to flow */
-                transform: translateX(0); /* Always visible */
+                position: relative; 
+                transform: translateX(0); 
                 z-index: 10;
                 width: 250px;
             }
             #main-content {
                 grid-column: 2 / 3;
-                padding: 40px; /* Original desktop padding */
+                padding: 40px; 
+            }
+            /* Nascondi il pulsante del menu e l'overlay su desktop */
+            #menu-toggle, #sidebar-overlay {
+                display: none !important;
             }
         }
         
@@ -132,8 +137,8 @@
         }
         
         .login-card {
-            background-color: rgba(26, 29, 32, 0.95); /* Opacità leggermente aumentata */
-            backdrop-filter: blur(8px); /* Blur leggermente aumentato */
+            background-color: rgba(26, 29, 32, 0.95); 
+            backdrop-filter: blur(8px); 
         }
         .sidebar-link {
             padding: 10px 16px;
@@ -239,6 +244,7 @@
     </div>
 
     <script>
+        // Logica per il form di Login (simulato)
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -269,7 +275,8 @@
                 
                 // Gestione overlay
                 overlay.classList.toggle('opacity-50', isOpen);
-                overlay.classList.toggle('pointer-events-auto', isOpen);
+                // Il puntatore è attivo quando è aperto, non attivo quando è chiuso
+                overlay.classList.toggle('pointer-events-auto', isOpen); 
                 overlay.classList.toggle('pointer-events-none', !isOpen);
 
                 // Toggle icona
@@ -277,15 +284,18 @@
                 menuIconClose.classList.toggle('hidden', !isOpen);
             };
 
+            // Apertura/chiusura tramite pulsante menu
             toggleButton.addEventListener('click', toggleSidebar);
+            // Chiusura cliccando sull'overlay
             overlay.addEventListener('click', toggleSidebar);
 
             // Chiude la sidebar se un link viene cliccato in modalità mobile
             document.querySelectorAll('#sidebar a').forEach(link => {
                 link.addEventListener('click', () => {
-                    // La breakpoint LG è 1024px
+                    // Controllo se siamo in modalità mobile (larghezza inferiore a 1024px)
                     if (window.innerWidth < 1024 && sidebar.classList.contains('sidebar-open')) { 
-                        toggleSidebar();
+                        // Imposta un timeout per permettere la navigazione prima di chiudere
+                        setTimeout(toggleSidebar, 100); 
                     }
                 });
             });
