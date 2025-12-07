@@ -1,4 +1,4 @@
-/* Sidebar Mobile */
+/* ===== Sidebar ===== */
 #sidebar {
     position: fixed;
     top: 0;
@@ -14,6 +14,7 @@
     box-shadow: 2px 0 5px rgba(0,0,0,0.5);
 }
 
+/* Sidebar aperta */
 .sidebar-open {
     transform: translateX(0) !important;
 }
@@ -33,12 +34,12 @@
     opacity: 0.5;
 }
 
-/* Blocca scroll */
+/* Blocca lo scroll */
 .no-scroll {
     overflow: hidden !important;
 }
 
-/* Desktop */
+/* ===== Desktop ===== */
 @media (min-width: 1024px) {
     #sidebar {
         position: relative;
