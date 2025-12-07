@@ -56,12 +56,6 @@
             max-height: 400px;
             margin: 0 auto;
         }
-        /* Stile per la selezione attiva della classifica */
-        .active-ranking-tab {
-            border-color: #fc6719 !important; /* zwift-orange */
-            background-color: #fc6719 !important;
-            color: black !important;
-        }
         /* Scrollbar personalizzata */
         ::-webkit-scrollbar {
             width: 8px;
@@ -82,15 +76,16 @@
             <div class="text-2xl font-bold tracking-wider zwift-font text-zwift-orange">
                 MASTER WINTER TOUR <span class="text-white text-lg font-light">25/26</span>
             </div>
+            
             <div class="hidden md:flex space-x-6 text-sm font-semibold">
                 <a href="#dashboard" class="hover:text-zwift-orange transition">Dashboard</a>
                 <a href="#stages" class="hover:text-zwift-orange transition">Tappe</a>
-                <a href="#ranking-section" class="hover:text-zwift-orange transition">Classifica</a>
                 <a href="#analytics" class="hover:text-zwift-orange transition">Analisi</a>
-            </div>
+                <a href="#ranking" class="hover:text-zwift-orange transition text-zwift-orange font-bold">Classifiche</a>
+                </div>
             
             <div class="flex space-x-3">
-                <a href="ranking.html/" target="_blank" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-1 px-4 rounded text-sm transition">
+                <a href="#ranking" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-1 px-4 rounded text-sm transition">
                     CLASSIFICHE
                 </a>
                 <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-1 px-4 rounded text-sm transition">
@@ -203,27 +198,22 @@
         </div>
     </section>
 
-    <section id="ranking-section" class="py-12 bg-zwift-dark">
+    <section id="ranking" class="py-12 bg-zwift-dark">
         <div class="container mx-auto px-4">
-            <h2 class="text-4xl font-bold text-white text-center mb-8">CLASSIFICHE TOUR</h2>
-            
-            <div class="flex flex-wrap justify-center space-x-2 md:space-x-4 mb-8">
-                <button data-category="A" class="ranking-tab bg-zwift-card text-white font-semibold py-2 px-6 rounded-lg border border-gray-700 hover:border-zwift-orange transition duration-300 active-ranking-tab">
-                    Categoria A
-                </button>
-                <button data-category="B" class="ranking-tab bg-zwift-card text-white font-semibold py-2 px-6 rounded-lg border border-gray-700 hover:border-zwift-orange transition duration-300">
-                    Categoria B
-                </button>
-                <button data-category="C" class="ranking-tab bg-zwift-card text-white font-semibold py-2 px-6 rounded-lg border border-gray-700 hover:border-zwift-orange transition duration-300">
-                    Categoria C
-                </button>
-                <button data-category="D" class="ranking-tab bg-zwift-card text-white font-semibold py-2 px-6 rounded-lg border border-gray-700 hover:border-zwift-orange transition duration-300">
-                    Categoria D
-                </button>
+            <div class="mb-8 border-b border-gray-700 pb-4">
+                <h2 class="text-4xl font-bold text-white">CLASSIFICHE TOUR</h2>
+                <p class="text-gray-400">Seleziona una categoria per visualizzare i risultati aggiornati (Gara 1).</p>
             </div>
             
-            <div id="ranking-list" class="bg-zwift-card p-4 md:p-8 rounded-xl border border-gray-800 shadow-xl overflow-x-auto">
-                <p class="text-center text-gray-500 py-10">Caricamento classifica...</p>
+            <div class="flex space-x-3 mb-8">
+                <button id="btn-A" data-category="A" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">Categoria A</button>
+                <button id="btn-B" data-category="B" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">Categoria B</button>
+                <button id="btn-C" data-category="C" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">Categoria C</button>
+                <button id="btn-D" data-category="D" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">Categoria D</button>
+            </div>
+
+            <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] flex items-center justify-center">
+                <p class="text-gray-500" id="loading-message">Caricamento classifica...</p>
             </div>
         </div>
     </section>
@@ -266,10 +256,12 @@
     </footer>
 
     <script>
-        // --- Data Source e Configurazione Iniziale ---
+        // --- Data Source (Based on the Report provided) ---
+        // Nuovo link di registrazione generale per tutte le tappe (l'hub fornito dall'utente)
         const GENERAL_REGISTER_LINK = "https://www.zwift.com/eu-it/events/tag/inoxwinter";
         
         const tourStages = [
+            // I registerLink sono aggiornati per puntare all'hub fornito dall'utente
             { id: 1, date: "2025-12-12T19:15:00", world: "Scotland", route: "Outer Scotland", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: GENERAL_REGISTER_LINK },
             { id: 2, date: "2025-12-16T19:15:00", world: "Makuri", route: "Red Zone Repeats", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: GENERAL_REGISTER_LINK },
             { id: 3, date: "2025-12-19T19:15:00", world: "New York", route: "Issendorf Express", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/issendorf-express/", registerLink: GENERAL_REGISTER_LINK },
@@ -290,78 +282,15 @@
             { id: 18, date: "2026-03-25T19:15:00", world: "Watopia", route: "Jarvis Seaside Sprint", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/jarvis-seaside-sprint/", registerLink: GENERAL_REGISTER_LINK }
         ];
 
-        // ----------------------------------------------------------------------
-        // SIMULAZIONE DEL CONTENUTO DI CLASSIFICA.HTML
-        // Questo contenuto deve replicare la struttura HTML che il tuo file 'classifica.html'
-        // espone per ogni categoria (A, B, C, D) all'interno di un div con ID specifico.
-        // ----------------------------------------------------------------------
-        const rankingHtmlContent = `
-            <div id="ranking-A">
-                <table>
-                    <tbody>
-                        <tr data-is-user="true">
-                            <td>1</td><td>Giovanni Rossi</td><td>Team INOX</td><td>4500</td><td>25:30:15</td><td>4.5 w/kg</td>
-                        </tr>
-                        <tr>
-                            <td>2</td><td>Marco Bianchi</td><td>Beta Cyclists</td><td>3800</td><td>25:45:30</td><td>4.2 w/kg</td>
-                        </tr>
-                        <tr>
-                            <td>3</td><td>Sofia Verdi</td><td>Gamma Power</td><td>3500</td><td>25:50:00</td><td>4.1 w/kg</td>
-                        </tr>
-                        <tr>
-                            <td>4</td><td>Luca Marino</td><td>Delta Riders</td><td>3100</td><td>26:05:00</td><td>3.9 w/kg</td>
-                        </tr>
-                        <tr>
-                            <td>5</td><td>Elena Gialli</td><td>Epsilon Elite</td><td>2900</td><td>26:10:00</td><td>3.8 w/kg</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="ranking-B">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>1</td><td>Andrea Colombo</td><td>Kappa Krew</td><td>2700</td><td>26:30:00</td><td>3.3 w/kg</td>
-                        </tr>
-                        <tr>
-                            <td>2</td><td>Sara Ricci</td><td>Sigma Squad</td><td>2500</td><td>26:45:00</td><td>3.2 w/kg</td>
-                        </tr>
-                        <tr>
-                            <td>3</td><td>Federico Moro</td><td>Omega Force</td><td>2300</td><td>27:00:00</td><td>3.1 w/kg</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="ranking-C">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>1</td><td>Dario Marrone</td><td>Zeta Team</td><td>2500</td><td>27:00:00</td><td>2.8 w/kg</td>
-                        </tr>
-                        <tr>
-                            <td>2</td><td>Giulia Rosa</td><td>Lambda Legends</td><td>2200</td><td>27:40:00</td><td>2.7 w/kg</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div id="ranking-D">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>1</td><td>Chiara Viola</td><td>Iota Racers</td><td>1900</td><td>28:30:00</td><td>2.5 w/kg</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        `;
-        // ----------------------------------------------------------------------
-
-
-        // --- Helper Functions (Omitting for brevity, retained from previous step) ---
+        // --- Helper Functions ---
+        
+        // Format Date nicely
         const formatDate = (dateString) => {
             const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
             return new Date(dateString).toLocaleDateString('it-IT', options);
         };
+
+        // Get Icon based on type
         const getTypeIcon = (type) => {
             type = type.toLowerCase();
             if (type.includes('flat')) return '⚡';
@@ -371,190 +300,38 @@
             if (type.includes('itt') || type.includes('chrono scalata')) return '⏱️';
             return '🚴';
         };
+
+        // Get Color Class based on type (Using Tailwind config for consistency)
         const getTypeColor = (type) => {
             type = type.toLowerCase();
+            // Utilizzo diretto delle classi Tailwind, se definite, o default
             if (type.includes('flat')) return 'text-race-flat border-race-flat';
             if (type.includes('mountain')) return 'text-race-mountain border-race-mountain';
             if (type.includes('hilly')) return 'text-race-hilly border-race-hilly';
+            // TT, Chrono Scalata e Luna Park useranno il colore 'time'
             return 'text-race-time border-race-time';
         };
-        
-        // --- Logic: Ranking Display (Aggiornata per il Parsing HTML) ---
-        
-        const getRankHighlightClass = (rank) => {
-             if (rank === 1) return 'text-zwift-orange';
-             if (rank === 2) return 'text-white/80';
-             if (rank === 3) return 'text-yellow-600';
-             return 'text-gray-400';
-        };
 
-        /**
-         * Carica i dati da classifica.html (simulato o reale) ed esegue il parsing.
-         * @param {string} category - La categoria da visualizzare (A, B, C, D).
-         */
-        const fetchAndParseRanking = async (category) => {
-            const container = document.getElementById('ranking-list');
-            container.innerHTML = `<p class="text-center text-gray-500 py-10">Caricamento classifica Categoria ${category}...</p>`;
-
-            let htmlText;
-
-            // ----------------------------------------------------------------------
-            // 🔥 BLOCCO CORRETTO: ESEGUI LA CHIAMATA DI RETE AL FILE classifica.html
-            // ----------------------------------------------------------------------
-            try {
-                // Questa riga carica il contenuto del file classifica.html
-                const response = await fetch('classifica.html'); 
-                
-                if (!response.ok) {
-                    // Controlla anche errori 404
-                    throw new Error(`File non trovato o errore di rete (Status: ${response.status})`);
-                }
-                
-                htmlText = await response.text();
-            } catch (error) {
-                console.error("Errore durante il caricamento di classifica.html:", error);
-                container.innerHTML = `<p class="text-center text-red-500 py-10">
-                    ⚠️ Impossibile caricare il file classifica.html. 
-                    Assicurati che sia nella stessa cartella e che il fetch sia decommentato. 
-                    <br>Errore: ${error.message}
-                </p>`;
-                return;
-            }
-            // ----------------------------------------------------------------------
-            // ❌❌ ASSICURATI DI AVER RIMOSSO IL BLOCCO DI SIMULAZIONE rankingHtmlContent ❌❌
-            // ----------------------------------------------------------------------
-
-
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlText, 'text/html');
-            
-            // Seleziona il blocco specifico per la categoria
-            const rankingBlock = doc.querySelector(`#ranking-${category} tbody`);
-            const rankingList = [];
-
-            if (!rankingBlock) {
-                container.innerHTML = `<p class="text-center text-gray-500 py-10">Nessun dato di classifica trovato per la Categoria ${category} nel file HTML.</p>`;
-                return;
-            }
-
-            // Estrai i dati riga per riga (Parsing DOM)
-            rankingBlock.querySelectorAll('tr').forEach(row => {
-                const cells = row.querySelectorAll('td');
-                if (cells.length >= 6) { 
-                    rankingList.push({
-                        rank: parseInt(cells[0].textContent.trim()),
-                        name: cells[1].textContent.trim(),
-                        team: cells[2].textContent.trim(),
-                        points: parseInt(cells[3].textContent.trim()),
-                        time: cells[4].textContent.trim(),
-                        power: cells[5].textContent.trim(),
-                        isUser: row.getAttribute('data-is-user') === 'true'
-                    });
-                }
-            });
-
-            renderRankingList(rankingList, category);
-        };
-        
-        /**
-         * Renderizza la lista dei dati della classifica (la logica di stile rimane la stessa).
-         */
-        const renderRankingList = (data, category) => {
-            const container = document.getElementById('ranking-list');
-
-            if (data.length === 0) {
-                container.innerHTML = `<p class="text-center text-gray-500 py-10">Nessun dato di classifica disponibile per la Categoria ${category}.</p>`;
-                return;
-            }
-
-            let html = `
-                <table class="min-w-full divide-y divide-gray-700">
-                    <thead class="bg-black/40">
-                        <tr>
-                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-400 sm:pl-6">Pos</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-400">Atleta</th>
-                            <th scope="col" class="hidden md:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-400">Team</th>
-                            <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-400">Punti</th>
-                            <th scope="col" class="hidden sm:table-cell px-3 py-3.5 text-right text-sm font-semibold text-gray-400">Tempo Totale</th>
-                            <th scope="col" class="hidden lg:table-cell px-3 py-3.5 text-right text-sm font-semibold text-gray-400">Media W/Kg</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-800">
-            `;
-
-            data.forEach(row => {
-                // Classi per l'highlight utente e l'hover
-                const highlightClass = row.isUser ? 'bg-zwift-blue/20 hover:bg-zwift-blue/30 border-l-4 border-zwift-blue' : 'hover:bg-black/50';
-                const rankColor = getRankHighlightClass(row.rank);
-                
-                html += `
-                        <tr class="${highlightClass} transition duration-150 ease-in-out">
-                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-lg font-bold ${rankColor} sm:pl-6">${row.rank}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-white">
-                                ${row.name}
-                                ${row.isUser ? '<span class="text-xs text-zwift-blue">(Tu)</span>' : ''}
-                                <div class="text-xs text-gray-500 md:hidden">${row.team}</div>
-                            </td>
-                            <td class="hidden md:table-cell whitespace-nowrap px-3 py-4 text-sm text-gray-300">${row.team}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-right text-lg font-extrabold text-zwift-orange">${row.points}</td>
-                            <td class="hidden sm:table-cell whitespace-nowrap px-3 py-4 text-right text-sm text-gray-300">${row.time}</td>
-                            <td class="hidden lg:table-cell whitespace-nowrap px-3 py-4 text-right text-sm text-gray-300">${row.power}</td>
-                        </tr>
-                `;
-            });
-
-            html += `
-                    </tbody>
-                </table>
-            `;
-            container.innerHTML = html;
-        };
-
-        const initRankingTabs = () => {
-            const tabs = document.querySelectorAll('.ranking-tab');
-
-            const switchCategory = (category) => {
-                // 1. Aggiorna lo stato delle schede (Tabs)
-                tabs.forEach(tab => {
-                    if (tab.getAttribute('data-category') === category) {
-                        tab.classList.add('active-ranking-tab');
-                    } else {
-                        tab.classList.remove('active-ranking-tab');
-                    }
-                });
-
-                // 2. Chiama la funzione di fetch e parsing per la categoria
-                fetchAndParseRanking(category);
-            };
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    const category = e.currentTarget.getAttribute('data-category');
-                    switchCategory(category);
-                });
-            });
-
-            // Renderizza la prima classifica all'avvio
-            switchCategory('A');
-        };
-
-        // --- Logic: Countdown Timer / Chart / Stage Explorer (Inalterate) ---
-        // (Le funzioni sono state omesse qui per brevità ma sono presenti nel codice finale)
-        
-        // --- Logic: Countdown Timer ---
+        // --- Logic: Countdown Timer (Non modificato) ---
         const initCountdown = () => {
+            // Find next race
             const now = new Date();
+            // Trova la prossima gara futura
             let nextRace = tourStages.find(stage => new Date(stage.date) > now);
+            
             const raceInfoEl = document.getElementById('next-race-info');
             
             if (nextRace) {
+                // Imposta l'informazione sulla prossima gara
                 raceInfoEl.innerHTML = `PROSSIMA GARA: Tappa ${nextRace.id} - ${nextRace.world} (${formatDate(nextRace.date)})`;
+                
                 const targetDate = new Date(nextRace.date).getTime();
 
                 setInterval(() => {
                     const current = new Date().getTime();
                     const distance = targetDate - current;
 
+                    // Se il tempo è scaduto
                     if (distance < 0) {
                         document.getElementById('days').innerText = "00";
                         document.getElementById('hours').innerText = "00";
@@ -579,11 +356,13 @@
             }
         };
 
-        // --- Logic: Chart.js ---
+        // --- Logic: Chart.js (Aggiornamento colori per coerenza) ---
         const initChart = () => {
             const ctx = document.getElementById('raceTypeChart').getContext('2d');
             
+            // Calculate distribution
             const typeCounts = {};
+            // Normalizza i tipi di gara per raggrupparli meglio nel grafico
             const simplifiedTypes = tourStages.map(s => {
                 const t = s.type.trim().toLowerCase();
                 if (t.includes('flat')) return 'Sprint (Flat)';
@@ -601,12 +380,13 @@
             const labels = Object.keys(typeCounts);
             const data = Object.values(typeCounts);
             
+            // Colori coerenti con la palette race definita in Tailwind config (con aggiunta per Misto/Altro)
             const backgroundColors = labels.map(label => {
-                if (label.includes('Flat')) return '#10b981'; // Green (race-flat)
-                if (label.includes('Montagna')) return '#ef4444'; // Red (race-mountain)
-                if (label.includes('Collinare')) return '#f59e0b'; // Yellow (race-hilly)
-                if (label.includes('Cronometro')) return '#00f0ff'; // Blue (race-time/zwift-blue)
-                return '#fc6719'; // Orange (zwift-orange)
+                if (label.includes('Flat')) return '#10b981'; // Green
+                if (label.includes('Montagna')) return '#ef4444'; // Red
+                if (label.includes('Collinare')) return '#f59e0b'; // Yellow
+                if (label.includes('Cronometro')) return '#00f0ff'; // Blue (colore 'time' in config)
+                return '#fc6719'; // Orange per Misto/Altro
             });
 
 
@@ -648,9 +428,12 @@
                 const colorClass = getTypeColor(stage.type);
                 const icon = getTypeIcon(stage.type);
                 
+                // Nota: ho rimosso il riferimento "group-hover:text-zwift-orange transition" dal contenitore della card
+                // perché creava un conflitto se non era ben gestito. Ho lasciato l'hover sul bordo.
                 const card = document.createElement('div');
-                card.className = `bg-black/40 hover:bg-gray-800 transition p-4 rounded-lg border-l-4 border-gray-700 hover:border-zwift-orange flex flex-col md:flex-row justify-between items-center group ${colorClass.split(' ')[3] || ''}`; 
+                card.className = `bg-black/40 hover:bg-gray-800 transition p-4 rounded-lg border-l-4 border-gray-700 hover:border-zwift-orange flex flex-col md:flex-row justify-between items-center group`; 
                 
+                // Elemento contenente il link al percorso
                 const routeElement = `<a href="${stage.routeLink}" target="_blank" class="text-sm text-gray-300 hover:text-zwift-blue transition">${stage.route} <span class="text-xs">🗺️</span></a>`;
 
 
@@ -661,14 +444,14 @@
                         </div>
                         <div>
                             <div class="text-xs text-gray-400 uppercase tracking-wider">${formatDate(stage.date)}</div>
-                            <div class="text-xl font-bold text-white group-hover:text-zwift-orange transition">${stage.world}</div>
+                            <div class="text-xl font-bold text-white">${stage.world}</div>
                             ${routeElement} </div>
                     </div>
                     
                     <div class="flex items-center space-x-6 mt-4 md:mt-0 w-full md:w-auto justify-between md:justify-end">
                         <div class="flex items-center space-x-2 px-3 py-1 rounded bg-black/50 border border-gray-700">
                             <span>${icon}</span>
-                            <span class="text-sm font-semibold ${colorClass.split(' ')[0]}">${stage.type.trim()}</span>
+                            <span class="text-sm font-semibold ${colorClass}">${stage.type.trim()}</span>
                         </div>
                         <a href="${stage.registerLink}" target="_blank" class="bg-white text-black hover:bg-zwift-orange hover:text-white font-bold py-2 px-6 rounded-full text-sm transition transform hover:scale-105">
                             ISCRIVITI
@@ -683,6 +466,7 @@
             const worldSelect = document.getElementById('worldFilter');
             const typeSelect = document.getElementById('typeFilter');
             
+            // Usiamo Set per ottenere valori unici e .trim() per rimuovere spazi bianchi
             const worlds = [...new Set(tourStages.map(s => s.world.trim()))].sort();
             const types = [...new Set(tourStages.map(s => s.type.trim()))].sort();
 
@@ -717,16 +501,96 @@
             typeSelect.addEventListener('change', filterHandler);
         };
 
+
+        // *** MODIFICA 3: LOGICA CLASSIFICA DINAMICA AGGIUNTA ***
+        
+        const updateCategoryButtons = (activeCategory) => {
+            document.querySelectorAll('.category-btn').forEach(button => {
+                if (button.dataset.category === activeCategory) {
+                    // Attiva lo stile
+                    button.classList.replace('bg-zwift-card', 'bg-zwift-orange');
+                    button.classList.add('transform', 'hover:scale-105');
+                    button.classList.remove('hover:bg-gray-700');
+                } else {
+                    // Disattiva lo stile
+                    button.classList.replace('bg-zwift-orange', 'bg-zwift-card');
+                    button.classList.remove('transform', 'hover:scale-105');
+                    button.classList.add('hover:bg-gray-700');
+                }
+            });
+        };
+
+        const fetchAndRenderRanking = async (category) => {
+            const containerEl = document.getElementById('ranking-container');
+            if (!containerEl) return;
+
+            // Mostra un messaggio di caricamento
+            containerEl.innerHTML = '<p class="text-gray-500 flex items-center justify-center h-full">Caricamento classifica...</p>';
+            
+            // Aggiorna l'aspetto del pulsante attivo
+            updateCategoryButtons(category);
+
+            try {
+                // FASE 1: Fetch (caricamento) del file classifica.html
+                const response = await fetch('classifica.html'); 
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                
+                const htmlText = await response.text();
+                
+                // FASE 2: Parsing del contenuto HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+
+                // FASE 3: Estrazione del blocco specifico usando l'ID corretto
+                const categoryDivId = `ranking-${category}`; // Esempio: "ranking-A"
+                const rankingBlock = doc.querySelector(`#${categoryDivId}`); 
+
+                if (rankingBlock) {
+                    // La classifica è stata trovata: iniettala nel contenitore
+                    
+                    // Rimuovi l'H1 principale (se presente nel blocco estratto)
+                    const mainTitle = rankingBlock.querySelector('h1');
+                    if (mainTitle) mainTitle.remove(); 
+
+                    containerEl.innerHTML = rankingBlock.innerHTML;
+
+                } else {
+                    // Errore di struttura: il DIV con l'ID non è stato trovato.
+                    containerEl.innerHTML = `<p class="text-red-500">❌ Errore di Parsing: Il contenitore <code class="text-white">id="${categoryDivId}"</code> non è stato trovato in classifica.html.</p>`;
+                }
+
+            } catch (error) {
+                console.error("Errore durante il caricamento o il parsing della classifica:", error);
+                containerEl.innerHTML = `<p class="text-red-500">❌ Errore nel caricamento: ${error.message}. Verifica la connessione o il percorso del file classifica.html.</p>`;
+            }
+        };
+        
+        const initRankingTabs = () => {
+            // Event Listener per i pulsanti di categoria
+            document.querySelectorAll('.category-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const category = e.currentTarget.dataset.category;
+                    fetchAndRenderRanking(category);
+                });
+            });
+
+            // Carica la Categoria A all'avvio
+            fetchAndRenderRanking('A');
+        }
+        // **********************************************************
+
+
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             initCountdown();
             initChart();
             populateFilters();
             renderStages(tourStages);
+            // *** MODIFICA 4: CHIAMATA ALLA FUNZIONE DI INIZIALIZZAZIONE CLASSIFICA ***
             initRankingTabs();
+            // *************************************************************************
         });
 
     </script>
 </body>
-
 </html>
