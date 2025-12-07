@@ -399,21 +399,31 @@
             let htmlText;
 
             // ----------------------------------------------------------------------
-            // [ATTENZIONE]: USARE IL BLOCCO REALE SOLO SU SERVER WEB
+            // 🔥 BLOCCO CORRETTO: ESEGUI LA CHIAMATA DI RETE AL FILE classifica.html
             // ----------------------------------------------------------------------
-            
-            // BLOCCO REALE PER SERVER WEB
             try {
-                const response = await fetch('classifica.html');
-                if (!response.ok) throw new Error('File non trovato o errore di rete');
+                // Questa riga carica il contenuto del file classifica.html
+                const response = await fetch('classifica.html'); 
+                
+                if (!response.ok) {
+                    // Controlla anche errori 404
+                    throw new Error(`File non trovato o errore di rete (Status: ${response.status})`);
+                }
+                
                 htmlText = await response.text();
             } catch (error) {
                 console.error("Errore durante il caricamento di classifica.html:", error);
-                container.innerHTML = `<p class="text-center text-red-500 py-10">Impossibile caricare il file classifica.html. Controlla la console per i dettagli.</p>`;
+                container.innerHTML = `<p class="text-center text-red-500 py-10">
+                    ⚠️ Impossibile caricare il file classifica.html. 
+                    Assicurati che sia nella stessa cartella e che il fetch sia decommentato. 
+                    <br>Errore: ${error.message}
+                </p>`;
                 return;
             }
-            
-            
+            // ----------------------------------------------------------------------
+            // ❌❌ ASSICURATI DI AVER RIMOSSO IL BLOCCO DI SIMULAZIONE rankingHtmlContent ❌❌
+            // ----------------------------------------------------------------------
+
 
             const parser = new DOMParser();
             const doc = parser.parseFromString(htmlText, 'text/html');
@@ -438,7 +448,7 @@
                         points: parseInt(cells[3].textContent.trim()),
                         time: cells[4].textContent.trim(),
                         power: cells[5].textContent.trim(),
-                        isUser: row.getAttribute('data-is-user') === 'true' // Per l'highlight dell'utente
+                        isUser: row.getAttribute('data-is-user') === 'true'
                     });
                 }
             });
@@ -718,4 +728,5 @@
 
     </script>
 </body>
+
 </html>
