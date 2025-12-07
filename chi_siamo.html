@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <link rel="stylesheet" href="sidebar.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team INOX - Chi Siamo</title>
+
+    <link rel="stylesheet" href="sidebar.css">
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <script>
@@ -31,51 +34,18 @@
             }
         }
     </script>
-
-    <style>
-        body {
-            background-color: #0d0f11;
-            color: #f0f0f0;
-            font-family: 'Inter', sans-serif;
-            /* Rimosso overflow: hidden; */
-        }
-        h1, h2, h3, .inox-font {
-            font-family: 'Teko', sans-serif;
-            text-transform: uppercase;
-        }
-        
-        /* PULIZIA CSS: Lasciamo a Tailwind il compito di gestire il layout complesso con le classi lg:grid */
-        
-        .sidebar-link {
-            padding: 10px 16px;
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #f0f0f0;
-            transition: background-color 0.2s;
-        }
-        .sidebar-link:hover {
-            background-color: rgba(252, 103, 25, 0.1);
-            color: #fc6719;
-        }
-        .sidebar-active {
-            background-color: #fc6719;
-            color: black !important;
-            font-weight: 700;
-        }
-        
-        #top-nav {
-            position: sticky;
-            top: 0;
-            z-index: 20;
-        }
-    </style>
 </head>
-<body class="bg-inox-dark">
+<body class="bg-inox-dark text-inox-text font-body">
 
-    <div id="main-layout" class="h-full lg:grid lg:grid-cols-[250px_1fr] lg:h-screen">
+    <video autoplay muted loop id="background-video">
+        <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
+    </video>
+    
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black opacity-0 transition-opacity duration-300 pointer-events-none z-20 lg:hidden"></div>
+
+    <div id="main-layout" class="lg:grid lg:grid-cols-[250px_1fr] relative min-h-screen">
         
-        <aside id="sidebar" class="bg-inox-card border-r border-gray-800 absolute inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-30 lg:relative hidden lg:block h-full lg:overflow-y-auto">
+        <aside id="sidebar" class="bg-inox-card border-r border-gray-800 fixed inset-y-0 left-0 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 lg:relative lg:block lg:overflow-y-auto">
             
             <div class="w-[250px] h-full bg-inox-card">
                 <div class="p-6 border-b border-gray-700">
@@ -89,7 +59,7 @@
                     <div class="space-y-1">
                         <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Il Team</h3>
                         <a href="home.html" class="sidebar-link">Home</a>
-                        <a href="chi_siamo.html" class="sidebar-link sidebar-active">Chi Siamo</a>
+                        <a href="chi_siamo.html" class="sidebar-link sidebar-active">Chi Siamo</a> 
                         <a href="contatti.html" class="sidebar-link">Contatti</a>
                     </div>
                     <div class="space-y-1">
@@ -99,15 +69,17 @@
                     </div>
                 </div>
             </div>
-            </aside>
+        </aside>
 
-        <div id="main-content" class="lg:h-screen lg:overflow-y-auto">
-            <nav id="top-nav" class="bg-inox-card border-b border-gray-700 shadow-lg">
+        <div id="main-content" class="min-h-screen lg:overflow-y-auto w-full"> 
+            
+            <nav id="top-nav" class="bg-inox-card border-b border-gray-700 shadow-lg sticky top-0 z-20">
                 <div class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-semibold">
                     
                     <button id="sidebar-toggle" class="lg:hidden p-1 text-inox-text hover:text-inox-orange focus:outline-none">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
+                    
                     <div class="hidden lg:flex justify-end items-center text-sm font-semibold ml-auto">
                         <a href="home.html" class="hover:text-inox-orange transition px-4">Home</a>
                         <a href="chi_siamo.html" class="hover:text-inox-orange transition px-4 text-inox-orange">Chi Siamo</a>
@@ -121,9 +93,9 @@
                 </div>
             </nav>
 
-            <main class="p-8">
+            <main class="p-4 sm:p-8">
                 <section id="mission" class="bg-inox-card rounded-xl p-8 mb-10 border-l-4 border-inox-orange">
-                    <h2 class="text-5xl font-extrabold mb-4 text-white inox-font tracking-tight">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold mb-4 text-white inox-font tracking-tight">
                         La Nostra <span class="text-inox-cyan">Filosofia INOSSIDABILE</span>
                     </h2>
                     <p class="text-gray-300 mb-6 text-lg">
@@ -150,7 +122,7 @@
                 </section>
                 
                 <section id="team" class="mb-10 p-4">
-                    <h2 class="text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
                         Il Nostro <span class="text-inox-blue">Staff Tecnico</span>
                     </h2>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -187,21 +159,7 @@
             </main>
         </div>
     </div>
-    <script src="sidebar.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const sidebar = document.getElementById('sidebar');
-            const toggleButton = document.getElementById('sidebar-toggle');
-            
-            toggleButton.addEventListener('click', () => {
-                // Rimuove e aggiunge la classe 'hidden' per mostrare/nascondere la sidebar
-                sidebar.classList.toggle('hidden');
-                
-                // Opzionale: per animazione slide-in/out
-                // sidebar.classList.toggle('-translate-x-full');
-            });
-        });
-        
-    </script>
+    
+    <script src="sidebar.js"></script> 
 </body>
 </html>
