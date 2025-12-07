@@ -199,25 +199,25 @@
     </section>
 
     <section id="ranking" class="py-12 bg-zwift-dark">
-        <div class="container mx-auto px-4">
-            <div class="mb-8 border-b border-gray-700 pb-4">
-                <h2 class="text-4xl font-bold text-white">CLASSIFICHE TOUR</h2>
-                <p class="text-gray-400">Seleziona una categoria per visualizzare i risultati aggiornati (Gara 1).</p>
-            </div>
-            
-            <div class="flex space-x-3 mb-8 flex-wrap">
-                <button id="btn-A" data-category="A" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria A</button>
-                <button id="btn-B" data-category="B" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria B</button>
-                <button id="btn-C" data-category="C" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria C</button>
-                <button id="btn-D" data-category="D" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria D</button>
-                <button id="btn-E" data-category="E" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria E</button>
-            </div>
-
-            <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] flex items-center justify-center">
-                <p class="text-gray-500" id="loading-message">Seleziona una categoria per visualizzare la classifica.</p>
-            </div>
+    <div class="container mx-auto px-4">
+        <div class="mb-8 border-b border-gray-700 pb-4">
+            <h2 class="text-4xl font-bold text-white">CLASSIFICHE TOUR</h2>
+            <p class="text-gray-400">Seleziona una categoria per visualizzare i risultati aggiornati (Gara 1).</p>
         </div>
-    </section>
+        
+        <div class="flex space-x-3 mb-8 flex-wrap">
+            <button id="btn-A" data-category="A" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria A</button>
+            <button id="btn-B" data-category="B" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria B</button>
+            <button id="btn-C" data-category="C" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria C</button>
+            <button id="btn-D" data-category="D" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria D</button>
+            <button id="btn-E" data-category="E" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria E</button>
+        </div>
+
+        <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] relative">
+            <p class="text-gray-500 absolute inset-0 flex items-center justify-center" id="loading-message">Seleziona una categoria per visualizzare la classifica.</p>
+        </div>
+    </div>
+</section>
     <footer class="bg-black py-8 border-t border-gray-800">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
@@ -500,7 +500,7 @@
 
 
         // **********************************************************
-        // *** LOGICA CLASSIFICA DINAMICA CORRETTA (Ricerca ID migliorata) ***
+        // *** LOGICA CLASSIFICA DINAMICA CORRETTA ***
         // **********************************************************
         
         const updateCategoryButtons = (activeCategory) => {
@@ -541,9 +541,9 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
-                // FASE 3: Estrazione del blocco specifico
-                // CERCHIAMO L'ID SU TUTTO IL DOCUMENTO PARSATO (più robusto per frammenti HTML)
-                const categoryDiv = doc.querySelector(`#${categoryDivId}`); 
+                // FASE 3: Estrazione del blocco specifico usando la query più robusta
+                // Ricerchiamo l'elemento all'interno del body del documento analizzato.
+                const categoryDiv = doc.body.querySelector(`#${categoryDivId}`);
                 
                 if (categoryDiv) {
                     // Successo: estrae il contenuto interno del div (tabelle)
@@ -552,16 +552,15 @@
                 } else {
                     // Fallimento: ID non trovato
                     console.error(`Errore di Parsing: Il contenitore #${categoryDivId} non è stato trovato nel documento analizzato.`);
-                    // **NOTA BENE:** Se ricevi ancora questo errore, il problema è *dentro* classifica.html (es. un errore di battitura nell'ID)
-                    containerEl.innerHTML = `<p class="text-red-500 font-bold text-center p-8">❌ Errore di Parsing: Il contenitore <code>id="${categoryDivId}"</code> non è stato trovato in classifica.html. Controlla che l'ID sia scritto esattamente così (es. <code>ranking-A</code>) nel file <code>classifica.html</code>.</p>`;
+                    containerEl.innerHTML = `<p class="text-red-500 font-bold text-center p-8">❌ Errore di Parsing: Il contenitore <code>id="${categoryDivId}"</code> non è stato trovato in classifica.html. Controlla che gli ID siano corretti (ranking-A, ranking-B, etc.).</p>`;
                 }
 
             } catch (error) {
                 console.error("Errore durante il caricamento o il parsing della classifica:", error);
-                // Messaggio di errore più specifico per la rete
+                // Messaggio di errore più specifico per il CORS/File not found
                 const userFriendlyError = error.message.includes("Status 404") || error.message.includes("Impossibile accedere") ? 
-                    "Verifica che il file classifica.html esista e sia nella stessa directory del file mwt_page.html." :
-                    "Errore di rete (es. blocco CORS/sicurezza).";
+                    "Verifica che il file classifica.html esista e sia nella stessa directory." :
+                    "Errore di rete/sicurezza (potrebbe essere un blocco CORS se lanciato localmente).";
                 
                 containerEl.innerHTML = `<p class="text-red-500 font-bold text-center p-8">❌ Errore nel caricamento: ${userFriendlyError}</p>`;
             }
@@ -588,8 +587,9 @@
             initChart();
             populateFilters();
             renderStages(tourStages);
-            // CHIAMATA ALLA FUNZIONE DI INIZIALIZZAZIONE CLASSIFICA
+            // *** CHIAMATA ALLA FUNZIONE DI INIZIALIZZAZIONE CLASSIFICA ***
             initRankingTabs();
+            // *************************************************************************
         });
 
     </script>
