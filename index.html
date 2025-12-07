@@ -37,13 +37,18 @@
             color: #f0f0f0;
             font-family: 'Inter', sans-serif;
             position: relative;
-            min-height: 100vh; /* Permette lo scorrimento */
+            min-height: 100vh;
         }
         h1, h2, h3, .inox-font {
             font-family: 'Teko', sans-serif;
             text-transform: uppercase;
         }
         
+        /* NUOVO: Impedisce lo scroll dello sfondo quando la sidebar è aperta */
+        .no-scroll {
+            overflow: hidden !important; 
+        }
+
         /* Video Background */
         #background-video {
             position: fixed;
@@ -58,7 +63,7 @@
             background-size: cover;
         }
 
-        /* --- Mobile-First Layout (Stacked & Sidebar as Overlay) --- */
+        /* --- Mobile-First Layout --- */
         #main-layout {
             display: flex; 
             flex-direction: column;
@@ -68,7 +73,6 @@
         }
 
         #sidebar {
-            /* Mobile: Fixed overlay */
             position: fixed;
             top: 0;
             left: 0;
@@ -77,35 +81,33 @@
             overflow-y: auto;
             background-color: #1a1d20; 
             z-index: 50; 
-            transform: translateX(-100%); /* Start hidden */
+            transform: translateX(-100%); /* Nascosto */
             transition: transform 0.3s ease-in-out;
             box-shadow: 2px 0 5px rgba(0,0,0,0.5);
         }
         
-        /* Classe per mostrare la sidebar su mobile */
+        /* Classe per mostrare la sidebar */
         .sidebar-open {
             transform: translateX(0);
         }
         
         #main-content {
-            /* Mobile: Takes full width, centralizes content */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             flex-grow: 1; 
-            padding: 20px; /* Padding for mobile */
-            padding-top: 80px; /* Spazio per il pulsante menu fisso */
+            padding: 20px;
+            padding-top: 80px; 
         }
 
-        /* --- Desktop Layout (Override with Media Query) --- */
-        @media (min-width: 1024px) { /* Corresponds to Tailwind 'lg' */
+        /* --- Desktop Layout (Override) --- */
+        @media (min-width: 1024px) { 
             #main-layout {
                 display: grid;
                 grid-template-columns: 250px 1fr; 
                 height: 100vh;
             }
-            /* Su desktop la sidebar è statica */
             #sidebar {
                 position: relative; 
                 transform: translateX(0); 
@@ -116,7 +118,7 @@
                 grid-column: 2 / 3;
                 padding: 40px; 
             }
-            /* Nascondi il pulsante del menu e l'overlay su desktop */
+            /* Nascondi pulsante e overlay su desktop */
             #menu-toggle, #sidebar-overlay {
                 display: none !important;
             }
@@ -269,13 +271,16 @@
             const overlay = document.getElementById('sidebar-overlay');
             const menuIconOpen = document.getElementById('menu-icon-open');
             const menuIconClose = document.getElementById('menu-icon-close');
-
+            const body = document.body; // Riferimento al body
+            
             const toggleSidebar = () => {
                 const isOpen = sidebar.classList.toggle('sidebar-open');
                 
+                // NUOVA LOGICA: Impedisce lo scroll dello sfondo
+                body.classList.toggle('no-scroll', isOpen);
+                
                 // Gestione overlay
                 overlay.classList.toggle('opacity-50', isOpen);
-                // Il puntatore è attivo quando è aperto, non attivo quando è chiuso
                 overlay.classList.toggle('pointer-events-auto', isOpen); 
                 overlay.classList.toggle('pointer-events-none', !isOpen);
 
@@ -284,17 +289,14 @@
                 menuIconClose.classList.toggle('hidden', !isOpen);
             };
 
-            // Apertura/chiusura tramite pulsante menu
             toggleButton.addEventListener('click', toggleSidebar);
-            // Chiusura cliccando sull'overlay
             overlay.addEventListener('click', toggleSidebar);
 
             // Chiude la sidebar se un link viene cliccato in modalità mobile
             document.querySelectorAll('#sidebar a').forEach(link => {
                 link.addEventListener('click', () => {
-                    // Controllo se siamo in modalità mobile (larghezza inferiore a 1024px)
                     if (window.innerWidth < 1024 && sidebar.classList.contains('sidebar-open')) { 
-                        // Imposta un timeout per permettere la navigazione prima di chiudere
+                        // Chiude con un piccolo ritardo per permettere la navigazione
                         setTimeout(toggleSidebar, 100); 
                     }
                 });
