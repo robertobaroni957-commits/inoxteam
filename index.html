@@ -265,49 +265,50 @@
     </div>
 
     <!-- SCRIPT SIDEBAR FUNZIONANTE -->
-    <script>
-        (function() {
-            const sidebar = document.getElementById('sidebar');
-            const toggleButton = document.getElementById('menu-toggle');
-            const overlay = document.getElementById('sidebar-overlay');
-            const menuIconOpen = document.getElementById('menu-icon-open');
-            const menuIconClose = document.getElementById('menu-icon-close');
-            const body = document.body;
+<script>
+    (function() {
+        const sidebar = document.getElementById('sidebar');
+        const toggleButton = document.getElementById('menu-toggle');
+        const overlay = document.getElementById('sidebar-overlay');
+        const menuIconOpen = document.getElementById('menu-icon-open');
+        const menuIconClose = document.getElementById('menu-icon-close');
+        const body = document.body;
 
-            if (!sidebar || !toggleButton) return;
+        if (!sidebar || !toggleButton) return;
 
-            const openSidebar = () => {
-                sidebar.classList.add('sidebar-open');
-                overlay.classList.add('opacity-50', 'pointer-events-auto');
-                overlay.classList.remove('pointer-events-none');
-                body.classList.add('no-scroll');
-                menuIconOpen.classList.add('hidden');
-                menuIconClose.classList.remove('hidden');
-            };
+        const openSidebar = () => {
+            sidebar.classList.add('sidebar-open');
+            overlay.classList.add('opacity-50', 'pointer-events-auto');
+            overlay.classList.remove('pointer-events-none');
+            body.classList.add('no-scroll');
+            menuIconOpen.classList.add('hidden');
+            menuIconClose.classList.remove('hidden');
+        };
 
-            const closeSidebar = () => {
-                sidebar.classList.remove('sidebar-open');
-                overlay.classList.remove('opacity-50', 'pointer-events-auto');
-                overlay.classList.add('pointer-events-none');
-                body.classList.remove('no-scroll');
-                menuIconOpen.classList.remove('hidden');
-                menuIconClose.classList.add('hidden');
-            };
+        const closeSidebar = () => {
+            sidebar.classList.remove('sidebar-open');
+            overlay.classList.remove('opacity-50', 'pointer-events-auto');
+            overlay.classList.add('pointer-events-none');
+            body.classList.remove('no-scroll');
+            menuIconOpen.classList.remove('hidden');
+            menuIconClose.classList.add('hidden');
+        };
 
-            toggleButton.addEventListener('click', openSidebar);
-            overlay.addEventListener('click', closeSidebar);
+        toggleButton.addEventListener('click', openSidebar);
+        overlay.addEventListener('click', closeSidebar);
 
-            document.querySelectorAll('#sidebar a').forEach(link => {
-                link.addEventListener('click', () => {
-                    if (window.innerWidth < 1024) closeSidebar();
-                });
+        document.querySelectorAll('#sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 1024) closeSidebar();
             });
+        });
 
-            window.addEventListener('resize', () => {
-                if (window.innerWidth >= 1024) closeSidebar();
-            });
-        })();
-    </script>
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) closeSidebar();
+        });
+    })();
+</script>
+
 
 </body>
 </html>
