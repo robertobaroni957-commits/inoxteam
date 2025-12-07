@@ -82,7 +82,7 @@
                 <a href="#stages" class="hover:text-zwift-orange transition">Tappe</a>
                 <a href="#analytics" class="hover:text-zwift-orange transition">Analisi</a>
                 <a href="#ranking" class="hover:text-zwift-orange transition text-zwift-orange font-bold">Classifiche</a>
-            </div>
+                </div>
             
             <div class="flex space-x-3">
                 <a href="#ranking" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-1 px-4 rounded text-sm transition">
@@ -205,15 +205,16 @@
                 <p class="text-gray-400">Seleziona una categoria per visualizzare i risultati aggiornati (Gara 1).</p>
             </div>
             
-            <div class="flex space-x-3 mb-8">
-                <button id="btn-A" data-category="A" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">Categoria A</button>
-                <button id="btn-B" data-category="B" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">Categoria B</button>
-                <button id="btn-C" data-category="C" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">Categoria C</button>
-                <button id="btn-D" data-category="D" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">Categoria D</button>
+            <div class="flex space-x-3 mb-8 flex-wrap">
+                <button id="btn-A" data-category="A" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria A</button>
+                <button id="btn-B" data-category="B" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria B</button>
+                <button id="btn-C" data-category="C" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria C</button>
+                <button id="btn-D" data-category="D" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria D</button>
+                <button id="btn-E" data-category="E" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria E</button>
             </div>
 
             <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] flex items-center justify-center">
-                <p class="text-gray-500" id="loading-message">Caricamento classifica...</p>
+                <p class="text-gray-500" id="loading-message">Seleziona una categoria per visualizzare la classifica.</p>
             </div>
         </div>
     </section>
@@ -256,7 +257,7 @@
     </footer>
 
     <script>
-        // --- Data Source (Stessa logica originale) ---
+        // --- Data Source (Based on the Report provided) ---
         const GENERAL_REGISTER_LINK = "https://www.zwift.com/eu-it/events/tag/inoxwinter";
         
         const tourStages = [
@@ -281,10 +282,14 @@
         ];
 
         // --- Helper Functions ---
+        
+        // Format Date nicely
         const formatDate = (dateString) => {
             const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
             return new Date(dateString).toLocaleDateString('it-IT', options);
         };
+
+        // Get Icon based on type
         const getTypeIcon = (type) => {
             type = type.toLowerCase();
             if (type.includes('flat')) return '⚡';
@@ -294,28 +299,38 @@
             if (type.includes('itt') || type.includes('chrono scalata')) return '⏱️';
             return '🚴';
         };
+
+        // Get Color Class based on type (Using Tailwind config for consistency)
         const getTypeColor = (type) => {
             type = type.toLowerCase();
+            // Utilizzo diretto delle classi Tailwind, se definite, o default
             if (type.includes('flat')) return 'text-race-flat border-race-flat';
             if (type.includes('mountain')) return 'text-race-mountain border-race-mountain';
             if (type.includes('hilly')) return 'text-race-hilly border-race-hilly';
+            // TT, Chrono Scalata e Luna Park useranno il colore 'time'
             return 'text-race-time border-race-time';
         };
 
-        // --- Logic: Countdown Timer ---
+        // --- Logic: Countdown Timer (Non modificato) ---
         const initCountdown = () => {
+            // Find next race
             const now = new Date();
+            // Trova la prossima gara futura
             let nextRace = tourStages.find(stage => new Date(stage.date) > now);
+            
             const raceInfoEl = document.getElementById('next-race-info');
             
             if (nextRace) {
+                // Imposta l'informazione sulla prossima gara
                 raceInfoEl.innerHTML = `PROSSIMA GARA: Tappa ${nextRace.id} - ${nextRace.world} (${formatDate(nextRace.date)})`;
+                
                 const targetDate = new Date(nextRace.date).getTime();
 
                 setInterval(() => {
                     const current = new Date().getTime();
                     const distance = targetDate - current;
 
+                    // Se il tempo è scaduto
                     if (distance < 0) {
                         document.getElementById('days').innerText = "00";
                         document.getElementById('hours').innerText = "00";
@@ -330,20 +345,23 @@
                     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                    document.getElementById('days').innerText = String(days).padStart(2, '0');
-                    document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-                    document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-                    document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+                    document.getElementById('days').innerText = days < 10 ? "0" + days : days;
+                    document.getElementById('hours').innerText = hours < 10 ? "0" + hours : hours;
+                    document.getElementById('minutes').innerText = minutes < 10 ? "0" + minutes : minutes;
+                    document.getElementById('seconds').innerText = seconds < 10 ? "0" + seconds : seconds;
                 }, 1000);
             } else {
                 raceInfoEl.innerHTML = "IL TOUR È TERMINATO";
             }
         };
 
-        // --- Logic: Chart.js ---
+        // --- Logic: Chart.js (Aggiornamento colori per coerenza) ---
         const initChart = () => {
             const ctx = document.getElementById('raceTypeChart').getContext('2d');
+            
+            // Calculate distribution
             const typeCounts = {};
+            // Normalizza i tipi di gara per raggrupparli meglio nel grafico
             const simplifiedTypes = tourStages.map(s => {
                 const t = s.type.trim().toLowerCase();
                 if (t.includes('flat')) return 'Sprint (Flat)';
@@ -361,13 +379,15 @@
             const labels = Object.keys(typeCounts);
             const data = Object.values(typeCounts);
             
+            // Colori coerenti con la palette race definita in Tailwind config (con aggiunta per Misto/Altro)
             const backgroundColors = labels.map(label => {
-                if (label.includes('Flat')) return '#10b981'; 
-                if (label.includes('Montagna')) return '#ef4444'; 
-                if (label.includes('Collinare')) return '#f59e0b'; 
-                if (label.includes('Cronometro')) return '#00f0ff'; 
-                return '#fc6719';
+                if (label.includes('Flat')) return '#10b981'; // Green
+                if (label.includes('Montagna')) return '#ef4444'; // Red
+                if (label.includes('Collinare')) return '#f59e0b'; // Yellow
+                if (label.includes('Cronometro')) return '#00f0ff'; // Blue (colore 'time' in config)
+                return '#fc6719'; // Orange per Misto/Altro
             });
+
 
             new Chart(ctx, {
                 type: 'doughnut',
@@ -410,7 +430,9 @@
                 const card = document.createElement('div');
                 card.className = `bg-black/40 hover:bg-gray-800 transition p-4 rounded-lg border-l-4 border-gray-700 hover:border-zwift-orange flex flex-col md:flex-row justify-between items-center group`; 
                 
+                // Elemento contenente il link al percorso
                 const routeElement = `<a href="${stage.routeLink}" target="_blank" class="text-sm text-gray-300 hover:text-zwift-blue transition">${stage.route} <span class="text-xs">🗺️</span></a>`;
+
 
                 card.innerHTML = `
                     <div class="flex items-center space-x-4 w-full md:w-auto">
@@ -441,6 +463,7 @@
             const worldSelect = document.getElementById('worldFilter');
             const typeSelect = document.getElementById('typeFilter');
             
+            // Usiamo Set per ottenere valori unici e .trim() per rimuovere spazi bianchi
             const worlds = [...new Set(tourStages.map(s => s.world.trim()))].sort();
             const types = [...new Set(tourStages.map(s => s.type.trim()))].sort();
 
@@ -458,6 +481,7 @@
                 typeSelect.appendChild(opt);
             });
 
+            // Filter Event Listeners
             const filterHandler = () => {
                 const wVal = worldSelect.value;
                 const tVal = typeSelect.value;
@@ -475,17 +499,19 @@
         };
 
 
-        // --- LOGICA CLASSIFICA DINAMICA CORRETTA E PULITA ---
+        // **********************************************************
+        // *** LOGICA CLASSIFICA DINAMICA CORRETTA ***
+        // **********************************************************
         
         const updateCategoryButtons = (activeCategory) => {
             document.querySelectorAll('.category-btn').forEach(button => {
                 if (button.dataset.category === activeCategory) {
-                    // Attiva lo stile: arancione
+                    // Attiva lo stile
                     button.classList.replace('bg-zwift-card', 'bg-zwift-orange');
                     button.classList.add('transform', 'hover:scale-105');
                     button.classList.remove('hover:bg-gray-700');
                 } else {
-                    // Disattiva lo stile: grigio
+                    // Disattiva lo stile
                     button.classList.replace('bg-zwift-orange', 'bg-zwift-card');
                     button.classList.remove('transform', 'hover:scale-105');
                     button.classList.add('hover:bg-gray-700');
@@ -495,17 +521,19 @@
 
         const fetchAndRenderRanking = async (category) => {
             const containerEl = document.getElementById('ranking-container');
+            const categoryDivId = `ranking-${category}`;
+
             if (!containerEl) return;
 
-            // Messaggio di caricamento corretto
-            containerEl.innerHTML = '<p class="text-gray-500 flex items-center justify-center h-full">Caricamento classifica...</p>';
+            console.log(`[DEBUG] Tentativo di caricare e cercare: #${categoryDivId}`);
             
+            containerEl.innerHTML = '<p class="text-gray-500 flex items-center justify-center h-full">Caricamento classifica...</p>';
             updateCategoryButtons(category);
 
             try {
-                // FASE 1: Fetch del file classifica.html
+                // FASE 1: Fetch (caricamento) del file classifica.html
                 const response = await fetch('classifica.html'); 
-                if (!response.ok) throw new Error(`Status ${response.status}`);
+                if (!response.ok) throw new Error(`Status ${response.status} - Impossibile accedere al file.`);
                 
                 const htmlText = await response.text();
                 
@@ -513,77 +541,28 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
-                // FASE 3: Estrazione del blocco specifico (corretto)
-                const categoryDivId = `ranking-${category}`; 
-                const rankingBlock = doc.querySelector(`#${categoryDivId}`); 
-
-                if (rankingBlock) {
-                    
-                    // --- CORREZIONE FORMATTAZIONE CHIRURGICA PER TEMA SCURO ---
-                    
-                    // Rimuovi l'H1 principale (se presente nel blocco estratto)
-                    const mainTitle = rankingBlock.querySelector('h1');
-                    if (mainTitle) mainTitle.remove(); 
-
-                    // 1. Stile per gli H2 (Titoli interni, se presenti)
-                    const internalTitles = rankingBlock.querySelectorAll('h2');
-                    internalTitles.forEach(h2 => {
-                        h2.removeAttribute('style');
-                        h2.classList.add('text-2xl', 'font-bold', 'text-zwift-blue', 'mb-3', 'mt-5', 'border-b', 'border-gray-700', 'pb-1');
-                    });
-                    
-                    // Applica le classi Tailwind per il tema scuro e rimuovi lo stile inline
-                    const table = rankingBlock.querySelector('table');
-                    if (table) {
-                        // 2. Applica stile alla tabella
-                        table.removeAttribute('style'); 
-                        table.classList.add('w-full', 'table-auto', 'text-sm', 'text-zwift-text', 'border-collapse', 'overflow-x-auto', 'whitespace-nowrap');
-
-                        // 3. Itera su righe (tr)
-                        const rows = table.querySelectorAll('tr');
-                        rows.forEach((row, index) => {
-                            row.removeAttribute('style'); 
-
-                            // Applica sfondo alternato per tema scuro
-                            if (index % 2 !== 0) { 
-                                row.classList.add('bg-black/30', 'hover:bg-black/50');
-                            } else { 
-                                row.classList.add('bg-black/20', 'hover:bg-black/40');
-                            }
-                        });
-
-                        // 4. Itera su celle (td/th)
-                        const cells = table.querySelectorAll('td, th');
-                        cells.forEach(cell => {
-                            cell.removeAttribute('style'); 
-                            cell.classList.add('p-3', 'border-b', 'border-gray-700', 'text-zwift-text', 'text-left');
-                            
-                            // Stile specifico per le colonne di Rank (prima colonna)
-                            if (cell.parentElement.querySelector('td:first-child') === cell || cell.parentElement.querySelector('th:first-child') === cell) {
-                                cell.classList.add('font-bold', 'text-center', 'text-zwift-orange', 'bg-zwift-dark/50');
-                            }
-                        });
-                        
-                        // 5. Stile per gli Header (thead/th)
-                        const headers = table.querySelectorAll('th');
-                        headers.forEach(header => {
-                            header.classList.remove('text-zwift-text', 'text-left', 'bg-zwift-dark/50'); 
-                            header.classList.add('bg-zwift-orange', 'text-black', 'font-extrabold', 'uppercase', 'tracking-wider', 'text-center');
-                        });
-                    }
-                    
-                    // --- FINE CORREZIONE FORMATTAZIONE CHIRURGICA ---
-
-                    containerEl.innerHTML = rankingBlock.innerHTML;
-
+                // FASE 3: Estrazione del blocco specifico usando la query più robusta
+                // Ricerchiamo l'elemento all'interno del body del documento analizzato.
+                const categoryDiv = doc.body.querySelector(`#${categoryDivId}`);
+                
+                if (categoryDiv) {
+                    // Successo: estrae il contenuto interno del div (tabelle)
+                    containerEl.innerHTML = categoryDiv.innerHTML;
+                    console.log(`[DEBUG] Contenuto #${categoryDivId} caricato con successo.`);
                 } else {
-                    // Messaggio di errore se il blocco non viene trovato
-                    containerEl.innerHTML = `<p class="text-red-500">❌ Errore di Parsing: Il contenitore <code class="text-white">id="${categoryDivId}"</code> non è stato trovato in classifica.html. Controlla che gli ID siano corretti (ranking-A, ranking-B, etc.).</p>`;
+                    // Fallimento: ID non trovato
+                    console.error(`Errore di Parsing: Il contenitore #${categoryDivId} non è stato trovato nel documento analizzato.`);
+                    containerEl.innerHTML = `<p class="text-red-500 font-bold text-center p-8">❌ Errore di Parsing: Il contenitore <code>id="${categoryDivId}"</code> non è stato trovato in classifica.html. Controlla che gli ID siano corretti (ranking-A, ranking-B, etc.).</p>`;
                 }
 
             } catch (error) {
                 console.error("Errore durante il caricamento o il parsing della classifica:", error);
-                containerEl.innerHTML = `<p class="text-red-500">❌ Errore nel caricamento: ${error.message}. Verifica la connessione o il percorso del file classifica.html.</p>`;
+                // Messaggio di errore più specifico per il CORS/File not found
+                const userFriendlyError = error.message.includes("Status 404") || error.message.includes("Impossibile accedere") ? 
+                    "Verifica che il file classifica.html esista e sia nella stessa directory." :
+                    "Errore di rete/sicurezza (potrebbe essere un blocco CORS se lanciato localmente).";
+                
+                containerEl.innerHTML = `<p class="text-red-500 font-bold text-center p-8">❌ Errore nel caricamento: ${userFriendlyError}</p>`;
             }
         };
         
@@ -599,7 +578,7 @@
             // Carica la Categoria A all'avvio
             fetchAndRenderRanking('A');
         }
-        // --- FINE LOGICA CLASSIFICA DINAMICA CORRETTA ---
+        // **********************************************************
 
 
         // --- Initialization ---
@@ -608,7 +587,9 @@
             initChart();
             populateFilters();
             renderStages(tourStages);
+            // *** CHIAMATA ALLA FUNZIONE DI INIZIALIZZAZIONE CLASSIFICA ***
             initRankingTabs();
+            // *************************************************************************
         });
 
     </script>
