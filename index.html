@@ -294,7 +294,14 @@
             menuIconClose.classList.add('hidden');
         };
 
-        toggleButton.addEventListener('click', openSidebar);
+        toggleButton.addEventListener('click', () => {
+    if (sidebar.classList.contains('sidebar-open')) {
+        closeSidebar();
+    } else {
+        openSidebar();
+    }
+});
+
         overlay.addEventListener('click', closeSidebar);
 
         document.querySelectorAll('#sidebar a').forEach(link => {
