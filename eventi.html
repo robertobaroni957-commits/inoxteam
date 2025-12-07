@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team INOX - Calendario Eventi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inox: {
+                            dark: '#0d0f11',
+                            card: '#1a1d20',
+                            orange: '#fc6719',
+                            blue: '#048ea0',
+                            cyan: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0d0f11;
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            /* Rimosso 'overflow: hidden' per consentire lo scorrimento su mobile */
+        }
+        h1, h2, h3, .inox-font {
+            font-family: 'Teko', sans-serif;
+            text-transform: uppercase;
+        }
+        
+        /* === MOBILE-FIRST LAYOUT (DEFAULT) === */
+        
+        #main-layout {
+            /* Flex column per impilare il contenuto su mobile */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #sidebar {
+            /* Sidebar come menu a comparsa full-height */
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            overflow-y: auto;
+            background-color: #1a1d20; 
+            z-index: 50; 
+            transform: translateX(-100%); /* Nascosta di default */
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        #sidebar.active {
+            transform: translateX(0); /* Mostra sidebar */
+        }
+
+        #main-content {
+            /* Full width su mobile */
+            flex-grow: 1;
+        }
+
+        /* === DESKTOP LAYOUT (>= 768px) === */
+        @media (min-width: 768px) {
+            #main-layout {
+                /* Torna al layout a griglia */
+                display: grid;
+                grid-template-columns: 250px 1fr; 
+                height: 100vh;
+                overflow: hidden; /* Blocca lo scroll del body, lo scorrimento è su #main-content */
+            }
+            #sidebar {
+                position: static; /* Non più un overlay fisso */
+                transform: translateX(0); /* Sempre visibile */
+            }
+            #main-content {
+                grid-column: 2 / 3;
+                overflow-y: auto; 
+            }
+        }
+        
+        /* Stili esistenti */
+        .sidebar-link {
+            padding: 10px 16px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(252, 103, 25, 0.1);
+            color: #fc6719;
+        }
+        .sidebar-active {
+            background-color: #fc6719;
+            color: black !important;
+            font-weight: 700;
+        }
+        
+        #top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .event-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .event-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .race-type-tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 8px;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+        }
+        /* Tag MWT in evidenza */
+        .tag-tour-highlight { 
+            background-color: #00f0ff; /* Inox Cyan */
+            color: #0d0f11;
+        }
+        .tag-endurance { background-color: #048ea0; color: white; } 
+        .tag-short { background-color: #fc6719; color: black; } 
+        .tag-tt { background-color: #00f0ff; color: black; } 
+        .tag-critical { background-color: #ef4444; color: white; } 
+    </style>
+</head>
+<body class="bg-inox-dark">
+    
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black opacity-50 z-40 hidden md:hidden"></div>
+
+    <div id="main-layout">
+        
+        <aside id="sidebar" class="bg-inox-card border-r border-gray-800">
+            <button id="close-menu-btn" class="absolute top-4 right-4 text-white p-2 md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="p-6 border-b border-gray-700">
+                <div class="flex items-center space-x-2">
+                    <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" alt="Logo Team INOX" class="h-8">
+                    <span class="text-xl font-bold tracking-wider inox-font text-inox-orange">INOX</span>
+                </div>
+            </div>
+
+            <div class="p-4 space-y-4">
+                <div class="space-y-1">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Il Team</h3>
+                    <a href="home.html" class="sidebar-link">Home</a>
+                    <a href="chi_siamo.html" class="sidebar-link">Chi Siamo</a>
+                    <a href="contatti.html" class="sidebar-link">Contatti</a>
+                </div>
+                <div class="space-y-1">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Gara</h3>
+                    <a href="eventi.html" class="sidebar-link sidebar-active">Calendario Eventi</a>
+                    <a href="#" class="sidebar-link">Classifiche [Prossimamente]</a>
+                </div>
+                <div class="space-y-1 md:hidden">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Account</h3>
+                    <a href="login_intro_video.html" class="sidebar-link">Logout</a> 
+                </div>
+            </div>
+        </aside>
+
+        <div id="main-content">
+            
+            <nav id="top-nav" class="bg-inox-card border-b border-gray-700 shadow-lg">
+                <div class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-semibold">
+                    
+                    <button id="open-menu-btn" class="text-white p-2 md:hidden">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                    
+                    <div class="hidden md:flex items-center md:justify-end">
+                        <a href="home.html" class="hover:text-inox-orange transition px-4">Home</a>
+                        <a href="chi_siamo.html" class="hover:text-inox-orange transition px-4">Chi Siamo</a>
+                        <a href="eventi.html" class="hover:text-inox-orange transition px-4 text-inox-orange font-bold">Eventi</a>
+                        <div class="text-inox-gray px-4">|</div>
+                        <a href="login_intro_video.html" class="text-inox-gray hover:text-inox-orange transition px-4">Logout</a> 
+                    </div>
+
+                    <a href="#" class="bg-inox-orange text-black font-bold py-1.5 px-3 rounded-md text-xs transition md:ml-4">AREA TECNICA</a>
+                </div>
+            </nav>
+
+            <main class="p-8">
+                <section id="header" class="mb-10">
+                    <h1 class="text-5xl sm:text-7xl font-extrabold mb-2 text-white inox-font tracking-tight">
+                        CALENDARIO <span class="text-inox-orange">EVENTI</span>
+                    </h1>
+                    <p class="text-gray-400 text-base sm:text-xl">
+                        Tutti gli appuntamenti settimanali del Team INOX su Zwift. Non perderti una singola gara!
+                    </p>
+                </section>
+                
+                <section id="links" class="mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-5 text-white inox-font border-b border-gray-700 pb-2">
+                        Link <span class="text-inox-cyan">Cruciali</span>
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <a href="https://zwiftpower.com" target="_blank" class="bg-inox-card p-4 rounded-lg text-center event-card border-b-4 border-inox-orange">
+                            <span class="block text-2xl mb-1">📊</span>
+                            <span class="font-semibold text-white">ZWIFT POWER</span>
+                            <span class="block text-xs text-inox-gray">Le nostre statistiche</span>
+                        </a>
+                        <a href="https://discord.com" target="_blank" class="bg-inox-card p-4 rounded-lg text-center event-card border-b-4 border-inox-blue">
+                            <span class="block text-2xl mb-1">💬</span>
+                            <span class="font-semibold text-white">DISCORD</span>
+                            <span class="block text-xs text-inox-gray">Comunicazione Live</span>
+                        </a>
+                        <a href="https://strava.com" target="_blank" class="bg-inox-card p-4 rounded-lg text-center event-card border-b-4 border-inox-orange">
+                            <span class="block text-2xl mb-1">📍</span>
+                            <span class="font-semibold text-white">STRAVA</span>
+                            <span class="block text-xs text-inox-gray">Condivisione Attività</span>
+                        </a>
+                        <a href="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" target="_blank" class="bg-inox-card p-4 rounded-lg text-center event-card border-b-4 border-inox-cyan">
+                            <span class="block text-2xl mb-1">▶️</span>
+                            <span class="font-semibold text-white">PRESENTAZIONE 2025</span>
+                            <span class="block text-xs text-inox-gray">Guarda il Video</span>
+                        </a>
+                    </div>
+                </section>
+
+                <section id="races" class="mb-12">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font border-b border-gray-700 pb-2">
+                        Appuntamenti <span class="text-inox-orange">Settimanali</span>
+                    </h2>
+
+                    <div class="space-y-6">
+                        
+                        <a href="mwt_page.html" class="bg-inox-card p-6 rounded-xl event-card border-l-8 border-inox-orange flex flex-col sm:flex-row justify-between items-start transform transition hover:scale-[1.01] hover:shadow-xl block">
+                            <div>
+                                <h3 class="text-3xl sm:text-4xl font-bold text-inox-cyan inox-font mb-2">MASTER WINTER TOUR 2025/26</h3>
+                                <p class="text-sm text-gray-300 mb-3 font-semibold">Il tour invernale ufficiale di Team INOX. 18 tappe e classifica generale a punti.</p>
+                                <span class="race-type-tag tag-tour-highlight">TOUR UFFICIALE</span>
+                                <span class="race-type-tag" style="background-color: #1e40af; color: white;">INIZIO 12 DICEMBRE</span>
+                            </div>
+                            <div class="text-left sm:text-right mt-4 sm:mt-0">
+                                <span class="block text-3xl font-display text-inox-orange font-bold">18 TAPPE</span>
+                                <span class="block text-xl font-display text-inox-cyan font-bold">6 SETTIMANE</span>
+                                <span class="text-sm text-white hover:text-inox-cyan mt-1 block font-bold">Vai all'Hub Completo &rarr;</span>
+                            </div>
+                        </a>
+
+                        <div class="bg-inox-card p-6 rounded-xl event-card border-l-8 border-inox-blue flex flex-col sm:flex-row justify-between items-start">
+                            <div>
+                                <h3 class="text-3xl font-bold text-white inox-font mb-2">ENDURANCE CHALLENGE</h3>
+                                <p class="text-sm text-gray-400 mb-3">La nostra gara di endurance stagionale. Ogni tappa è una sfida sulla distanza.</p>
+                                <span class="race-type-tag tag-endurance">ENDURANCE</span>
+                            </div>
+                            <div class="text-left sm:text-right mt-4 sm:mt-0">
+                                <span class="block text-3xl font-display text-inox-blue font-bold">LUNEDÌ / MARTEDÌ</span>
+                                <a href="#" class="text-sm text-inox-orange hover:text-white mt-1 block font-semibold">Dettagli Tappe & Classifiche</a>
+                            </div>
+                        </div>
+
+                        <div class="bg-inox-card p-6 rounded-xl event-card border-l-8 border-inox-orange flex flex-col sm:flex-row justify-between items-start">
+                            <div>
+                                <h3 class="text-3xl font-bold text-white inox-font mb-2">TOUR OF DISCOVERY</h3>
+                                <p class="text-sm text-gray-400 mb-3">Gare brevi su circuiti pianeggianti o misti per mettere alla prova la velocità.</p>
+                                <span class="race-type-tag tag-short">SHORT RACE</span>
+                            </div>
+                            <div class="text-left sm:text-right mt-4 sm:mt-0">
+                                <span class="block text-3xl font-display text-inox-orange font-bold">MERCOLEDÌ / GIOVEDÌ</span>
+                                <a href="#" class="text-sm text-inox-orange hover:text-white mt-1 block font-semibold">Iscriviti su Zwift</a>
+                            </div>
+                        </div>
+
+                        <div class="bg-inox-card p-6 rounded-xl event-card border-l-8 border-inox-cyan flex flex-col sm:flex-row justify-between items-start">
+                            <div>
+                                <h3 class="text-3xl font-bold text-white inox-font mb-2">TRILOGY MASTERS LEAGUE</h3>
+                                <p class="text-sm text-gray-400 mb-3">La sfida a cronometro del Team INOX. Massima potenza richiesta.</p>
+                                <span class="race-type-tag tag-tt">CRONOMETRO (TT)</span>
+                            </div>
+                            <div class="text-left sm:text-right mt-4 sm:mt-0">
+                                <span class="block text-3xl font-display text-inox-cyan font-bold">VENERDÌ</span>
+                                <a href="#" class="text-sm text-inox-orange hover:text-white mt-1 block font-semibold">Regolamento Completo</a>
+                            </div>
+                        </div>
+
+                        <div class="bg-inox-card p-6 rounded-xl event-card border-l-8 border-red-500 flex flex-col sm:flex-row justify-between items-start">
+                            <div>
+                                <h3 class="text-3xl font-bold text-white inox-font mb-2">FULL GAS CRIT</h3>
+                                <p class="text-sm text-gray-400 mb-3">Gara critica ad alta intensità e durata limitata. Sprint e attacchi all'ordine del giorno.</p>
+                                <span class="race-type-tag tag-critical">CRITICAL RACE</span>
+                            </div>
+                            <div class="text-left sm:text-right mt-4 sm:mt-0">
+                                <span class="block text-3xl font-display text-red-500 font-bold">SABATO / DOMENICA</span>
+                                <a href="#" class="text-sm text-inox-orange hover:text-white mt-1 block font-semibold">Archivio Risultati</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="text-center text-xs text-gray-700 mt-10 border-t border-gray-900 pt-6">
+                    &copy; 2025 Team INOX. Tutti i diritti riservati.
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar');
+            const openBtn = document.getElementById('open-menu-btn');
+            const closeBtn = document.getElementById('close-menu-btn');
+            const overlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(forceClose = false) {
+                const isMenuOpen = sidebar.classList.contains('active');
+                
+                if (forceClose || isMenuOpen) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden'); // Ripristina lo scroll del body
+                } else {
+                    sidebar.classList.add('active');
+                    overlay.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden'); // Blocca lo scroll del body quando il menu è aperto
+                }
+            }
+
+            // Event Listeners per i pulsanti e l'overlay
+            if (openBtn) openBtn.addEventListener('click', () => toggleMenu(false));
+            if (closeBtn) closeBtn.addEventListener('click', () => toggleMenu(true));
+            if (overlay) overlay.addEventListener('click', () => toggleMenu(true));
+
+            // Chiude il menu quando si clicca un link al suo interno (solo su mobile)
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    // Controlla se siamo su un breakpoint mobile (< 768px)
+                    if (window.innerWidth < 768) {
+                        // Un piccolo ritardo per permettere al link di navigare prima della chiusura
+                        setTimeout(() => toggleMenu(true), 200); 
+                    }
+                });
+            });
+            
+            // Assicura che il menu sia chiuso se la finestra viene ridimensionata al layout desktop
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    // Chiude il menu senza interferire con lo scroll del body sul desktop
+                    sidebar.classList.remove('active');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

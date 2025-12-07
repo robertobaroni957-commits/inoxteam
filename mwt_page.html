@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASTER WINTER TOUR 2025/26 - Official Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zwift: {
+                            dark: '#111111',
+                            card: '#1e1e24',
+                            orange: '#fc6719',
+                            blue: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        },
+                        // Aggiunti colori per i tipi di gara per un riferimento più pulito
+                        race: {
+                            flat: '#10b981', // Green
+                            mountain: '#ef4444', // Red
+                            hilly: '#f59e0b', // Yellow
+                            time: '#00f0ff', // Blue (Zwift Blue)
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #111111;
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, .zwift-font {
+            font-family: 'Teko', sans-serif;
+            text-transform: uppercase;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+        /* Stile per la selezione attiva della classifica */
+        .active-ranking-tab {
+            border-color: #fc6719 !important; /* zwift-orange */
+            background-color: #fc6719 !important;
+            color: black !important;
+        }
+        /* Scrollbar personalizzata */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e1e24; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fc6719; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider zwift-font text-zwift-orange">
+                MASTER WINTER TOUR <span class="text-white text-lg font-light">25/26</span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-semibold">
+                <a href="#dashboard" class="hover:text-zwift-orange transition">Dashboard</a>
+                <a href="#stages" class="hover:text-zwift-orange transition">Tappe</a>
+                <a href="#ranking-section" class="hover:text-zwift-orange transition">Classifica</a>
+                <a href="#analytics" class="hover:text-zwift-orange transition">Analisi</a>
+            </div>
+            
+            <div class="flex space-x-3">
+                <a href="ranking.html/" target="_blank" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-1 px-4 rounded text-sm transition">
+                    CLASSIFICHE
+                </a>
+                <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-1 px-4 rounded text-sm transition">
+                    ISCRIVITI ORA
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="dashboard" class="relative bg-gradient-to-b from-zwift-card to-zwift-dark py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-6xl md:text-8xl font-bold mb-4 leading-none">
+                DOMINA <span class="text-transparent bg-clip-text bg-gradient-to-r from-zwift-orange to-red-500">L'INVERNO</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-zwift-gray mb-8 max-w-2xl mx-auto font-light">
+                18 Gare. 1 Campione. La competizione indoor definitiva su Zwift inizia il 12 Dicembre.
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10 text-zwift-blue">
+                <div class="bg-zwift-card p-4 rounded-lg border border-gray-800">
+                    <span id="days" class="text-4xl font-bold zwift-font block">00</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Giorni</span>
+                </div>
+                <div class="bg-zwift-card p-4 rounded-lg border border-gray-800">
+                    <span id="hours" class="text-4xl font-bold zwift-font block">00</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Ore</span>
+                </div>
+                <div class="bg-zwift-card p-4 rounded-lg border border-gray-800">
+                    <span id="minutes" class="text-4xl font-bold zwift-font block">00</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Minuti</span>
+                </div>
+                <div class="bg-zwift-card p-4 rounded-lg border border-gray-800">
+                    <span id="seconds" class="text-4xl font-bold zwift-font block">00</span>
+                    <span class="text-xs text-gray-400 uppercase tracking-widest">Secondi</span>
+                </div>
+            </div>
+            
+            <div id="next-race-info" class="text-zwift-orange font-bold text-lg mb-4 animate-pulse">
+                PROSSIMA GARA: Caricamento...
+            </div>
+        </div>
+    </header>
+
+    <section id="analytics" class="py-12 bg-zwift-dark">
+        <div class="container mx-auto px-4">
+            <div class="mb-10 text-center md:text-left">
+                <h2 class="text-4xl font-bold mb-2">ANALISI DEL TOUR</h2>
+                <p class="text-gray-400">Studia il terreno. Prepara l'attrezzatura. Ecco cosa ti aspetta nelle 18 tappe.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg">
+                    <h3 class="text-2xl text-zwift-blue mb-4">Tipologie di Gara</h3>
+                    <div class="chart-container">
+                        <canvas id="raceTypeChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-gray-500 mt-4">Distribuzione delle specialità su 18 tappe.</p>
+                </div>
+
+                <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg flex flex-col justify-center">
+                    <h3 class="text-2xl text-zwift-orange mb-6">Statistiche Chiave</h3>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="text-center p-4 bg-black/30 rounded-lg">
+                            <div class="text-5xl font-bold text-white zwift-font">18</div>
+                            <div class="text-sm text-gray-400 uppercase">Tappe Totali</div>
+                        </div>
+                        <div class="text-center p-4 bg-black/30 rounded-lg">
+                            <div class="text-5xl font-bold text-white zwift-font">6</div>
+                            <div class="text-sm text-gray-400 uppercase">Settimane</div>
+                        </div>
+                        <div class="text-center p-4 bg-black/30 rounded-lg">
+                            <div class="text-5xl font-bold text-white zwift-font">8</div>
+                            <div class="text-sm text-gray-400 uppercase">Mondi Zwift</div>
+                        </div>
+                        <div class="text-center p-4 bg-black/30 rounded-lg">
+                            <div class="text-5xl font-bold text-white zwift-font">5</div>
+                            <div class="text-sm text-gray-400 uppercase">Tappe di Montagna</div>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-4 border-l-4 border-zwift-blue bg-black/20">
+                        <p class="text-sm text-gray-300 italic">
+                            "Il tour è bilanciato per premiare l'atleta completo: esplosività per gli sprint, resistenza per le lunghe distanze e rapporto w/kg per le montagne."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stages" class="py-12 bg-zwift-card">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-gray-700 pb-4">
+                <div>
+                    <h2 class="text-4xl font-bold text-white">CALENDARIO TAPPE</h2>
+                    <p class="text-gray-400">Esplora e registrati. Clicca su una tappa per i dettagli del percorso (Zwift Insider).</p>
+                </div>
+                
+                <div class="flex space-x-2 mt-4 md:mt-0">
+                    <select id="worldFilter" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
+                        <option value="all">Tutti i Mondi</option>
+                        </select>
+                    <select id="typeFilter" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
+                        <option value="all">Tutti i Tipi</option>
+                        </select>
+                </div>
+            </div>
+
+            <div id="stage-list" class="grid grid-cols-1 gap-4">
+                </div>
+        </div>
+    </section>
+
+    <section id="ranking-section" class="py-12 bg-zwift-dark">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-white text-center mb-8">CLASSIFICHE TOUR</h2>
+            
+            <div class="flex flex-wrap justify-center space-x-2 md:space-x-4 mb-8">
+                <button data-category="A" class="ranking-tab bg-zwift-card text-white font-semibold py-2 px-6 rounded-lg border border-gray-700 hover:border-zwift-orange transition duration-300 active-ranking-tab">
+                    Categoria A
+                </button>
+                <button data-category="B" class="ranking-tab bg-zwift-card text-white font-semibold py-2 px-6 rounded-lg border border-gray-700 hover:border-zwift-orange transition duration-300">
+                    Categoria B
+                </button>
+                <button data-category="C" class="ranking-tab bg-zwift-card text-white font-semibold py-2 px-6 rounded-lg border border-gray-700 hover:border-zwift-orange transition duration-300">
+                    Categoria C
+                </button>
+                <button data-category="D" class="ranking-tab bg-zwift-card text-white font-semibold py-2 px-6 rounded-lg border border-gray-700 hover:border-zwift-orange transition duration-300">
+                    Categoria D
+                </button>
+            </div>
+            
+            <div id="ranking-list" class="bg-zwift-card p-4 md:p-8 rounded-xl border border-gray-800 shadow-xl overflow-x-auto">
+                <p class="text-center text-gray-500 py-10">Caricamento classifica...</p>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-black py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                
+                <div>
+                    <div class="text-zwift-orange text-2xl font-bold zwift-font mb-4">MASTER WINTER TOUR</div>
+                    <p class="text-gray-500 text-sm mb-4">
+                        Segui le dirette streaming su Twitch e YouTube.<br>
+                        Usa l'hashtag <span class="text-white">#MasterWinterTour2025</span>
+                    </p>
+                    <div class="flex flex-col space-y-2 text-sm">
+                        <a href="https://support.zwift.com/en_us/race-events-faqs-BJX5w0m5W" target="_blank" class="text-gray-400 hover:text-white transition">Regolamento (FAQ Zwift)</a>
+                        <a href="ranking.html" target="_blank" class="text-gray-400 hover:text-white transition">Classifiche Generali (ZwiftPower)</a>
+                        <a href="https://www.zwift.com/eu-it/contact-us" target="_blank" class="text-gray-400 hover:text-white transition">Assistenza Zwift</a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="text-white text-xl font-bold zwift-font mb-4 border-b border-zwift-orange pb-2 inline-block">ORGANIZZATO DA TEAM INOX</div>
+                    <div class="flex flex-col space-y-2 text-sm">
+                        <a href="mailto:info@teaminox.it" class="text-gray-400 hover:text-white transition">📧 info@teaminox.it</a>
+                        <a href="https://www.facebook.com/groups/inoxteam/" target="_blank" class="text-gray-400 hover:text-white transition">👥 Gruppo Facebook</a>
+                        <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="text-gray-400 hover:text-white transition">🚴‍♂️ Club Zwift</a>
+                        <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="text-gray-400 hover:text-white transition">📊 Team su ZwiftPower</a>
+                        <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="text-gray-400 hover:text-white transition">💬 Canale Discord</a>
+                        <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="text-gray-400 hover:text-white transition">📍 Gruppo STRAVA</a>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center md:justify-end items-start h-full">
+                    <span class="text-8xl text-zwift-blue opacity-10 hidden md:block">🚴‍♂️</span>
+                </div>
+            </div>
+
+            <p class="text-gray-700 text-xs mt-8 border-t border-gray-900 pt-4 text-center">&copy; 2025 Master Winter Tour. Organizzato da Team INOX. | Piattaforma fornita da Zwift Inc.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data Source e Configurazione Iniziale ---
+        const GENERAL_REGISTER_LINK = "https://www.zwift.com/eu-it/events/tag/inoxwinter";
+        
+        const tourStages = [
+            { id: 1, date: "2025-12-12T19:15:00", world: "Scotland", route: "Outer Scotland", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 2, date: "2025-12-16T19:15:00", world: "Makuri", route: "Red Zone Repeats", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 3, date: "2025-12-19T19:15:00", world: "New York", route: "Issendorf Express", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/issendorf-express/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 4, date: "2025-12-23T19:15:00", world: "Scotland", route: "City and the Sgurr", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/city-and-the-sgurr/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 5, date: "2025-12-27T19:15:00", world: "Bologna", route: "Time Trial Lap", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/bologna-time-trial-lap/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 6, date: "2025-12-30T19:15:00", world: "London", route: "Classique Reverse", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/classique-reverse/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 7, date: "2026-02-13T19:15:00", world: "Makuri", route: "Sprinter’s Playground", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/sprinters-playground/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 8, date: "2026-02-17T19:15:00", world: "London", route: "London Uprising", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/london-uprising/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 9, date: "2026-02-20T19:15:00", world: "Watopia", route: "Flat Out Fast", type: "iTT", routeLink: "https://zwiftinsider.com/route/flat-out-fast/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 10, date: "2026-02-24T19:15:00", world: "France", route: "Bon Voyage", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/bon-voyage/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 11, date: "2026-02-27T19:15:00", world: "Watopia", route: "Mountain Mash", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/mountain-mash/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 12, date: "2026-03-04T19:15:00", world: "Richmond", route: "Cobbled Climbs Reverse", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/cobbled-climbs-reverse/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 13, date: "2026-03-07T19:15:00", world: "London", route: "London Flat", type: "iTT", routeLink: "https://zwiftinsider.com/route/london-flat/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 14, date: "2026-03-11T19:15:00", world: "New York", route: "Toefield Tormado", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/toefield-tormado/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 15, date: "2026-03-14T19:15:00", world: "Watopia", route: "Power Punches", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/power-punches/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 16, date: "2026-03-18T19:15:00", world: "Makuri", route: "Electric Loop", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/electric-loop/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 17, date: "2026-03-21T19:15:00", world: "France", route: "Ven-10", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/ven-10/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 18, date: "2026-03-25T19:15:00", world: "Watopia", route: "Jarvis Seaside Sprint", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/jarvis-seaside-sprint/", registerLink: GENERAL_REGISTER_LINK }
+        ];
+
+        // ----------------------------------------------------------------------
+        // SIMULAZIONE DEL CONTENUTO DI CLASSIFICA.HTML
+        // Questo contenuto deve replicare la struttura HTML che il tuo file 'classifica.html'
+        // espone per ogni categoria (A, B, C, D) all'interno di un div con ID specifico.
+        // ----------------------------------------------------------------------
+        const rankingHtmlContent = `
+            <div id="ranking-A">
+                <table>
+                    <tbody>
+                        <tr data-is-user="true">
+                            <td>1</td><td>Giovanni Rossi</td><td>Team INOX</td><td>4500</td><td>25:30:15</td><td>4.5 w/kg</td>
+                        </tr>
+                        <tr>
+                            <td>2</td><td>Marco Bianchi</td><td>Beta Cyclists</td><td>3800</td><td>25:45:30</td><td>4.2 w/kg</td>
+                        </tr>
+                        <tr>
+                            <td>3</td><td>Sofia Verdi</td><td>Gamma Power</td><td>3500</td><td>25:50:00</td><td>4.1 w/kg</td>
+                        </tr>
+                        <tr>
+                            <td>4</td><td>Luca Marino</td><td>Delta Riders</td><td>3100</td><td>26:05:00</td><td>3.9 w/kg</td>
+                        </tr>
+                        <tr>
+                            <td>5</td><td>Elena Gialli</td><td>Epsilon Elite</td><td>2900</td><td>26:10:00</td><td>3.8 w/kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ranking-B">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>1</td><td>Andrea Colombo</td><td>Kappa Krew</td><td>2700</td><td>26:30:00</td><td>3.3 w/kg</td>
+                        </tr>
+                        <tr>
+                            <td>2</td><td>Sara Ricci</td><td>Sigma Squad</td><td>2500</td><td>26:45:00</td><td>3.2 w/kg</td>
+                        </tr>
+                        <tr>
+                            <td>3</td><td>Federico Moro</td><td>Omega Force</td><td>2300</td><td>27:00:00</td><td>3.1 w/kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ranking-C">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>1</td><td>Dario Marrone</td><td>Zeta Team</td><td>2500</td><td>27:00:00</td><td>2.8 w/kg</td>
+                        </tr>
+                        <tr>
+                            <td>2</td><td>Giulia Rosa</td><td>Lambda Legends</td><td>2200</td><td>27:40:00</td><td>2.7 w/kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="ranking-D">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>1</td><td>Chiara Viola</td><td>Iota Racers</td><td>1900</td><td>28:30:00</td><td>2.5 w/kg</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `;
+        // ----------------------------------------------------------------------
+
+
+        // --- Helper Functions (Omitting for brevity, retained from previous step) ---
+        const formatDate = (dateString) => {
+            const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('it-IT', options);
+        };
+        const getTypeIcon = (type) => {
+            type = type.toLowerCase();
+            if (type.includes('flat')) return '⚡';
+            if (type.includes('mountain')) return '🏔️';
+            if (type.includes('hilly')) return '⛰️';
+            if (type.includes('luna park')) return '🔄';
+            if (type.includes('itt') || type.includes('chrono scalata')) return '⏱️';
+            return '🚴';
+        };
+        const getTypeColor = (type) => {
+            type = type.toLowerCase();
+            if (type.includes('flat')) return 'text-race-flat border-race-flat';
+            if (type.includes('mountain')) return 'text-race-mountain border-race-mountain';
+            if (type.includes('hilly')) return 'text-race-hilly border-race-hilly';
+            return 'text-race-time border-race-time';
+        };
+        
+        // --- Logic: Ranking Display (Aggiornata per il Parsing HTML) ---
+        
+        const getRankHighlightClass = (rank) => {
+             if (rank === 1) return 'text-zwift-orange';
+             if (rank === 2) return 'text-white/80';
+             if (rank === 3) return 'text-yellow-600';
+             return 'text-gray-400';
+        };
+
+        /**
+         * Carica i dati da classifica.html (simulato o reale) ed esegue il parsing.
+         * @param {string} category - La categoria da visualizzare (A, B, C, D).
+         */
+        const fetchAndParseRanking = async (category) => {
+            const container = document.getElementById('ranking-list');
+            container.innerHTML = `<p class="text-center text-gray-500 py-10">Caricamento classifica Categoria ${category}...</p>`;
+
+            let htmlText;
+
+            // ----------------------------------------------------------------------
+            // [ATTENZIONE]: USARE IL BLOCCO REALE SOLO SU SERVER WEB
+            // ----------------------------------------------------------------------
+            
+            // BLOCCO REALE PER SERVER WEB
+            try {
+                const response = await fetch('classifica.html');
+                if (!response.ok) throw new Error('File non trovato o errore di rete');
+                htmlText = await response.text();
+            } catch (error) {
+                console.error("Errore durante il caricamento di classifica.html:", error);
+                container.innerHTML = `<p class="text-center text-red-500 py-10">Impossibile caricare il file classifica.html. Controlla la console per i dettagli.</p>`;
+                return;
+            }
+            
+            
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+            
+            // Seleziona il blocco specifico per la categoria
+            const rankingBlock = doc.querySelector(`#ranking-${category} tbody`);
+            const rankingList = [];
+
+            if (!rankingBlock) {
+                container.innerHTML = `<p class="text-center text-gray-500 py-10">Nessun dato di classifica trovato per la Categoria ${category} nel file HTML.</p>`;
+                return;
+            }
+
+            // Estrai i dati riga per riga (Parsing DOM)
+            rankingBlock.querySelectorAll('tr').forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 6) { 
+                    rankingList.push({
+                        rank: parseInt(cells[0].textContent.trim()),
+                        name: cells[1].textContent.trim(),
+                        team: cells[2].textContent.trim(),
+                        points: parseInt(cells[3].textContent.trim()),
+                        time: cells[4].textContent.trim(),
+                        power: cells[5].textContent.trim(),
+                        isUser: row.getAttribute('data-is-user') === 'true' // Per l'highlight dell'utente
+                    });
+                }
+            });
+
+            renderRankingList(rankingList, category);
+        };
+        
+        /**
+         * Renderizza la lista dei dati della classifica (la logica di stile rimane la stessa).
+         */
+        const renderRankingList = (data, category) => {
+            const container = document.getElementById('ranking-list');
+
+            if (data.length === 0) {
+                container.innerHTML = `<p class="text-center text-gray-500 py-10">Nessun dato di classifica disponibile per la Categoria ${category}.</p>`;
+                return;
+            }
+
+            let html = `
+                <table class="min-w-full divide-y divide-gray-700">
+                    <thead class="bg-black/40">
+                        <tr>
+                            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-400 sm:pl-6">Pos</th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-400">Atleta</th>
+                            <th scope="col" class="hidden md:table-cell px-3 py-3.5 text-left text-sm font-semibold text-gray-400">Team</th>
+                            <th scope="col" class="px-3 py-3.5 text-right text-sm font-semibold text-gray-400">Punti</th>
+                            <th scope="col" class="hidden sm:table-cell px-3 py-3.5 text-right text-sm font-semibold text-gray-400">Tempo Totale</th>
+                            <th scope="col" class="hidden lg:table-cell px-3 py-3.5 text-right text-sm font-semibold text-gray-400">Media W/Kg</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-800">
+            `;
+
+            data.forEach(row => {
+                // Classi per l'highlight utente e l'hover
+                const highlightClass = row.isUser ? 'bg-zwift-blue/20 hover:bg-zwift-blue/30 border-l-4 border-zwift-blue' : 'hover:bg-black/50';
+                const rankColor = getRankHighlightClass(row.rank);
+                
+                html += `
+                        <tr class="${highlightClass} transition duration-150 ease-in-out">
+                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-lg font-bold ${rankColor} sm:pl-6">${row.rank}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm font-medium text-white">
+                                ${row.name}
+                                ${row.isUser ? '<span class="text-xs text-zwift-blue">(Tu)</span>' : ''}
+                                <div class="text-xs text-gray-500 md:hidden">${row.team}</div>
+                            </td>
+                            <td class="hidden md:table-cell whitespace-nowrap px-3 py-4 text-sm text-gray-300">${row.team}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-right text-lg font-extrabold text-zwift-orange">${row.points}</td>
+                            <td class="hidden sm:table-cell whitespace-nowrap px-3 py-4 text-right text-sm text-gray-300">${row.time}</td>
+                            <td class="hidden lg:table-cell whitespace-nowrap px-3 py-4 text-right text-sm text-gray-300">${row.power}</td>
+                        </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+            container.innerHTML = html;
+        };
+
+        const initRankingTabs = () => {
+            const tabs = document.querySelectorAll('.ranking-tab');
+
+            const switchCategory = (category) => {
+                // 1. Aggiorna lo stato delle schede (Tabs)
+                tabs.forEach(tab => {
+                    if (tab.getAttribute('data-category') === category) {
+                        tab.classList.add('active-ranking-tab');
+                    } else {
+                        tab.classList.remove('active-ranking-tab');
+                    }
+                });
+
+                // 2. Chiama la funzione di fetch e parsing per la categoria
+                fetchAndParseRanking(category);
+            };
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    const category = e.currentTarget.getAttribute('data-category');
+                    switchCategory(category);
+                });
+            });
+
+            // Renderizza la prima classifica all'avvio
+            switchCategory('A');
+        };
+
+        // --- Logic: Countdown Timer / Chart / Stage Explorer (Inalterate) ---
+        // (Le funzioni sono state omesse qui per brevità ma sono presenti nel codice finale)
+        
+        // --- Logic: Countdown Timer ---
+        const initCountdown = () => {
+            const now = new Date();
+            let nextRace = tourStages.find(stage => new Date(stage.date) > now);
+            const raceInfoEl = document.getElementById('next-race-info');
+            
+            if (nextRace) {
+                raceInfoEl.innerHTML = `PROSSIMA GARA: Tappa ${nextRace.id} - ${nextRace.world} (${formatDate(nextRace.date)})`;
+                const targetDate = new Date(nextRace.date).getTime();
+
+                setInterval(() => {
+                    const current = new Date().getTime();
+                    const distance = targetDate - current;
+
+                    if (distance < 0) {
+                        document.getElementById('days').innerText = "00";
+                        document.getElementById('hours').innerText = "00";
+                        document.getElementById('minutes').innerText = "00";
+                        document.getElementById('seconds').innerText = "00";
+                        raceInfoEl.innerHTML = "LA GARA È IN CORSO O APPENA TERMINATA!";
+                        return;
+                    }
+
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    document.getElementById('days').innerText = days < 10 ? "0" + days : days;
+                    document.getElementById('hours').innerText = hours < 10 ? "0" + hours : hours;
+                    document.getElementById('minutes').innerText = minutes < 10 ? "0" + minutes : minutes;
+                    document.getElementById('seconds').innerText = seconds < 10 ? "0" + seconds : seconds;
+                }, 1000);
+            } else {
+                raceInfoEl.innerHTML = "IL TOUR È TERMINATO";
+            }
+        };
+
+        // --- Logic: Chart.js ---
+        const initChart = () => {
+            const ctx = document.getElementById('raceTypeChart').getContext('2d');
+            
+            const typeCounts = {};
+            const simplifiedTypes = tourStages.map(s => {
+                const t = s.type.trim().toLowerCase();
+                if (t.includes('flat')) return 'Sprint (Flat)';
+                if (t.includes('mountain')) return 'Montagna';
+                if (t.includes('hilly')) return 'Collinare';
+                if (t.includes('itt') || t.includes('chrono scalata')) return 'Cronometro (TT)';
+                if (t.includes('luna park')) return 'Misto (Luna Park)';
+                return 'Altro';
+            });
+
+            simplifiedTypes.forEach(t => {
+                typeCounts[t] = (typeCounts[t] || 0) + 1;
+            });
+
+            const labels = Object.keys(typeCounts);
+            const data = Object.values(typeCounts);
+            
+            const backgroundColors = labels.map(label => {
+                if (label.includes('Flat')) return '#10b981'; // Green (race-flat)
+                if (label.includes('Montagna')) return '#ef4444'; // Red (race-mountain)
+                if (label.includes('Collinare')) return '#f59e0b'; // Yellow (race-hilly)
+                if (label.includes('Cronometro')) return '#00f0ff'; // Blue (race-time/zwift-blue)
+                return '#fc6719'; // Orange (zwift-orange)
+            });
+
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#f0f0f0',
+                                font: {
+                                    family: 'Inter'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        // --- Logic: Stage Explorer (Render & Filter) ---
+        const renderStages = (stages) => {
+            const container = document.getElementById('stage-list');
+            container.innerHTML = '';
+
+            stages.forEach(stage => {
+                const colorClass = getTypeColor(stage.type);
+                const icon = getTypeIcon(stage.type);
+                
+                const card = document.createElement('div');
+                card.className = `bg-black/40 hover:bg-gray-800 transition p-4 rounded-lg border-l-4 border-gray-700 hover:border-zwift-orange flex flex-col md:flex-row justify-between items-center group ${colorClass.split(' ')[3] || ''}`; 
+                
+                const routeElement = `<a href="${stage.routeLink}" target="_blank" class="text-sm text-gray-300 hover:text-zwift-blue transition">${stage.route} <span class="text-xs">🗺️</span></a>`;
+
+
+                card.innerHTML = `
+                    <div class="flex items-center space-x-4 w-full md:w-auto">
+                        <div class="bg-gray-900 w-12 h-12 flex items-center justify-center rounded-full text-xl shadow-inner">
+                            ${stage.id}
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400 uppercase tracking-wider">${formatDate(stage.date)}</div>
+                            <div class="text-xl font-bold text-white group-hover:text-zwift-orange transition">${stage.world}</div>
+                            ${routeElement} </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-6 mt-4 md:mt-0 w-full md:w-auto justify-between md:justify-end">
+                        <div class="flex items-center space-x-2 px-3 py-1 rounded bg-black/50 border border-gray-700">
+                            <span>${icon}</span>
+                            <span class="text-sm font-semibold ${colorClass.split(' ')[0]}">${stage.type.trim()}</span>
+                        </div>
+                        <a href="${stage.registerLink}" target="_blank" class="bg-white text-black hover:bg-zwift-orange hover:text-white font-bold py-2 px-6 rounded-full text-sm transition transform hover:scale-105">
+                            ISCRIVITI
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        };
+
+        const populateFilters = () => {
+            const worldSelect = document.getElementById('worldFilter');
+            const typeSelect = document.getElementById('typeFilter');
+            
+            const worlds = [...new Set(tourStages.map(s => s.world.trim()))].sort();
+            const types = [...new Set(tourStages.map(s => s.type.trim()))].sort();
+
+            worlds.forEach(w => {
+                const opt = document.createElement('option');
+                opt.value = w;
+                opt.innerText = w;
+                worldSelect.appendChild(opt);
+            });
+
+            types.forEach(t => {
+                const opt = document.createElement('option');
+                opt.value = t;
+                opt.innerText = t;
+                typeSelect.appendChild(opt);
+            });
+
+            // Filter Event Listeners
+            const filterHandler = () => {
+                const wVal = worldSelect.value;
+                const tVal = typeSelect.value;
+
+                const filtered = tourStages.filter(s => {
+                    const matchW = wVal === 'all' || s.world.trim() === wVal;
+                    const matchT = tVal === 'all' || s.type.trim() === tVal;
+                    return matchW && matchT;
+                });
+                renderStages(filtered);
+            };
+
+            worldSelect.addEventListener('change', filterHandler);
+            typeSelect.addEventListener('change', filterHandler);
+        };
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initCountdown();
+            initChart();
+            populateFilters();
+            renderStages(tourStages);
+            initRankingTabs();
+        });
+
+    </script>
+</body>
+</html>

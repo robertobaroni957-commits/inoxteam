@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team INOX - Semplicemente... Inossidabili</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inox: {
+                            dark: '#0d0f11',
+                            card: '#1a1d20',
+                            orange: '#fc6719',
+                            blue: '#048ea0',
+                            cyan: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Stili di base e layout reattivo */
+        body {
+            background-color: #0d0f11;
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh; /* Garantisce che ci sia spazio per scorrere */
+        }
+        h1, h2, h3, .inox-font {
+            font-family: 'Teko', sans-serif;
+            text-transform: uppercase;
+        }
+        .card-shadow {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* --- Mobile-First Layout (Sidebar as Overlay) --- */
+        #main-layout {
+            display: flex; /* Mobile default is flex column */
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #sidebar {
+            /* Mobile: Hidden, fixed overlay */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            overflow-y: auto;
+            z-index: 50; 
+            transform: translateX(-100%); /* Start hidden */
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+        }
+        
+        /* Class to show sidebar on mobile */
+        .sidebar-open {
+            transform: translateX(0);
+        }
+        
+        #main-content {
+            flex-grow: 1; 
+        }
+
+        /* --- Top Nav --- */
+        #top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+
+        /* --- Desktop Layout (Override with Media Query) --- */
+        @media (min-width: 1024px) { /* Corresponds to Tailwind 'lg' */
+            #main-layout {
+                /* NON è più un grid layout su desktop, la sidebar fixed è fuori dal flusso */
+                min-height: 100vh;
+            }
+            #sidebar {
+                position: fixed; /* Mantenere fixed per desktop: è sempre visibile */
+                transform: translateX(0); /* Always visible */
+                z-index: 40;
+                width: 250px;
+                height: 100vh; /* Fissare l'altezza per scorrimento indipendente */
+            }
+            #main-content {
+                /* Non ha bisogno di grid-column, il margine lg:ml-[250px] lo sposta */
+                min-height: 100vh; 
+            }
+        }
+
+        /* Stili per la sidebar (attivi e hover) */
+        .sidebar-link {
+            padding: 10px 16px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(252, 103, 25, 0.1);
+            color: #fc6719;
+        }
+        .sidebar-active {
+            background-color: #fc6719;
+            color: black !important;
+            font-weight: 700;
+        }
+        
+        /* Stili scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0f11; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fc6719;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-inox-dark">
+
+    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
+        <svg id="menu-icon-open" class="w-6 h-6 text-inox-orange block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        <svg id="menu-icon-close" class="w-6 h-6 text-inox-orange hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-40 lg:hidden"></div>
+
+    <div id="main-layout">
+        
+        <aside id="sidebar" class="bg-inox-card border-r border-gray-800">
+            <div class="p-6 border-b border-gray-700">
+                <div class="flex items-center space-x-2">
+                    <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" alt="Logo Team INOX" class="h-8">
+                    <span class="text-xl font-bold tracking-wider inox-font text-inox-orange">INOX</span>
+                </div>
+            </div>
+
+            <div class="p-4 space-y-4">
+                <div class="space-y-1">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Il Team</h3>
+                    <a href="home.html" class="sidebar-link sidebar-active">Home</a>
+                    <a href="chi_siamo.html" class="sidebar-link">Chi Siamo</a>
+                    <a href="contatti.html" class="sidebar-link">Contatti</a>
+                </div>
+
+                <div class="space-y-1">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Gara</h3>
+                    <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+                    <a href="#" class="sidebar-link">Classifiche [Prossimamente]</a>
+                </div>
+
+                <div class="space-y-1">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Risorse Utili</h3>
+                    <a href="#" class="sidebar-link">Blog & News</a>
+                    <a href="#" class="sidebar-link">Media Kit</a>
+                    <a href="#" class="sidebar-link">Area Tecnica</a>
+                </div>
+                
+                <div class="space-y-1 pt-4">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Login</h3>
+                    <a href="login_intro_video.html" class="sidebar-link">Login/Area Riservata</a>
+                </div>
+            </div>
+        </aside>
+
+        <div id="main-content" class="lg:ml-[250px]">
+            
+            <nav id="top-nav" class="bg-inox-card border-b border-gray-700 shadow-lg hidden lg:block">
+                <div class="container mx-auto px-6 py-3 flex justify-end items-center text-sm font-semibold">
+                    <a href="home.html" class="hover:text-inox-orange transition px-4 text-inox-orange">Home</a>
+                    <a href="chi_siamo.html" class="hover:text-inox-orange transition px-4">Chi Siamo</a>
+                    <a href="eventi.html" class="hover:text-inox-orange transition px-4">Eventi</a>
+                    <div class="text-inox-gray px-4">|</div>
+                    <a href="contatti.html" class="text-inox-gray hover:text-inox-orange transition px-4">Contatti </a>
+                    <a href="login_intro_video.html" class="bg-inox-orange text-black font-bold py-1.5 px-3 rounded-md text-xs ml-4 transition hover:bg-red-500">LOGIN</a>
+                </div>
+            </nav>
+
+            <main class="p-4 sm:p-6 lg:p-6 pt-16 lg:pt-6"> 
+                <section id="hero" class="bg-inox-card rounded-xl p-6 sm:p-8 mb-10 card-shadow border-l-4 border-inox-blue">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center">
+                        <div class="md:col-span-2">
+                            <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-white inox-font tracking-tight">
+                                <span class="text-inox-orange">TEAM INOX:</span> SEMPLICEMENTE <span class="text-inox-cyan">INOSSIDABILI</span>
+                            </h2>
+                            <p class="text-gray-300 mb-6 max-w-lg text-sm sm:text-base">
+                                Siamo un team virtuale focalizzato sulla serietà e l'onestà, ma anche sul divertimento, per far crescere i nostri atleti in modo sano e stimolante.
+                            </p>
+                            <a href="chi_siamo.html" class="bg-inox-orange hover:bg-red-500 text-black font-bold py-2 px-6 rounded-lg text-sm transition transform hover:scale-105">
+                                Scopri la nostra filosofia
+                            </a>
+                        </div>
+                        <div class="md:col-span-1 hidden md:flex justify-end">
+                            <span class="text-7xl sm:text-8xl text-inox-blue opacity-5">🚴‍♂️</span> 
+                        </div>
+                    </div>
+                </section>
+
+                <section id="obiettivi" class="mb-10 p-2 sm:p-4">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
+                        I Nostri <span class="text-inox-orange">Obiettivi</span>
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                        <div class="bg-inox-card p-4 sm:p-5 rounded-lg text-center card-shadow border-b-4 border-inox-orange hover:scale-[1.02] transition">
+                            <div class="text-3xl sm:text-4xl mb-3 text-inox-cyan">🎯</div>
+                            <h3 class="text-base sm:text-lg font-bold inox-font text-inox-orange">OBIETTIVO 1</h3>
+                            <p class="text-gray-400 text-xs sm:text-sm">Valorizzare gli atleti in modo sano e stimolante.</p>
+                        </div>
+                        <a href="mwt_page.html" class="bg-inox-orange p-4 sm:p-5 rounded-lg text-center card-shadow border-b-4 border-white transform scale-105 transition hover:scale-110 block">
+                            <div class="text-3xl sm:text-4xl mb-3 text-black">❄️</div>
+                            <h3 class="text-lg sm:text-xl font-extrabold inox-font text-black">MASTER WINTER TOUR</h3>
+                            <p class="text-gray-900 text-xs sm:text-sm font-semibold">Tutte le tappe e le classifiche qui!</p>
+                        </a>
+                        <div class="bg-inox-card p-4 sm:p-5 rounded-lg text-center card-shadow border-b-4 border-inox-orange hover:scale-[1.02] transition">
+                            <div class="text-3xl sm:text-4xl mb-3 text-inox-cyan">🤝</div>
+                            <h3 class="text-base sm:text-lg font-bold inox-font">OBIETTIVO 2</h3>
+                            <p class="text-gray-400 text-xs sm:text-sm">Creare un ambiente basato su serietà e onestà.</p>
+                        </div>
+                        <div class="bg-inox-card p-4 sm:p-5 rounded-lg text-center card-shadow border-b-4 border-inox-blue hover:scale-[1.02] transition">
+                            <div class="text-3xl sm:text-4xl mb-3 text-inox-cyan">🏆</div>
+                            <h3 class="text-base sm:text-lg font-bold inox-font">#1</h3>
+                            <p class="text-gray-400 text-xs sm:text-sm">Team nella classifica regionale (dati fittizi).</p>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section id="testimonials" class="mb-10 p-2 sm:p-4">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
+                        Atleti in <span class="text-inox-orange">Evidenza</span>
+                    </h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
+                        <div class="bg-inox-card p-4 rounded-lg card-shadow">
+                            <h4 class="font-semibold text-white mb-1 text-sm sm:text-base">Nome Atleta 1</h4>
+                            <p class="text-xs text-inox-gray mb-3">Categoria A</p>
+                            <span class="inline-block bg-inox-orange text-black text-xs px-2 py-0.5 rounded-full font-bold">TOP PERFORMANCE</span>
+                        </div>
+                            <div class="bg-inox-card p-4 rounded-lg card-shadow">
+                            <h4 class="font-semibold text-white mb-1 text-sm sm:text-base">Nome Atleta 2</h4>
+                            <p class="text-xs text-inox-gray mb-3">Categoria B</p>
+                            <span class="inline-block bg-inox-blue text-white text-xs px-2 py-0.5 rounded-full font-bold">TEAM PLAYER</span>
+                        </div>
+                            <div class="bg-inox-card p-4 rounded-lg card-shadow">
+                            <h4 class="font-semibold text-white mb-1 text-sm sm:text-base">Nome Atleta 3</h4>
+                            <p class="text-xs text-inox-gray mb-3">Categoria C</p>
+                            <span class="inline-block bg-inox-cyan text-black text-xs px-2 py-0.5 rounded-full font-bold">ESPERTO</span>
+                        </div>
+                            <div class="bg-inox-card p-4 rounded-lg card-shadow">
+                            <h4 class="font-semibold text-white mb-1 text-sm sm:text-base">Nome Atleta 4</h4>
+                            <p class="text-xs text-inox-gray mb-3">Categoria D</p>
+                            <span class="inline-block bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">PASSIONE</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="footer-links" class="mb-10 p-2 sm:p-4">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
+                        Link Utili <span class="text-inox-orange">e Contatti</span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div>
+                            <h4 class="text-lg sm:text-xl font-bold text-white inox-font mb-3">Contatti e Info</h4>
+                            <a href="chi_siamo.html" class="block text-gray-400 text-sm hover:text-white mb-1">Chi Siamo</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Storia</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Mission</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Valori</a>
+                        </div>
+                        <div>
+                            <h4 class="text-lg sm:text-xl font-bold text-white inox-font mb-3">Links Utili</h4>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Blog</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Media Kit</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Area Tecnica</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Social</a>
+                        </div>
+                        <div class="col-span-2 md:col-span-1"> <h4 class="text-lg sm:text-xl font-bold text-white inox-font mb-3">Servizi</h4>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Classifiche</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Gare</a>
+                            <a href="eventi.html" class="block text-gray-400 text-sm hover:text-white mb-1">Eventi</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Regolamento</a>
+                        </div>
+                        <div>
+                            <h4 class="text-lg sm:text-xl font-bold text-white inox-font mb-3">Newsletter</h4>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Iscriviti</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Privacy</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Cookie</a>
+                            <a href="login_intro_video.html" class="block text-gray-400 text-sm hover:text-white mb-1">Login/Area Riservata</a>
+                        </div>
+                    </div>
+                </section>
+                
+                <div class="text-center text-xs text-gray-700 mt-10 border-t border-gray-900 pt-6">
+                    &copy; 2025 Team INOX. Tutti i diritti riservati.
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // --- Logica Sidebar Mobile ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar');
+            const toggleButton = document.getElementById('menu-toggle');
+            const overlay = document.getElementById('sidebar-overlay');
+            const menuIconOpen = document.getElementById('menu-icon-open');
+            const menuIconClose = document.getElementById('menu-icon-close');
+            
+            const toggleSidebar = () => {
+                const isOpen = sidebar.classList.toggle('sidebar-open');
+                
+                // Gestione overlay
+                overlay.classList.toggle('opacity-50', isOpen);
+                overlay.classList.toggle('pointer-events-auto', isOpen);
+                overlay.classList.toggle('pointer-events-none', !isOpen);
+
+                // Toggle icona
+                menuIconOpen.classList.toggle('hidden', isOpen);
+                menuIconClose.classList.toggle('hidden', !isOpen);
+
+                // Blocca lo scroll del body quando il menu è aperto su mobile
+                if (window.innerWidth < 1024) {
+                    document.body.style.overflow = isOpen ? 'hidden' : '';
+                }
+            };
+
+            toggleButton.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+
+            // Chiude la sidebar se un link viene cliccato in modalità mobile
+            document.querySelectorAll('#sidebar a').forEach(link => {
+                link.addEventListener('click', () => {
+                    // La breakpoint LG è 1024px
+                    if (window.innerWidth < 1024 && sidebar.classList.contains('sidebar-open')) { 
+                        toggleSidebar();
+                    }
+                });
+            });
+
+            // Re-abilita scroll del body quando si passa da mobile a desktop
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 1024) {
+                    document.body.style.overflow = '';
+                } else if (sidebar.classList.contains('sidebar-open')) {
+                     document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

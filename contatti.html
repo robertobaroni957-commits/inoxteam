@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team INOX - Contatti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inox: {
+                            dark: '#0d0f11',
+                            card: '#1a1d20',
+                            orange: '#fc6719',
+                            blue: '#048ea0',
+                            cyan: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0d0f11;
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            /* Rimosso 'overflow: hidden' per consentire lo scorrimento su mobile */
+        }
+        h1, h2, h3, .inox-font {
+            font-family: 'Teko', sans-serif;
+            text-transform: uppercase;
+        }
+        
+        /* === MOBILE-FIRST LAYOUT (DEFAULT) === */
+        
+        #main-layout {
+            /* Flex column per impilare il contenuto su mobile */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #sidebar {
+            /* Sidebar come menu a comparsa full-height */
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            overflow-y: auto;
+            background-color: #1a1d20; 
+            z-index: 50; 
+            transform: translateX(-100%); /* Nascosta di default */
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        #sidebar.active {
+            transform: translateX(0); /* Mostra sidebar */
+        }
+
+        #main-content {
+            /* Full width su mobile */
+            flex-grow: 1;
+        }
+
+        /* === DESKTOP LAYOUT (>= 768px) === */
+        @media (min-width: 768px) {
+            #main-layout {
+                /* Torna al layout a griglia */
+                display: grid;
+                grid-template-columns: 250px 1fr; 
+                height: 100vh;
+                overflow: hidden; /* Blocca lo scroll del body, lo scorrimento è su #main-content */
+            }
+            #sidebar {
+                position: static; /* Non più un overlay fisso */
+                transform: translateX(0); /* Sempre visibile */
+            }
+            #main-content {
+                grid-column: 2 / 3;
+                overflow-y: auto; 
+            }
+        }
+        
+        /* Stili esistenti */
+        .sidebar-link {
+            padding: 10px 16px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(252, 103, 25, 0.1);
+            color: #fc6719;
+        }
+        .sidebar-active {
+            background-color: #fc6719;
+            color: black !important;
+            font-weight: 700;
+        }
+        
+        #top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body class="bg-inox-dark">
+    
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black opacity-50 z-40 hidden md:hidden"></div>
+
+    <div id="main-layout">
+        
+        <aside id="sidebar" class="bg-inox-card border-r border-gray-800">
+            <button id="close-menu-btn" class="absolute top-4 right-4 text-white p-2 md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="p-6 border-b border-gray-700">
+                <div class="flex items-center space-x-2">
+                    <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" alt="Logo Team INOX" class="h-8">
+                    <span class="text-xl font-bold tracking-wider inox-font text-inox-orange">INOX</span>
+                </div>
+            </div>
+
+            <div class="p-4 space-y-4">
+                <div class="space-y-1">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Il Team</h3>
+                    <a href="home.html" class="sidebar-link">Home</a>
+                    <a href="chi_siamo.html" class="sidebar-link">Chi Siamo</a>
+                    <a href="contatti.html" class="sidebar-link sidebar-active">Contatti</a>
+                </div>
+                <div class="space-y-1">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Gara</h3>
+                    <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+                    <a href="#" class="sidebar-link">Classifiche [Prossimamente]</a>
+                </div>
+                <div class="space-y-1 md:hidden">
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Account</h3>
+                    <a href="login_intro_video.html" class="sidebar-link">Logout</a> 
+                </div>
+            </div>
+        </aside>
+
+        <div id="main-content">
+            
+            <nav id="top-nav" class="bg-inox-card border-b border-gray-700 shadow-lg">
+                <div class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-semibold">
+                    
+                    <button id="open-menu-btn" class="text-white p-2 md:hidden">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                    
+                    <div class="hidden md:flex items-center md:justify-end">
+                        <a href="home.html" class="hover:text-inox-orange transition px-4">Home</a>
+                        <a href="chi_siamo.html" class="hover:text-inox-orange transition px-4">Chi Siamo</a>
+                        <a href="eventi.html" class="hover:text-inox-orange transition px-4">Eventi</a>
+                        <div class="text-inox-gray px-4">|</div>
+                        <a href="login_intro_video.html" class="text-inox-gray hover:text-inox-orange transition px-4">Logout</a> 
+                    </div>
+
+                    <a href="#" class="bg-inox-orange text-black font-bold py-1.5 px-3 rounded-md text-xs transition md:ml-4">AREA TECNICA</a>
+                </div>
+            </nav>
+
+            <main class="p-8">
+                <section id="contact-form" class="bg-inox-card rounded-xl p-8 mb-10 border-l-4 border-inox-cyan">
+                    <h2 class="text-5xl font-extrabold mb-8 text-white inox-font tracking-tight">
+                        Contattaci: <span class="text-inox-orange">Siamo Pronti</span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div>
+                            <h3 class="text-3xl font-bold inox-font text-inox-orange mb-4">Invia un Messaggio</h3>
+                            <form action="#" method="POST" class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-gray-300">Nome</label>
+                                    <input type="text" id="name" name="name" class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm p-3 text-white focus:border-inox-orange focus:ring-inox-orange">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+                                    <input type="email" id="email" name="email" class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm p-3 text-white focus:border-inox-orange focus:ring-inox-orange">
+                                </div>
+                                <div>
+                                    <label for="message" class="block text-sm font-medium text-gray-300">Messaggio</label>
+                                    <textarea id="message" name="message" rows="4" class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm p-3 text-white focus:border-inox-orange focus:ring-inox-orange"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-inox-orange hover:bg-red-500 text-black font-bold py-3 rounded-lg text-lg transition transform hover:scale-[1.01] mt-4">
+                                    INVIA
+                                </button>
+                            </form>
+                        </div>
+
+                        <div>
+                            <h3 class="text-3xl font-bold inox-font text-inox-cyan mb-4">Dati e Social</h3>
+                            <div class="space-y-6 text-gray-300">
+                                <p>
+                                    **Email di Supporto:** <br>
+                                    <a href="mailto:supporto@teaminox.it" class="text-inox-orange hover:text-white">supporto@teaminox.it</a>
+                                </p>
+                                <p>
+                                    **Sede Legale:** <br>
+                                    Via Esempio, 123 - Città, Italia
+                                </p>
+                                <p>
+                                    **Seguici sui Social:**
+                                    <div class="flex space-x-4 text-2xl mt-2">
+                                        <a href="https://zwiftpower.com" target="_blank" class="text-gray-400 hover:text-inox-orange transition">📊</a>
+                                        <a href="https://discord.com" target="_blank" class="text-gray-400 hover:text-inox-orange transition">💬</a>
+                                        <a href="https://strava.com" target="_blank" class="text-gray-400 hover:text-inox-orange transition">📍</a>
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="text-center text-xs text-gray-700 mt-10 border-t border-gray-900 pt-6">
+                    &copy; 2025 Team INOX. Tutti i diritti riservati.
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebar = document.getElementById('sidebar');
+            const openBtn = document.getElementById('open-menu-btn');
+            const closeBtn = document.getElementById('close-menu-btn');
+            const overlay = document.getElementById('mobile-menu-overlay');
+
+            function toggleMenu(forceClose = false) {
+                const isMenuOpen = sidebar.classList.contains('active');
+                
+                if (forceClose || isMenuOpen) {
+                    sidebar.classList.remove('active');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden'); // Ripristina lo scroll del body
+                } else {
+                    sidebar.classList.add('active');
+                    overlay.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden'); // Blocca lo scroll del body quando il menu è aperto
+                }
+            }
+
+            // Event Listeners per i pulsanti e l'overlay
+            if (openBtn) openBtn.addEventListener('click', () => toggleMenu(false));
+            if (closeBtn) closeBtn.addEventListener('click', () => toggleMenu(true));
+            if (overlay) overlay.addEventListener('click', () => toggleMenu(true));
+
+            // Chiude il menu quando si clicca un link al suo interno (solo su mobile)
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    // Controlla se siamo su un breakpoint mobile (< 768px)
+                    if (window.innerWidth < 768) {
+                        // Un piccolo ritardo per permettere al link di navigare prima della chiusura
+                        setTimeout(() => toggleMenu(true), 200); 
+                    }
+                });
+            });
+            
+            // Assicura che il menu sia chiuso se la finestra viene ridimensionata al layout desktop
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    // Chiude il menu senza interferire con lo scroll del body sul desktop
+                    sidebar.classList.remove('active');
+                    overlay.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
