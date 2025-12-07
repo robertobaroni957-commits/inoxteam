@@ -67,28 +67,34 @@
             flex-direction: column;
             min-height: 100vh;
             position: relative;
+            z-index: 10; /* Per sicurezza */
         }
 
         /* ============================
-           SIDEBAR MOBILE FIX
+            SIDEBAR MOBILE FIX
         ============================ */
         #sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 250px;
+            width: 300px;
             height: 100%;
             background-color: #1a1d20;
-            z-index: 50;
+            z-index: 50; /* Z-index base */
             overflow-y: auto;
 
             transform: translateX(-100%);
+            /* AGGIUNTO: Impedisce l'interazione con il contenuto sottostante quando è nascosta */
+            pointer-events: none; 
+            
             transition: transform 0.28s cubic-bezier(.2,.9,.2,1);
             box-shadow: 2px 0 5px rgba(0,0,0,0.5);
         }
 
         .sidebar-open {
             transform: translateX(0) !important;
+            /* AGGIUNTO: Riabilita l'interazione quando è aperta */
+            pointer-events: auto !important; 
         }
 
         #sidebar-overlay {
@@ -96,26 +102,30 @@
             inset: 0;
             background: black;
             opacity: 0;
-            pointer-events: none;
+            /* DEFAULT: Non cliccabile */
+            pointer-events: none; 
+            
             transition: opacity 0.28s ease;
             z-index: 45;
         }
-
-        #sidebar-overlay.opacity-50 {
-            opacity: 0.5;
-        }
-
+        
+        /* NOTA: La classe `opacity-50` e `pointer-events-auto` 
+                 sono gestite direttamente dal JavaScript ora. */
+        
         /* Desktop Sidebar visibile */
         @media (min-width: 1024px) {
             #main-layout {
                 display: grid;
-                grid-template-columns: 250px 1fr;
+                /* Correzione per la griglia desktop */
+                grid-template-columns: 300px 1fr;
             }
 
             #sidebar {
+                /* Su desktop è relativa, fa parte del flusso */
                 position: relative;
                 transform: none !important;
                 box-shadow: none;
+                pointer-events: auto; /* Sempre attivo su desktop */
             }
 
             #menu-toggle, #sidebar-overlay {
@@ -178,8 +188,7 @@
         <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
     </video>
 
-    <!-- Pulsante Menu Mobile -->
-    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-50 p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
+    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-[100] p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
         <svg id="menu-icon-open" class="w-6 h-6 text-inox-orange block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
@@ -193,7 +202,6 @@
 
     <div id="main-layout">
 
-        <!-- SIDEBAR -->
         <aside id="sidebar">
             <div class="p-6 border-b border-gray-700">
                 <div class="flex items-center space-x-2">
@@ -218,7 +226,6 @@
             </div>
         </aside>
 
-        <!-- CONTENUTO -->
         <div id="main-content">
             <div class="login-card p-8 sm:p-10 rounded-xl max-w-lg w-full shadow-2xl">
                 <div class="text-center mb-8">
@@ -264,8 +271,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT SIDEBAR FUNZIONANTE -->
-<script>
+    <script>
     (function() {
         const sidebar = document.getElementById('sidebar');
         const toggleButton = document.getElementById('menu-toggle');
@@ -278,7 +284,8 @@
 
         const openSidebar = () => {
             sidebar.classList.add('sidebar-open');
-            overlay.classList.add('opacity-50', 'pointer-events-auto');
+            // Aggiungo le classi per rendere visibile e cliccabile l'overlay
+            overlay.classList.add('opacity-50', 'pointer-events-auto'); 
             overlay.classList.remove('pointer-events-none');
             body.classList.add('no-scroll');
             menuIconOpen.classList.add('hidden');
@@ -287,6 +294,7 @@
 
         const closeSidebar = () => {
             sidebar.classList.remove('sidebar-open');
+            // Rimuovo le classi per nascondere e rendere non cliccabile l'overlay
             overlay.classList.remove('opacity-50', 'pointer-events-auto');
             overlay.classList.add('pointer-events-none');
             body.classList.remove('no-scroll');
@@ -295,12 +303,12 @@
         };
 
         toggleButton.addEventListener('click', () => {
-    if (sidebar.classList.contains('sidebar-open')) {
-        closeSidebar();
-    } else {
-        openSidebar();
-    }
-});
+            if (sidebar.classList.contains('sidebar-open')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        });
 
         overlay.addEventListener('click', closeSidebar);
 
