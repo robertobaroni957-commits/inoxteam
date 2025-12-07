@@ -26,15 +26,26 @@
         menuIconClose.classList.add('hidden');
     };
 
-    toggleButton.addEventListener('click', openSidebar);
+    // Toggle intelligente
+    toggleButton.addEventListener('click', () => {
+        if (sidebar.classList.contains('sidebar-open')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    });
+
+    // Chiudi cliccando sull'overlay
     overlay.addEventListener('click', closeSidebar);
 
+    // Chiudi dopo un click nella sidebar
     document.querySelectorAll('#sidebar a').forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth < 1024) closeSidebar();
         });
     });
 
+    // Reset su desktop
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 1024) closeSidebar();
     });
