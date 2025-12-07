@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team INOX - Accesso Riservato</title>
+    <link rel="stylesheet" href="style.css?v=1.1" type="text/css"> 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
@@ -75,20 +76,24 @@
         #sidebar {
             position: fixed;
             top: 0;
-            left: 0;
+            left: 0; /* Impostiamo la posizione di partenza a sinistra 0 */
             width: 250px;
             height: 100%;
             overflow-y: auto;
             background-color: #1a1d20; 
             z-index: 50; 
-            transform: translateX(-100%); /* Nascosto */
-            transition: transform 0.3s ease-in-out;
+            
+            /* NUOVO: La facciamo sparire con un valore negativo forte, senza trasform */
+            margin-left: -250px; 
+            
+            transition: margin-left 0.3s ease-in-out; /* Animiamo il margine */
             box-shadow: 2px 0 5px rgba(0,0,0,0.5);
         }
         
         /* Classe per mostrare la sidebar */
         .sidebar-open {
-            transform: translateX(0);
+            /* NUOVO: Riportiamo il margine a zero per mostrarla */
+            margin-left: 0 !important; 
         }
         
         #main-content {
@@ -271,12 +276,12 @@
             const overlay = document.getElementById('sidebar-overlay');
             const menuIconOpen = document.getElementById('menu-icon-open');
             const menuIconClose = document.getElementById('menu-icon-close');
-            const body = document.body; // Riferimento al body
+            const body = document.body;
             
             const toggleSidebar = () => {
                 const isOpen = sidebar.classList.toggle('sidebar-open');
                 
-                // NUOVA LOGICA: Impedisce lo scroll dello sfondo
+                // Impedisce lo scroll dello sfondo
                 body.classList.toggle('no-scroll', isOpen);
                 
                 // Gestione overlay
@@ -296,7 +301,6 @@
             document.querySelectorAll('#sidebar a').forEach(link => {
                 link.addEventListener('click', () => {
                     if (window.innerWidth < 1024 && sidebar.classList.contains('sidebar-open')) { 
-                        // Chiude con un piccolo ritardo per permettere la navigazione
                         setTimeout(toggleSidebar, 100); 
                     }
                 });
