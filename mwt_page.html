@@ -67,6 +67,56 @@
             background: #fc6719; 
             border-radius: 4px;
         }
+        
+        /* ---------------------------------------------------- */
+        /* *** REGOLE DI OVERRIDE CSS PER TEMA SCURO CLASSIFICHE *** */
+        /* Lo scopo è ignorare gli stili in linea in classifica.html (!important) */
+        
+        /* 1. Forza il colore del testo a chiaro per la leggibilità */
+        #ranking-container h1,
+        #ranking-container h2,
+        #ranking-container h3,
+        #ranking-container p,
+        #ranking-container td,
+        #ranking-container th {
+            color: #f0f0f0 !important; /* zwift-text */
+        }
+        
+        /* Forza i colori principali dei titoli a un colore coerente */
+        #ranking-container h1 {
+            color: #fc6719 !important; /* zwift-orange */
+        }
+        /* Forza H2 al colore blu (tranne se ha un bordo sinistro colorato) */
+        #ranking-container h2 {
+            color: #00f0ff !important; /* zwift-blue */ 
+        }
+        
+        /* 2. Forza lo sfondo e i bordi a colori scuri per eliminare gli spazi bianchi */
+        #ranking-container table,
+        #ranking-container tr,
+        #ranking-container td,
+        #ranking-container th {
+            background-color: #1e1e24 !important; /* zwift-card color */
+            box-shadow: none !important; /* Rimuove l'ombra chiara delle tabelle */
+        }
+        
+        /* Allinea i bordi inferiori per maggiore coerenza */
+        #ranking-container td {
+            border-bottom: 1px solid #374151 !important; /* Bordo scuro */
+        }
+
+        /* 3. Rimuove la larghezza fissa che può causare scrolling laterale */
+        #ranking-container td[style*="width: 50px"] {
+             width: auto !important;
+        }
+        
+        /* 4. Mantiene il colore del testo delle celle che hanno un colore esplicito per punti/wkg in classifica.html */
+        /* Esempio: color: #0ea5e9; (blu chiaro) non viene sovrascritto */
+        #ranking-container td[style*="color: #0"] {
+            color: inherit !important; /* Usa il colore specifico già impostato dal file classifica.html */
+        }
+
+        /* ---------------------------------------------------- */
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
