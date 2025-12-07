@@ -1,0 +1,52 @@
+/* Sidebar Mobile */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #1a1d20;
+    z-index: 50;
+    overflow-y: auto;
+
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(.2,.9,.2,1);
+    box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+}
+
+.sidebar-open {
+    transform: translateX(0) !important;
+}
+
+/* Overlay */
+#sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+    z-index: 45;
+}
+
+#sidebar-overlay.opacity-50 {
+    opacity: 0.5;
+}
+
+/* Blocca scroll */
+.no-scroll {
+    overflow: hidden !important;
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    #sidebar {
+        position: relative;
+        transform: none !important;
+        box-shadow: none;
+    }
+    #sidebar-overlay,
+    #menu-toggle {
+        display: none !important;
+    }
+}
