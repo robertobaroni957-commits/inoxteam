@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team INOX - Registrazione</title>
+    <title>Team INOX - Registrazione Utente</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -30,100 +30,48 @@
             }
         }
     </script>
-
-    <style>
-        body {
-            background-color: #0d0f11;
-            color: #f0f0f0;
-            font-family: 'Inter', sans-serif;
-            overflow: hidden; 
-            position: relative;
-        }
-        h1, h2, h3, .inox-font {
-            font-family: 'Teko', sans-serif;
-            text-transform: uppercase;
-        }
-        
-        #main-layout {
-            display: grid;
-            grid-template-columns: 250px 1fr; 
-            height: 100vh;
-            position: relative;
-            z-index: 10;
-        }
-
-        #sidebar {
-            width: 250px;
-            height: 100%;
-            overflow-y: auto;
-            background-color: #1a1d20; 
-        }
-        
-        #main-content {
-            grid-column: 2 / 3;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            background-color: #0d0f11; 
-        }
-        
-        .reg-input {
-            width: 100%;
-            padding: 12px;
-            background-color: #333333;
-            border: 1px solid #444444;
-            color: #f0f0f0;
-            border-radius: 6px;
-        }
-        .reg-input:focus {
-            border-color: #fc6719;
-            outline: none;
-        }
-        
-        .reg-card {
-            background-color: #1a1d20;
-        }
-        .sidebar-link {
-            padding: 10px 16px;
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #f0f0f0;
-            transition: background-color 0.2s;
-        }
-        .sidebar-link:hover {
-            background-color: rgba(252, 103, 25, 0.1);
-            color: #fc6719;
-        }
-        .sidebar-active {
-            background-color: #fc6719;
-            color: black !important;
-            font-weight: 700;
-        }
-    </style>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="sidebar.css?v=1.6" type="text/css"> 
+    
 </head>
 <body>
 
+    <video autoplay muted loop id="background-video">
+        <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
+    </video>
+
+    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-[100] p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
+        <svg id="menu-icon-open" class="w-6 h-6 text-inox-orange block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        <svg id="menu-icon-close" class="w-6 h-6 text-inox-orange hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+
+    <div id="sidebar-overlay"></div>
+
     <div id="main-layout">
-        
-        <aside id="sidebar" class="bg-inox-card border-r border-gray-800">
+
+        <aside id="sidebar">
             <div class="p-6 border-b border-gray-700">
                 <div class="flex items-center space-x-2">
-                    <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" alt="Logo Team INOX" class="h-8">
-                    <span class="text-xl font-bold tracking-wider inox-font text-inox-orange">INOX</span>
+                    <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8">
+                    <span class="text-xl font-bold inox-font text-inox-orange">INOX</span>
                 </div>
             </div>
 
             <div class="p-4 space-y-4">
-                <div class="space-y-1">
+                <div>
                     <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Riservata</h3>
-                    <a href="login_intro_video.html" class="sidebar-link">Login/Accesso</a>
-                    <a href="registrazione.html" class="sidebar-link sidebar-active">Registrazione</a>
+                    <a href="#" class="sidebar-link sidebar-active">Login/Accesso</a>
+                    <a href="registrazione.html" class="sidebar-link">Registrazione</a>
                     <a href="#" class="sidebar-link">Recupera Password</a>
                 </div>
-                <div class="space-y-1">
+
+                <div>
                     <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Team INOX</h3>
                     <a href="home.html" class="sidebar-link">Home Pubblica</a>
                     <a href="contatti.html" class="sidebar-link">Contatti</a>
@@ -132,53 +80,49 @@
         </aside>
 
         <div id="main-content">
-            <div class="reg-card p-10 rounded-xl max-w-lg w-full shadow-2xl">
+            <div class="login-card p-8 sm:p-10 rounded-xl max-w-lg w-full shadow-2xl">
                 
                 <div class="text-center mb-8">
-                    <h2 class="font-display text-5xl font-extrabold text-white tracking-tight leading-none">
-                        CREA IL TUO <span class="text-inox-cyan">ACCOUNT</span>
+                    <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-white">
+                        NUOVA <span class="text-inox-cyan">REGISTRAZIONE</span>
                     </h2>
-                    <p class="text-gray-400 mt-2">Compila il form per unirti alla comunità INOX.</p>
+                    <p class="text-gray-400 mt-2 text-sm sm:text-base">
+                        Crea il tuo account Team INOX.
+                    </p>
                 </div>
 
                 <form id="registrationForm" class="space-y-6">
                     <div>
-                        <label for="reg-name" class="block text-sm font-semibold mb-2 text-inox-text">Nome e Cognome</label>
-                        <input type="text" id="reg-name" name="reg-name" class="reg-input" required>
-                    </div>
-                    <div>
-                        <label for="reg-email" class="block text-sm font-semibold mb-2 text-inox-text">Email</label>
-                        <input type="email" id="reg-email" name="reg-email" class="reg-input" required>
-                    </div>
-                    <div>
-                        <label for="reg-username" class="block text-sm font-semibold mb-2 text-inox-text">Username desiderato</label>
-                        <input type="text" id="reg-username" name="reg-username" class="reg-input" required>
+                        <label class="block text-sm font-semibold mb-2 text-inox-text">Nome e Cognome</label>
+                        <input type="text" id="fullname" class="login-input" required>
                     </div>
                     
                     <div>
-                        <label for="reg-password" class="block text-sm font-semibold mb-2 text-inox-text">Password</label>
-                        <input type="password" id="reg-password" name="reg-password" class="reg-input" required>
-                    </div>
-                     <div>
-                        <label for="reg-password-confirm" class="block text-sm font-semibold mb-2 text-inox-text">Conferma Password</label>
-                        <input type="password" id="reg-password-confirm" name="reg-password-confirm" class="reg-input" required>
+                        <label class="block text-sm font-semibold mb-2 text-inox-text">Email</label>
+                        <input type="email" id="email" class="login-input" required>
                     </div>
 
-                    <div class="flex items-center">
-                        <input id="privacy" name="privacy" type="checkbox" class="h-4 w-4 text-inox-orange border-gray-700 rounded bg-gray-700">
-                        <label for="privacy" class="ml-2 block text-sm text-gray-400">Accetto i Termini e Condizioni e la Privacy Policy.</label>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-inox-text">Scegli Password</label>
+                        <input type="password" id="password_reg" class="login-input" required>
                     </div>
-                    
-                    <button type="submit" class="w-full bg-inox-cyan hover:bg-inox-blue text-black font-bold py-3 rounded-lg text-lg transition transform hover:scale-[1.01]">
-                        REGISTRATI
+
+                    <div id="regErrorMessage" class="text-red-500 text-sm hidden">
+                        ❌ Impossibile completare la registrazione.
+                    </div>
+
+                    <button type="submit" class="w-full bg-inox-cyan hover:bg-blue-500 text-black font-bold py-3 rounded-lg text-lg transition">
+                        REGISTRATI ORA
                     </button>
-                    
+
                     <div class="text-center pt-2">
-                        <a href="login_intro_video.html" class="text-sm text-gray-400 hover:text-white transition">Hai già un account? Accedi qui</a>
+                        <a href="index.html" class="text-sm text-inox-orange block">Torna al Login</a>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
+
+    <script src="sidebar.js"></script>
+
 </body>
 </html>
