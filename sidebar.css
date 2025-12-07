@@ -1,22 +1,76 @@
-/* ===== Sidebar ===== */
+/* ====================================
+   FILE: sidebar.css
+   ==================================== */
+
+/* ---- FONT ---- */
+#sidebar, #sidebar h3, .sidebar-link {
+    font-family: "Teko", sans-serif !important;
+    text-transform: uppercase;
+}
+
+body, input, button, p, label {
+    font-family: "Inter", sans-serif !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---- BODY GLOBALE (Quello che era nel tag <style>) ---- */
+body {
+    background-color: #0d0f11;
+    color: #f0f0f0;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    min-height: 100vh;
+}
+h1, h2, h3, .inox-font {
+    font-family: 'Teko', sans-serif;
+    text-transform: uppercase;
+}
+.no-scroll {
+    overflow: hidden !important;
+}
+
+/* Video Background */
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -10;
+    filter: brightness(0.4) grayscale(50%);
+}
+
+/* Layout */
+#main-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    z-index: 10;
+}
+
+/* ============================
+   SIDEBAR MOBILE/BASE (300px)
+   ============================ */
 #sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    width: 250px;
+    width: 300px;
     height: 100%;
     background-color: #1a1d20;
-    z-index: 50;
+    z-index: 50; 
     overflow-y: auto;
-
     transform: translateX(-100%);
+    pointer-events: none; /* Cruciale quando chiusa */
     transition: transform 0.28s cubic-bezier(.2,.9,.2,1);
     box-shadow: 2px 0 5px rgba(0,0,0,0.5);
 }
 
-/* Sidebar aperta */
 .sidebar-open {
     transform: translateX(0) !important;
+    pointer-events: auto !important; /* Cruciale quando aperta */
 }
 
 /* Overlay */
@@ -25,29 +79,77 @@
     inset: 0;
     background: black;
     opacity: 0;
-    pointer-events: none;
+    pointer-events: none; 
     transition: opacity 0.28s ease;
     z-index: 45;
 }
+/* La classe opacity-50 e pointer-events-auto sono aggiunte dal JS */
 
-#sidebar-overlay.opacity-50 {
-    opacity: 0.5;
+/* Pulsante Toggle */
+#menu-toggle {
+    z-index: 100 !important; /* Assicura che sia sempre sopra la sidebar (50) e l'overlay (45) */
 }
 
-/* Blocca lo scroll */
-.no-scroll {
-    overflow: hidden !important;
+/* Link Sidebar */
+.sidebar-link {
+    padding: 10px 16px;
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f0f0f0;
+    transition: background-color 0.2s;
+}
+.sidebar-link:hover {
+    background-color: rgba(252,103,25,0.1);
+    color: #fc6719;
+}
+.sidebar-active {
+    background-color: #fc6719;
+    color: black !important;
 }
 
-/* ===== Desktop ===== */
+/* Contenuto Principale e Card */
+#main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 20px;
+    padding-top: 80px;
+}
+.login-input {
+    width: 100%;
+    padding: 12px;
+    background-color: rgba(51, 51, 51, 0.7);
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 6px;
+}
+.login-input:focus {
+    border-color: #fc6719;
+    outline: none;
+}
+.login-card {
+    background-color: rgba(26, 29, 32, 0.95);
+    backdrop-filter: blur(8px);
+}
+
+/* ============================
+   DESKTOP (min-width: 1024px)
+   ============================ */
 @media (min-width: 1024px) {
+    #main-layout {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+    }
     #sidebar {
         position: relative;
         transform: none !important;
         box-shadow: none;
+        pointer-events: auto;
     }
-    #sidebar-overlay,
-    #menu-toggle {
+    #menu-toggle, #sidebar-overlay {
         display: none !important;
     }
 }

@@ -1,3 +1,7 @@
+/* ====================================
+   FILE: sidebar.js
+   ==================================== */
+
 (function() {
     const sidebar = document.getElementById('sidebar');
     const toggleButton = document.getElementById('menu-toggle');
@@ -10,7 +14,9 @@
 
     const openSidebar = () => {
         sidebar.classList.add('sidebar-open');
-        overlay.classList.add('opacity-50', 'pointer-events-auto');
+        // Aggiungo le classi per rendere visibile e cliccabile l'overlay
+        // NOTA: 'opacity-50' è una classe Tailwind che deve essere definita nel tuo setup!
+        overlay.classList.add('opacity-50', 'pointer-events-auto'); 
         overlay.classList.remove('pointer-events-none');
         body.classList.add('no-scroll');
         menuIconOpen.classList.add('hidden');
@@ -19,6 +25,7 @@
 
     const closeSidebar = () => {
         sidebar.classList.remove('sidebar-open');
+        // Rimuovo le classi per nascondere e rendere non cliccabile l'overlay
         overlay.classList.remove('opacity-50', 'pointer-events-auto');
         overlay.classList.add('pointer-events-none');
         body.classList.remove('no-scroll');
@@ -26,7 +33,6 @@
         menuIconClose.classList.add('hidden');
     };
 
-    // Toggle intelligente
     toggleButton.addEventListener('click', () => {
         if (sidebar.classList.contains('sidebar-open')) {
             closeSidebar();
@@ -35,18 +41,16 @@
         }
     });
 
-    // Chiudi cliccando sull'overlay
     overlay.addEventListener('click', closeSidebar);
 
-    // Chiudi dopo un click nella sidebar
     document.querySelectorAll('#sidebar a').forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth < 1024) closeSidebar();
         });
     });
 
-    // Reset su desktop
     window.addEventListener('resize', () => {
+        // Chiude la sidebar quando si passa alla visualizzazione desktop
         if (window.innerWidth >= 1024) closeSidebar();
     });
 })();

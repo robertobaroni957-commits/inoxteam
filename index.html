@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team INOX - Accesso Riservato</title>
-    <link rel="stylesheet" href="style.css?v=1.1" type="text/css"> 
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -31,156 +30,11 @@
             }
         }
     </script>
-
-    <style>
-        body {
-            background-color: #0d0f11;
-            color: #f0f0f0;
-            font-family: 'Inter', sans-serif;
-            position: relative;
-            min-height: 100vh;
-        }
-        h1, h2, h3, .inox-font {
-            font-family: 'Teko', sans-serif;
-            text-transform: uppercase;
-        }
-
-        /* Impedisce lo scroll quando sidebar aperta */
-        .no-scroll {
-            overflow: hidden !important;
-        }
-
-        /* Video Background */
-        #background-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            min-width: 100%;
-            min-height: 100%;
-            z-index: -10;
-            filter: brightness(0.4) grayscale(50%);
-        }
-
-        /* Layout */
-        #main-layout {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            position: relative;
-            z-index: 10; /* Per sicurezza */
-        }
-
-        /* ============================
-            SIDEBAR MOBILE FIX
-        ============================ */
-        #sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 100%;
-            background-color: #1a1d20;
-            z-index: 50; /* Z-index base */
-            overflow-y: auto;
-
-            transform: translateX(-100%);
-            /* AGGIUNTO: Impedisce l'interazione con il contenuto sottostante quando è nascosta */
-            pointer-events: none; 
-            
-            transition: transform 0.28s cubic-bezier(.2,.9,.2,1);
-            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-        }
-
-        .sidebar-open {
-            transform: translateX(0) !important;
-            /* AGGIUNTO: Riabilita l'interazione quando è aperta */
-            pointer-events: auto !important; 
-        }
-
-        #sidebar-overlay {
-            position: fixed;
-            inset: 0;
-            background: black;
-            opacity: 0;
-            /* DEFAULT: Non cliccabile */
-            pointer-events: none; 
-            
-            transition: opacity 0.28s ease;
-            z-index: 45;
-        }
-        
-        /* NOTA: La classe `opacity-50` e `pointer-events-auto` 
-                 sono gestite direttamente dal JavaScript ora. */
-        
-        /* Desktop Sidebar visibile */
-        @media (min-width: 1024px) {
-            #main-layout {
-                display: grid;
-                /* Correzione per la griglia desktop */
-                grid-template-columns: 300px 1fr;
-            }
-
-            #sidebar {
-                /* Su desktop è relativa, fa parte del flusso */
-                position: relative;
-                transform: none !important;
-                box-shadow: none;
-                pointer-events: auto; /* Sempre attivo su desktop */
-            }
-
-            #menu-toggle, #sidebar-overlay {
-                display: none !important;
-            }
-        }
-
-        #main-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 1;
-            padding: 20px;
-            padding-top: 80px;
-        }
-
-        /* Input */
-        .login-input {
-            width: 100%;
-            padding: 12px;
-            background-color: rgba(51, 51, 51, 0.7);
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 6px;
-        }
-
-        .login-input:focus {
-            border-color: #fc6719;
-            outline: none;
-        }
-
-        .login-card {
-            background-color: rgba(26, 29, 32, 0.95);
-            backdrop-filter: blur(8px);
-        }
-
-        .sidebar-link {
-            padding: 10px 16px;
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #f0f0f0;
-            transition: background-color 0.2s;
-        }
-        .sidebar-link:hover {
-            background-color: rgba(252,103,25,0.1);
-            color: #fc6719;
-        }
-        .sidebar-active {
-            background-color: #fc6719;
-            color: black !important;
-        }
-    </style>
-
+    
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="sidebar.css?v=1.6" type="text/css"> 
+    
 </head>
 <body>
 
@@ -192,7 +46,6 @@
         <svg id="menu-icon-open" class="w-6 h-6 text-inox-orange block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
-
         <svg id="menu-icon-close" class="w-6 h-6 text-inox-orange hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
@@ -228,6 +81,7 @@
 
         <div id="main-content">
             <div class="login-card p-8 sm:p-10 rounded-xl max-w-lg w-full shadow-2xl">
+                
                 <div class="text-center mb-8">
                     <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-white">
                         ACCESSO <span class="text-inox-orange">RISERVATO</span>
@@ -271,59 +125,7 @@
         </div>
     </div>
 
-    <script>
-    (function() {
-        const sidebar = document.getElementById('sidebar');
-        const toggleButton = document.getElementById('menu-toggle');
-        const overlay = document.getElementById('sidebar-overlay');
-        const menuIconOpen = document.getElementById('menu-icon-open');
-        const menuIconClose = document.getElementById('menu-icon-close');
-        const body = document.body;
-
-        if (!sidebar || !toggleButton) return;
-
-        const openSidebar = () => {
-            sidebar.classList.add('sidebar-open');
-            // Aggiungo le classi per rendere visibile e cliccabile l'overlay
-            overlay.classList.add('opacity-50', 'pointer-events-auto'); 
-            overlay.classList.remove('pointer-events-none');
-            body.classList.add('no-scroll');
-            menuIconOpen.classList.add('hidden');
-            menuIconClose.classList.remove('hidden');
-        };
-
-        const closeSidebar = () => {
-            sidebar.classList.remove('sidebar-open');
-            // Rimuovo le classi per nascondere e rendere non cliccabile l'overlay
-            overlay.classList.remove('opacity-50', 'pointer-events-auto');
-            overlay.classList.add('pointer-events-none');
-            body.classList.remove('no-scroll');
-            menuIconOpen.classList.remove('hidden');
-            menuIconClose.classList.add('hidden');
-        };
-
-        toggleButton.addEventListener('click', () => {
-            if (sidebar.classList.contains('sidebar-open')) {
-                closeSidebar();
-            } else {
-                openSidebar();
-            }
-        });
-
-        overlay.addEventListener('click', closeSidebar);
-
-        document.querySelectorAll('#sidebar a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth < 1024) closeSidebar();
-            });
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) closeSidebar();
-        });
-    })();
-</script>
-
+    <script src="sidebar.js"></script>
 
 </body>
 </html>
