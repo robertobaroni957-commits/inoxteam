@@ -68,6 +68,24 @@ h1, h2, h3, .inox-font {
     box-shadow: 2px 0 5px rgba(0,0,0,0.5);
 }
 
+/* Scrollbar personalizzata per sidebar */
+#sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: #fc6719;
+    border-radius: 3px;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: #ff7a2e;
+}
+
 .sidebar-open {
     transform: translateX(0) !important;
     pointer-events: auto !important; /* Cruciale quando aperta */
@@ -140,15 +158,28 @@ h1, h2, h3, .inox-font {
    ============================ */
 @media (min-width: 1024px) {
     #main-layout {
-        display: grid;
-        grid-template-columns: 300px 1fr;
+        display: flex;
+        flex-direction: row;
     }
+    
+    /* SIDEBAR FISSA SU DESKTOP */
     #sidebar {
-        position: relative;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
         transform: none !important;
         box-shadow: none;
         pointer-events: auto;
     }
+    
+    /* CONTENUTO CON MARGINE PER LA SIDEBAR */
+    #main-content {
+        margin-left: 300px;
+        width: calc(100% - 300px);
+        padding-top: 20px;
+    }
+    
     #menu-toggle, #sidebar-overlay {
         display: none !important;
     }
