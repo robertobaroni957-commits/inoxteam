@@ -11,6 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <link rel="stylesheet" href="sidebar.css">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -41,15 +43,8 @@
     </script>
 
     <style>
-        body {
-            background-color: #111111;
-            color: #f0f0f0;
-            font-family: 'Inter', sans-serif;
-        }
-        h1, h2, h3, .zwift-font {
-            font-family: 'Teko', sans-serif;
-            text-transform: uppercase;
-        }
+        /* Rimosso Body e H1/H2/H3 base style: gestiti ora da sidebar.css */
+        
         .chart-container {
             position: relative;
             width: 100%;
@@ -70,6 +65,7 @@
             border-radius: 4px;
         }
         
+        /* Stili per normalizzare la classifica se caricata da un file esterno */
         #ranking-container h1,
         #ranking-container h2,
         #ranking-container h3,
@@ -98,7 +94,7 @@
         #ranking-container td {
             border-bottom: 1px solid #374151 !important;
         }
-
+        
         #ranking-container td[style*="width: 50px"] {
             width: auto !important;
         }
@@ -106,17 +102,19 @@
         #ranking-container td[style*="color: #0"] {
             color: inherit !important;
         }
+        
+        /* La classe .no-scroll è ora definita nel tuo sidebar.css */
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col">
 
     <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-wider zwift-font text-zwift-orange">
+            <div class="text-2xl font-bold tracking-wider inox-font text-zwift-orange">
                 MASTER WINTER TOUR <span class="text-white text-lg font-light">25/26</span>
             </div>
             
-            <div class="hidden md:flex space-x-6 text-sm font-semibold">
+            <div class="hidden lg:flex space-x-6 text-sm font-semibold">
                 <a href="#dashboard" class="hover:text-zwift-orange transition">Dashboard</a>
                 <a href="#stages" class="hover:text-zwift-orange transition">Tappe</a>
                 <a href="#analytics" class="hover:text-zwift-orange transition">Analisi</a>
@@ -133,13 +131,37 @@
                 <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-1 px-4 rounded text-sm transition">
                     ISCRIVITI ORA
                 </a>
+                
+                <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
+                    <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
+                    <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
+                </button>
             </div>
         </div>
     </nav>
 
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 lg:hidden"></div>
+
+    <div id="sidebar" class="lg:hidden shadow-2xl">
+        <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
+            <span class="text-2xl font-bold tracking-wider inox-font text-zwift-orange">MASTER TOUR</span>
+        </div>
+        <div class="flex flex-col p-2 space-y-1 text-lg font-semibold">
+            <a href="#dashboard" class="sidebar-link">Dashboard</a>
+            <a href="#stages" class="sidebar-link">Tappe</a>
+            <a href="#analytics" class="sidebar-link">Analisi</a>
+            <a href="#ranking" class="sidebar-link sidebar-active">Classifiche</a>
+            <a href="home.html" class="sidebar-link">Home del Sito</a>
+            
+            <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center mt-6 transition text-sm">
+                ISCRIVITI A ZWIFT EVENTS
+            </a>
+        </div>
+    </div>
+    
     <header id="dashboard" class="relative py-16 min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-zwift-card to-zwift-dark">
         <div class="container mx-auto px-4 text-center">
-            <h1 class="text-6xl md:text-8xl font-bold mb-4 leading-none text-white drop-shadow-lg">
+            <h1 class="text-6xl md:text-8xl font-bold mb-4 leading-none text-white drop-shadow-lg inox-font">
                 DOMINA <span class="text-transparent bg-clip-text bg-gradient-to-r from-zwift-orange to-red-500">L'INVERNO</span>
             </h1>
             <p class="text-xl md:text-2xl text-zwift-gray mb-8 max-w-2xl mx-auto font-light drop-shadow-md">
@@ -148,19 +170,19 @@
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10 text-zwift-blue">
                 <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
-                    <span id="days" class="text-4xl font-bold zwift-font block">00</span>
+                    <span id="days" class="text-4xl font-bold inox-font block">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Giorni</span>
                 </div>
                 <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
-                    <span id="hours" class="text-4xl font-bold zwift-font block">00</span>
+                    <span id="hours" class="text-4xl font-bold inox-font block">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Ore</span>
                 </div>
                 <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
-                    <span id="minutes" class="text-4xl font-bold zwift-font block">00</span>
+                    <span id="minutes" class="text-4xl font-bold inox-font block">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Minuti</span>
                 </div>
                 <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
-                    <span id="seconds" class="text-4xl font-bold zwift-font block">00</span>
+                    <span id="seconds" class="text-4xl font-bold inox-font block">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Secondi</span>
                 </div>
             </div>
@@ -174,13 +196,13 @@
     <section id="analytics" class="py-12 bg-zwift-dark">
         <div class="container mx-auto px-4">
             <div class="mb-10 text-center md:text-left">
-                <h2 class="text-4xl font-bold mb-2">ANALISI DEL TOUR</h2>
+                <h2 class="text-4xl font-bold mb-2 inox-font">ANALISI DEL TOUR</h2>
                 <p class="text-gray-400">Studia il terreno. Prepara l'attrezzatura. Ecco cosa ti aspetta nelle 18 tappe.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg">
-                    <h3 class="text-2xl text-zwift-blue mb-4">Tipologie di Gara</h3>
+                    <h3 class="text-2xl text-zwift-blue mb-4 inox-font">Tipologie di Gara</h3>
                     <div class="chart-container">
                         <canvas id="raceTypeChart"></canvas>
                     </div>
@@ -188,22 +210,22 @@
                 </div>
 
                 <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg flex flex-col justify-center">
-                    <h3 class="text-2xl text-zwift-orange mb-6">Statistiche Chiave</h3>
+                    <h3 class="text-2xl text-zwift-orange mb-6 inox-font">Statistiche Chiave</h3>
                     <div class="grid grid-cols-2 gap-6">
                         <div class="text-center p-4 bg-black/30 rounded-lg">
-                            <div class="text-5xl font-bold text-white zwift-font">18</div>
+                            <div class="text-5xl font-bold text-white inox-font">18</div>
                             <div class="text-sm text-gray-400 uppercase">Tappe Totali</div>
                         </div>
                         <div class="text-center p-4 bg-black/30 rounded-lg">
-                            <div class="text-5xl font-bold text-white zwift-font">6</div>
+                            <div class="text-5xl font-bold text-white inox-font">6</div>
                             <div class="text-sm text-gray-400 uppercase">Settimane</div>
                         </div>
                         <div class="text-center p-4 bg-black/30 rounded-lg">
-                            <div class="text-5xl font-bold text-white zwift-font">8</div>
+                            <div class="text-5xl font-bold text-white inox-font">8</div>
                             <div class="text-sm text-gray-400 uppercase">Mondi Zwift</div>
                         </div>
                         <div class="text-center p-4 bg-black/30 rounded-lg">
-                            <div class="text-5xl font-bold text-white zwift-font">5</div>
+                            <div class="text-5xl font-bold text-white inox-font">5</div>
                             <div class="text-sm text-gray-400 uppercase">Tappe di Montagna</div>
                         </div>
                     </div>
@@ -221,7 +243,7 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-gray-700 pb-4">
                 <div>
-                    <h2 class="text-4xl font-bold text-white">CALENDARIO TAPPE</h2>
+                    <h2 class="text-4xl font-bold text-white inox-font">CALENDARIO TAPPE</h2>
                     <p class="text-gray-400">Esplora e registrati. Clicca su una tappa per i dettagli del percorso (Zwift Insider).</p>
                 </div>
                 
@@ -243,7 +265,7 @@
     <section id="ranking" class="py-12 bg-zwift-dark">
         <div class="container mx-auto px-4">
             <div class="mb-8 border-b border-gray-700 pb-4">
-                <h2 class="text-4xl font-bold text-white">CLASSIFICHE TOUR</h2>
+                <h2 class="text-4xl font-bold text-white inox-font">CLASSIFICHE TOUR</h2>
                 <p class="text-gray-400">Seleziona una categoria per visualizzare i risultati aggiornati (Gara 1).</p>
             </div>
             
@@ -266,7 +288,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                 
                 <div>
-                    <div class="text-zwift-orange text-2xl font-bold zwift-font mb-4">MASTER WINTER TOUR</div>
+                    <div class="text-zwift-orange text-2xl font-bold inox-font mb-4">MASTER WINTER TOUR</div>
                     <p class="text-gray-500 text-sm mb-4">
                         Segui le dirette streaming su Twitch e YouTube.<br>
                         Usa l'hashtag <span class="text-white">#MasterWinterTour2025</span>
@@ -279,7 +301,7 @@
                 </div>
 
                 <div>
-                    <div class="text-white text-xl font-bold zwift-font mb-4 border-b border-zwift-orange pb-2 inline-block">ORGANIZZATO DA TEAM INOX</div>
+                    <div class="text-white text-xl font-bold inox-font mb-4 border-b border-zwift-orange pb-2 inline-block">ORGANIZZATO DA TEAM INOX</div>
                     <div class="flex flex-col space-y-2 text-sm">
                         <a href="mailto:info@teaminox.it" class="text-gray-400 hover:text-white transition">📧 info@teaminox.it</a>
                         <a href="https://www.facebook.com/groups/inoxteam/" target="_blank" class="text-gray-400 hover:text-white transition">👥 Gruppo Facebook</a>
@@ -303,24 +325,24 @@
         const GENERAL_REGISTER_LINK = "https://www.zwift.com/eu-it/events/tag/inoxwinter";
         
         const tourStages = [
-            { id: 1, date: "2025-12-12T19:15:00", world: "Scotland", route: "Outer Scotland", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 2, date: "2025-12-16T19:15:00", world: "Makuri", route: "Red Zone Repeats", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 3, date: "2025-12-19T19:15:00", world: "New York", route: "Issendorf Express", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/issendorf-express/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 4, date: "2025-12-23T19:15:00", world: "Scotland", route: "City and the Sgurr", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/city-and-the-sgurr/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 5, date: "2025-12-27T19:15:00", world: "Bologna", route: "Time Trial Lap", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/bologna-time-trial-lap/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 6, date: "2025-12-30T19:15:00", world: "London", route: "Classique Reverse", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/classique-reverse/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 7, date: "2026-02-13T19:15:00", world: "Makuri", route: "Sprinter's Playground", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/sprinters-playground/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 8, date: "2026-02-17T19:15:00", world: "London", route: "London Uprising", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/london-uprising/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 9, date: "2026-02-20T19:15:00", world: "Watopia", route: "Flat Out Fast", type: "iTT", routeLink: "https://zwiftinsider.com/route/flat-out-fast/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 10, date: "2026-02-24T19:15:00", world: "France", route: "Bon Voyage", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/bon-voyage/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 11, date: "2026-02-27T19:15:00", world: "Watopia", route: "Mountain Mash", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/mountain-mash/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 12, date: "2026-03-04T19:15:00", world: "Richmond", route: "Cobbled Climbs Reverse", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/cobbled-climbs-reverse/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 13, date: "2026-03-07T19:15:00", world: "London", route: "London Flat", type: "iTT", routeLink: "https://zwiftinsider.com/route/london-flat/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 14, date: "2026-03-11T19:15:00", world: "New York", route: "Toefield Tormado", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/toefield-tormado/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 15, date: "2026-03-14T19:15:00", world: "Watopia", route: "Power Punches", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/power-punches/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 16, date: "2026-03-18T19:15:00", world: "Makuri", route: "Electric Loop", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/electric-loop/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 17, date: "2026-03-21T19:15:00", world: "France", route: "Ven-10", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/ven-10/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 18, date: "2026-03-25T19:15:00", world: "Watopia", route: "Jarvis Seaside Sprint", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/jarvis-seaside-sprint/", registerLink: GENERAL_REGISTER_LINK }
+            { id: 1, date: "2025-12-12T19:20:00", world: "Scotland", route: "Outer Scotland", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 2, date: "2025-12-16T19:20:00", world: "Makuri", route: "Red Zone Repeats", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 3, date: "2025-12-19T19:20:00", world: "New York", route: "Issendorf Express", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/issendorf-express/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 4, date: "2025-12-23T19:20:00", world: "Scotland", route: "City and the Sgurr", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/city-and-the-sgurr/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 5, date: "2025-12-27T19:20:00", world: "Bologna", route: "Time Trial Lap", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/bologna-time-trial-lap/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 6, date: "2025-12-30T19:20:00", world: "London", route: "Classique Reverse", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/classique-reverse/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 7, date: "2026-02-13T19:20:00", world: "Makuri", route: "Sprinter's Playground", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/sprinters-playground/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 8, date: "2026-02-17T19:20:00", world: "London", route: "London Uprising", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/london-uprising/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 9, date: "2026-02-20T19:20:00", world: "Watopia", route: "Flat Out Fast", type: "iTT", routeLink: "https://zwiftinsider.com/route/flat-out-fast/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 10, date: "2026-02-24T19:20:00", world: "France", route: "Bon Voyage", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/bon-voyage/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 11, date: "2026-02-27T19:20:00", world: "Watopia", route: "Mountain Mash", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/mountain-mash/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 12, date: "2026-03-04T19:20:00", world: "Richmond", route: "Cobbled Climbs Reverse", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/cobbled-climbs-reverse/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 13, date: "2026-03-07T19:20:00", world: "London", route: "London Flat", type: "iTT", routeLink: "https://zwiftinsider.com/route/london-flat/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 14, date: "2026-03-11T19:20:00", world: "New York", route: "Toefield Tormado", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/toefield-tormado/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 15, date: "2026-03-14T19:20:00", world: "Watopia", route: "Power Punches", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/power-punches/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 16, date: "2026-03-18T19:20:00", world: "Makuri", route: "Electric Loop", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/electric-loop/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 17, date: "2026-03-21T19:20:00", world: "France", route: "Ven-10", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/ven-10/", registerLink: GENERAL_REGISTER_LINK },
+            { id: 18, date: "2026-03-25T19:20:00", world: "Watopia", route: "Jarvis Seaside Sprint", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/jarvis-seaside-sprint/", registerLink: GENERAL_REGISTER_LINK }
         ];
 
         const formatDate = (dateString) => {
@@ -388,6 +410,11 @@
         const initChart = () => {
             const ctx = document.getElementById('raceTypeChart').getContext('2d');
             
+            // Distrugge il grafico precedente se esiste
+            if (Chart.getChart(ctx)) {
+                Chart.getChart(ctx).destroy();
+            }
+
             const typeCounts = {};
             const simplifiedTypes = tourStages.map(s => {
                 const t = s.type.trim().toLowerCase();
@@ -580,6 +607,8 @@
             loadRanking('A');
         });
     </script>
+    
+    <script src="sidebar.js"></script>
 
 </body>
 </html>
