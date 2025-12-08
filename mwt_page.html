@@ -142,22 +142,74 @@
 
     <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 lg:hidden"></div>
 
-    <div id="sidebar" class="lg:hidden shadow-2xl">
-        <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
-            <span class="text-2xl font-bold tracking-wider inox-font text-zwift-orange">MASTER TOUR</span>
+     <!-- SIDEBAR MOBILE PER MWT_PAGE.HTML e ZRL_PAGE.HTML -->
+<div id="sidebar" class="lg:hidden shadow-2xl">
+    <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
+        <div class="flex items-center space-x-2">
+            <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
+            <span class="text-2xl font-bold tracking-wider inox-font text-inox-orange">INOX</span>
         </div>
-        <div class="flex flex-col p-2 space-y-1 text-lg font-semibold">
+    </div>
+    
+    <div class="flex flex-col p-2 space-y-1 text-base font-semibold">
+        
+        <!-- NAVIGAZIONE PAGINA CORRENTE (personalizza per MWT o ZRL) -->
+        <div class="border-b border-gray-700 pb-2 mb-2">
+            <p class="text-xs text-gray-500 uppercase px-3 py-1">Questa Pagina</p>
+            <!-- Per MWT_PAGE.HTML usa questi link: -->
             <a href="#dashboard" class="sidebar-link">Dashboard</a>
             <a href="#stages" class="sidebar-link">Tappe</a>
             <a href="#analytics" class="sidebar-link">Analisi</a>
-            <a href="#ranking" class="sidebar-link sidebar-active">Classifiche</a>
-            <a href="home.html" class="sidebar-link">Home del Sito</a>
+            <a href="#ranking" class="sidebar-link">Classifiche</a>
             
-            <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center mt-6 transition text-sm">
-                ISCRIVITI A ZWIFT EVENTS
-            </a>
+            <!-- Per ZRL_PAGE.HTML sostituisci con questi:
+            <a href="#teams" class="sidebar-link">Squadre</a>
+            <a href="#schedule" class="sidebar-link">Calendario Gare</a>
+            <a href="#rules" class="sidebar-link">Regolamento</a>
+            -->
         </div>
+
+        <!-- AREA RISERVATA -->
+        <div class="border-b border-gray-700 pb-2 mb-2">
+            <p class="text-xs text-gray-500 uppercase px-3 py-1">Area Riservata</p>
+            <a href="index.html" class="sidebar-link">Login/Accesso</a>
+            <a href="registrazione.html" class="sidebar-link">Registrazione</a>
+        </div>
+
+        <!-- TEAM INOX -->
+        <div class="border-b border-gray-700 pb-2 mb-2">
+            <p class="text-xs text-gray-500 uppercase px-3 py-1">Team INOX</p>
+            <a href="home.html" class="sidebar-link">Home Pubblica</a>
+            <a href="chi_siamo.html" class="sidebar-link">Chi Siamo / Filosofia</a>
+            <a href="contatti.html" class="sidebar-link">Contatti</a>
+        </div>
+
+        <!-- ATTIVITÀ TEAM -->
+        <div class="border-b border-gray-700 pb-2 mb-2">
+            <p class="text-xs text-gray-500 uppercase px-3 py-1">Attività Team</p>
+            <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+            <a href="mwt_page.html" class="sidebar-link">Master Winter Tour</a>
+            <a href="zrl_page.html" class="sidebar-link">ZRL Roster (API)</a>
+        </div>
+
+        <!-- RISORSE -->
+        <div class="pb-2 mb-2">
+            <p class="text-xs text-gray-500 uppercase px-3 py-1">Risorse</p>
+            <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="sidebar-link">ZwiftPower</a>
+            <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="sidebar-link">Discord INOX</a>
+            <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="sidebar-link">Gruppo Strava</a>
+            <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
+        </div>
+
+        <!-- LINK AZIONE (personalizzato per ogni pagina) -->
+        <!-- Per MWT_PAGE.HTML: -->
+        <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-inox-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center mt-4 transition text-sm">
+            ISCRIVITI A ZWIFT EVENTS
+        </a>
+        
+        
     </div>
+</div>
     
     <header id="dashboard" class="relative py-16 min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-zwift-card to-zwift-dark">
         <div class="container mx-auto px-4 text-center">
