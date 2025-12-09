@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team INOX - Contatti</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inox: {
+                            dark: '#0d0f11',
+                            card: '#1a1d20',
+                            orange: '#fc6719',
+                            blue: '#048ea0',
+                            cyan: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="sidebar.css?v=1.0">
+
+    <style>
+        /* Manteniamo solo gli stili generali di base, il layout è gestito da Tailwind e sidebar.css */
+        body {
+            background-color: #0d0f11;
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, .inox-font {
+            font-family: 'Teko', sans-serif;
+            text-transform: uppercase;
+        }
+        /* Aggiunta dello stile per il video, che si assume sia in sidebar.css o nel precedente blocco style */
+        #background-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            background-size: cover;
+            filter: grayscale(80%) brightness(30%);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="bg-inox-dark text-inox-text font-body">
+
+    <video autoplay muted loop id="background-video">
+        <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
+    </video>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black opacity-0 transition-opacity duration-300 pointer-events-none z-20 lg:hidden"></div>
+
+    <div id="main-layout" class="lg:grid lg:grid-cols-[250px_1fr] relative min-h-screen">
+
+        <aside id="sidebar">
+    <div class="p-6 border-b border-gray-700">
+        <div class="flex items-center space-x-2">
+            <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
+            <span class="text-xl font-bold inox-font text-inox-orange">INOX</span>
+        </div>
+    </div>
+
+    <div class="p-4 space-y-4">
+        
+        <!-- AREA RISERVATA -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Riservata</h3>
+            <a href="index.html" class="sidebar-link">Login/Accesso</a>
+            <a href="registrazione.html" class="sidebar-link">Registrazione</a>
+            <a href="#" class="sidebar-link">Recupera Password</a>
+        </div>
+
+        <!-- TEAM INOX -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Team INOX</h3>
+            <a href="home.html" class="sidebar-link">Home Pubblica</a>
+            <a href="chi_siamo.html" class="sidebar-link">Chi Siamo / Filosofia</a>
+            <a href="contatti.html" class="sidebar-link">Contatti</a>
+        </div>
+
+        <!-- ATTIVITÀ TEAM -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Attività Team</h3>
+            <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+            <a href="mwt_page.html" class="sidebar-link">Master Winter Tour</a>
+            <a href="zrl_page.html" class="sidebar-link">ZRL Roster (API)</a>
+        </div>
+
+        <!-- RISORSE -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Risorse</h3>
+            <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="sidebar-link">ZwiftPower</a>
+            <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="sidebar-link">Discord INOX</a>
+            <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="sidebar-link">Gruppo Strava</a>
+            <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
+        </div>
+
+    </div>
+</aside>
+
+        <div id="main-content" class="min-h-screen lg:overflow-y-auto w-full">
+
+            <nav class="bg-inox-card border-b border-gray-700 shadow-lg sticky top-0 z-20">
+                <div class="px-6 py-3 flex justify-between items-center text-sm font-semibold">
+
+                    <button id="sidebar-toggle" class="text-white p-2 lg:hidden flex items-center">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                    d="M4 6h16M4 12h16m-7 6h7"></path>
+                        </svg>
+                    </button>
+
+                    <div class="hidden lg:flex items-center">
+                        <a href="home.html" class="hover:text-inox-orange px-4">Home</a>
+                        <a href="chi_siamo.html" class="hover:text-inox-orange px-4">Chi Siamo</a>
+                        <a href="eventi.html" class="hover:text-inox-orange px-4">Eventi</a>
+                        <span class="text-inox-gray px-4">|</span>
+                        <a href="login_intro_video.html" class="text-inox-gray hover:text-inox-orange px-4">Logout</a>
+                    </div>
+
+                    <a href="#" class="bg-inox-orange text-black font-bold py-1.5 px-3 rounded-md text-xs transition lg:ml-auto">
+                        AREA TECNICA
+                    </a>
+                </div>
+            </nav>
+
+            <main class="p-4 sm:p-8">
+
+                <section class="bg-inox-card rounded-xl p-6 sm:p-8 mb-10 border-l-4 border-inox-cyan">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold mb-8 text-white inox-font tracking-tight">
+                        Contattaci: <span class="text-inox-orange">Siamo Pronti</span>
+                    </h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div>
+                            <h3 class="text-3xl font-bold inox-font text-inox-orange mb-4">Invia un Messaggio</h3>
+
+                            <form action="#" method="POST" class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-sm mb-1 text-gray-400">Nome</label>
+                                    <input id="name" name="name" type="text" required
+                                           class="w-full bg-inox-dark border border-gray-700 rounded-md p-3 text-white focus:border-inox-orange focus:ring-inox-orange">
+                                </div>
+
+                                <div>
+                                    <label for="email" class="block text-sm mb-1 text-gray-400">Email</label>
+                                    <input id="email" name="email" type="email" required
+                                           class="w-full bg-inox-dark border border-gray-700 rounded-md p-3 text-white focus:border-inox-orange focus:ring-inox-orange">
+                                </div>
+
+                                <div>
+                                    <label for="message" class="block text-sm mb-1 text-gray-400">Messaggio</label>
+                                    <textarea id="message" name="message" rows="4" required
+                                              class="w-full bg-inox-dark border border-gray-700 rounded-md p-3 text-white focus:border-inox-orange focus:ring-inox-orange"></textarea>
+                                </div>
+
+                                <button type="submit"
+                                        class="w-full bg-inox-orange hover:bg-red-500 text-black font-bold py-3 rounded-lg text-lg transition inox-font tracking-wider">
+                                    INVIA
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="lg:col-span-2">
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 h-full">
+                                
+                                <div class="bg-inox-dark p-6 rounded-xl shadow-lg border-b-4 border-inox-cyan">
+                                    <h3 class="text-3xl font-bold inox-font text-inox-cyan mb-4">Dati e Supporto</h3>
+                                    <div class="space-y-4 text-gray-300">
+                                        <p>
+                                            <strong>Email di Supporto:</strong><br>
+                                            <a href="mailto:supporto@teaminox.it" class="text-inox-orange hover:text-white transition">supporto@teaminox.it</a>
+                                        </p>
+
+                                        <p>
+                                            <strong>Sede Legale:</strong><br>
+                                            Via Esempio, 123 - Città, Italia
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="bg-inox-dark p-6 rounded-xl shadow-lg border-b-4 border-inox-orange">
+                                    <h3 class="text-3xl font-bold inox-font text-inox-orange mb-4">Seguici</h3>
+                                    <p class="text-gray-300 mb-4">Unisciti alla nostra community sui canali principali:</p>
+                                    <div class="flex space-x-6 text-3xl mt-2">
+                                        <a href="https://zwiftpower.com" target="_blank" title="ZwiftPower" class="text-gray-400 hover:text-inox-cyan transition">📊</a>
+                                        <a href="https://discord.com" target="_blank" title="Discord" class="text-gray-400 hover:text-inox-cyan transition">💬</a>
+                                        <a href="https://strava.com" target="_blank" title="Strava" class="text-gray-400 hover:text-inox-cyan transition">📍</a>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="text-center text-xs text-gray-700 mt-10 border-t border-gray-900 pt-6">
+                    &copy; 2025 Team INOX. Tutti i diritti riservati.
+                </footer>
+            </main>
+
+        </div>
+    </div>
+
+    <script src="sidebar.js?v=1.0"></script>
+
+</body>
+</html>

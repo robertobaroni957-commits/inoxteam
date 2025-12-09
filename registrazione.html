@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team INOX - Registrazione Utente</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inox: {
+                            dark: '#0d0f11',
+                            card: '#1a1d20',
+                            orange: '#fc6719',
+                            blue: '#048ea0',
+                            cyan: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="sidebar.css?v=1.6" type="text/css"> 
+    
+</head>
+<body class="bg-inox-dark font-body text-inox-text">
+
+    <video autoplay muted loop id="background-video" class="fixed inset-0 w-full h-full object-cover z-[-2] opacity-20">
+        <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
+    </video>
+
+    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-[100] p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
+        <svg id="menu-icon-open" class="w-6 h-6 text-inox-orange block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        <svg id="menu-icon-close" class="w-6 h-6 text-inox-orange hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+
+    <div id="sidebar-overlay"></div>
+
+    <div id="main-layout" class="min-h-screen lg:flex">
+
+        <aside id="sidebar">
+            <div class="p-6 border-b border-gray-700">
+                <div class="flex items-center space-x-2">
+                    <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
+                    <span class="text-xl font-bold font-display text-inox-orange">INOX</span>
+                </div>
+            </div>
+
+            <div class="p-4 space-y-4 overflow-y-auto flex-grow">
+                
+                <div>
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Riservata</h3>
+                    <a href="index.html" class="sidebar-link">Login/Accesso</a>
+                    <a href="registrazione.html" class="sidebar-link bg-inox-card/30 text-inox-cyan">Registrazione</a> <a href="#" class="sidebar-link">Recupera Password</a>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Team INOX</h3>
+                    <a href="home.html" class="sidebar-link">Home Pubblica</a>
+                    <a href="chi_siamo.html" class="sidebar-link">Chi Siamo / Filosofia</a>
+                    <a href="contatti.html" class="sidebar-link">Contatti</a>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Attività Team</h3>
+                    <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+                    <a href="mwt_page.html" class="sidebar-link">Master Winter Tour</a>
+                    <a href="zrl_page.html" class="sidebar-link">ZRL Roster (API)</a>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Risorse</h3>
+                    <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="sidebar-link">ZwiftPower</a>
+                    <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="sidebar-link">Discord INOX</a>
+                    <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="sidebar-link">Gruppo Strava</a>
+                    <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
+                </div>
+
+            </div>
+        </aside>
+
+        <div id="main-content" class="flex-grow flex items-center justify-center p-4 z-10">
+            <div class="login-card p-8 sm:p-10 rounded-xl max-w-lg w-full shadow-2xl bg-inox-card/90 backdrop-blur-sm border border-gray-800">
+                
+                <div class="text-center mb-8">
+                    <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-white">
+                        NUOVA <span class="text-inox-cyan">REGISTRAZIONE</span>
+                    </h2>
+                    <p class="text-gray-400 mt-2 text-sm sm:text-base">
+                        Crea il tuo account Team INOX.
+                    </p>
+                </div>
+
+                <form id="registrationForm" class="space-y-6">
+                    <div>
+                        <label for="fullname" class="block text-sm font-semibold mb-2 text-inox-text">Username (Nome e Cognome)</label>
+                        <input type="text" id="fullname" class="login-input w-full p-3 bg-inox-dark border border-gray-700 rounded-lg text-inox-text focus:ring-inox-cyan focus:border-inox-cyan transition" required>
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-semibold mb-2 text-inox-text">Email</label>
+                        <input type="email" id="email" class="login-input w-full p-3 bg-inox-dark border border-gray-700 rounded-lg text-inox-text focus:ring-inox-cyan focus:border-inox-cyan transition" required>
+                    </div>
+
+                    <div>
+                        <label for="password_reg" class="block text-sm font-semibold mb-2 text-inox-text">Scegli Password (min. 8 caratteri)</label>
+                        <input type="password" id="password_reg" class="login-input w-full p-3 bg-inox-dark border border-gray-700 rounded-lg text-inox-text focus:ring-inox-cyan focus:border-inox-cyan transition" required minlength="8">
+                    </div>
+
+                    <div id="regErrorMessage" class="text-red-500 text-sm hidden font-semibold bg-red-900/20 p-2 rounded-md">
+                        ❌ Impossibile completare la registrazione.
+                    </div>
+                    
+                    <div id="regSuccessMessage" class="text-green-500 text-sm hidden font-semibold bg-green-900/20 p-2 rounded-md">
+                        ✅ Registrazione completata con successo! Verrai reindirizzato al login.
+                    </div>
+
+                    <button type="submit" class="w-full bg-inox-cyan hover:bg-inox-blue text-black font-bold py-3 rounded-lg text-lg transition">
+                        REGISTRATI ORA
+                    </button>
+
+                    <div class="text-center pt-2">
+                        <a href="index.html" class="text-sm text-inox-orange block hover:text-red-500 transition">Torna al Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // === LOGICA CLIENT-SIDE PER LA REGISTRAZIONE (Passo 3) ===
+            const registrationForm = document.getElementById('registrationForm');
+            const fullnameInput = document.getElementById('fullname');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password_reg');
+            const errorMessage = document.getElementById('regErrorMessage');
+            const successMessage = document.getElementById('regSuccessMessage');
+            
+            if (registrationForm) {
+                registrationForm.addEventListener('submit', async (e) => {
+                    e.preventDefault(); 
+                    errorMessage.classList.add('hidden');
+                    successMessage.classList.add('hidden');
+                    
+                    const REGISTRATION_API_URL = 'https://inoxteam.pages.dev/api/register'; 
+
+                    const userData = {
+                        // Useremo il campo 'fullname' come 'username' nel backend
+                        username: fullnameInput.value.trim(), 
+                        email: emailInput.value.trim(),
+                        password: passwordInput.value
+                    };
+
+                    try {
+                        const response = await fetch(REGISTRATION_API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(userData)
+                        });
+
+                        const data = await response.json();
+                        
+                        if (response.ok) { // Codice 201 Created
+                            // Registrazione riuscita
+                            successMessage.classList.remove('hidden');
+                            
+                            // Reindirizza l'utente alla pagina di login dopo un breve ritardo
+                            setTimeout(() => {
+                                window.location.href = 'index.html'; 
+                            }, 3000); 
+                        
+                        } else {
+                            // Errore dal server (es. 400, 409, 500)
+                            errorMessage.textContent = '❌ ' + (data.message || 'Errore nella registrazione. Riprova.');
+                            errorMessage.classList.remove('hidden');
+                        }
+
+                    } catch (error) {
+                        console.error('Errore di rete o API:', error);
+                        errorMessage.textContent = '❌ Si è verificato un errore di connessione.';
+                        errorMessage.classList.remove('hidden');
+                    }
+                });
+            }
+
+            // === LOGICA PER IL TOGGLE DELLA SIDEBAR (Mobile) ===
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const openIcon = document.getElementById('menu-icon-open');
+            const closeIcon = document.getElementById('menu-icon-close');
+
+            if (menuToggle && sidebar && overlay) {
+                
+                const toggleSidebar = () => {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    openIcon.classList.toggle('hidden');
+                    closeIcon.classList.toggle('hidden');
+                };
+
+                menuToggle.addEventListener('click', toggleSidebar);
+
+                // Chiudi la sidebar cliccando sull'overlay scuro
+                overlay.addEventListener('click', () => {
+                     if (sidebar.classList.contains('active')) {
+                        toggleSidebar();
+                     }
+                });
+            }
+        });
+    </script>
+    </body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team INOX - Chi Siamo</title>
+
+    <link rel="stylesheet" href="sidebar.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inox: {
+                            dark: '#0d0f11',
+                            card: '#1a1d20',
+                            orange: '#fc6719',
+                            blue: '#048ea0',
+                            cyan: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-inox-dark text-inox-text font-body">
+
+    <video autoplay muted loop id="background-video">
+        <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
+    </video>
+    
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black opacity-0 transition-opacity duration-300 pointer-events-none z-20 lg:hidden"></div>
+
+    <div id="main-layout" class="lg:grid lg:grid-cols-[250px_1fr] relative min-h-screen">
+        
+        <aside id="sidebar">
+    <div class="p-6 border-b border-gray-700">
+        <div class="flex items-center space-x-2">
+            <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
+            <span class="text-xl font-bold inox-font text-inox-orange">INOX</span>
+        </div>
+    </div>
+
+    <div class="p-4 space-y-4">
+        
+        <!-- AREA RISERVATA -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Riservata</h3>
+            <a href="index.html" class="sidebar-link">Login/Accesso</a>
+            <a href="registrazione.html" class="sidebar-link">Registrazione</a>
+            <a href="#" class="sidebar-link">Recupera Password</a>
+        </div>
+
+        <!-- TEAM INOX -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Team INOX</h3>
+            <a href="home.html" class="sidebar-link">Home Pubblica</a>
+            <a href="chi_siamo.html" class="sidebar-link">Chi Siamo / Filosofia</a>
+            <a href="contatti.html" class="sidebar-link">Contatti</a>
+        </div>
+
+        <!-- ATTIVITÀ TEAM -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Attività Team</h3>
+            <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+            <a href="mwt_page.html" class="sidebar-link">Master Winter Tour</a>
+            <a href="zrl_page.html" class="sidebar-link">ZRL Roster (API)</a>
+        </div>
+
+        <!-- RISORSE -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Risorse</h3>
+            <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="sidebar-link">ZwiftPower</a>
+            <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="sidebar-link">Discord INOX</a>
+            <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="sidebar-link">Gruppo Strava</a>
+            <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
+        </div>
+
+    </div>
+</aside>
+
+        <div id="main-content" class="min-h-screen lg:overflow-y-auto w-full"> 
+            
+            <nav id="top-nav" class="bg-inox-card border-b border-gray-700 shadow-lg sticky top-0 z-20">
+                <div class="container mx-auto px-6 py-3 flex justify-between items-center text-sm font-semibold">
+                    
+                    <button id="sidebar-toggle" class="lg:hidden p-1 text-inox-text hover:text-inox-orange focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    
+                    <div class="hidden lg:flex justify-end items-center text-sm font-semibold ml-auto">
+                        <a href="home.html" class="hover:text-inox-orange transition px-4">Home</a>
+                        <a href="chi_siamo.html" class="hover:text-inox-orange transition px-4 text-inox-orange">Chi Siamo</a>
+                        <a href="eventi.html" class="hover:text-inox-orange transition px-4">Eventi</a>
+                        <div class="text-inox-gray px-4">|</div>
+                        <a href="login_intro_video.html" class="text-inox-gray hover:text-inox-orange transition px-4">Logout</a> 
+                    </div>
+                    
+                    <a href="#" class="bg-inox-orange text-black font-bold py-1.5 px-3 rounded-md text-xs transition">AREA TECNICA</a>
+
+                </div>
+            </nav>
+
+            <main class="p-4 sm:p-8">
+                <section id="mission" class="bg-inox-card rounded-xl p-8 mb-10 border-l-4 border-inox-orange">
+                    <h2 class="text-4xl sm:text-5xl font-extrabold mb-4 text-white inox-font tracking-tight">
+                        La Nostra <span class="text-inox-cyan">Filosofia INOSSIDABILE</span>
+                    </h2>
+                    <p class="text-gray-300 mb-6 text-lg">
+                        Siamo un team virtuale focalizzato sulla **serietà** e l'**onestà**, ma anche sul **divertimento**. Il nostro obiettivo primario è far crescere i nostri atleti in modo sano e stimolante. Non puntiamo solo ai risultati, ma alla creazione di una comunità solida e duratura, con **oltre 270 membri** attivi su Zwift e nelle ZRL.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+                        <div>
+                            <h3 class="text-3xl font-bold inox-font text-inox-orange mb-3">Visione</h3>
+                            <p class="text-gray-400">
+                                Essere il punto di riferimento per l'allenamento virtuale e il ciclismo eSport, unendo l'alta performance alla coesione del team, indipendentemente dal livello di partenza di ciascun atleta.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold inox-font text-inox-orange mb-3">I Nostri Valori</h3>
+                            <ul class="list-disc list-inside text-gray-400 space-y-1">
+                                <li>**Serietà:** Approccio professionale all'allenamento.</li>
+                                <li>**Onestà:** Trasparenza nei risultati e nelle comunicazioni.</li>
+                                <li>**Divertimento:** Il ciclismo deve essere passione e piacere.</li>
+                                <li>**Crescita:** Supporto costante per il miglioramento continuo.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="team" class="mb-10 p-4">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
+                        Il Nostro <span class="text-inox-blue">Staff Tecnico</span>
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        
+                        <div class="bg-inox-card p-5 rounded-lg text-center shadow-lg border-b-4 border-inox-orange">
+                            <img src="https://via.placeholder.com/80x80/2c3e50/ffffff?text=C1" alt="Foto di Nome Coach 1" class="w-20 h-20 object-cover rounded-full mx-auto mb-3 border-2 border-inox-orange">
+                            <h4 class="font-semibold text-white mb-1">Nome Coach 1</h4>
+                            <p class="text-xs text-inox-gray">Head Coach / Strategia</p>
+                        </div>
+                        
+                        <div class="bg-inox-card p-5 rounded-lg text-center shadow-lg border-b-4 border-inox-blue">
+                            <img src="https://via.placeholder.com/80x80/2c3e50/ffffff?text=C2" alt="Foto di Nome Coach 2" class="w-20 h-20 object-cover rounded-full mx-auto mb-3 border-2 border-inox-blue">
+                            <h4 class="font-semibold text-white mb-1">Nome Coach 2</h4>
+                            <p class="text-xs text-inox-gray">Analisi Dati / Supporto</p>
+                        </div>
+                        
+                        <div class="bg-inox-card p-5 rounded-lg text-center shadow-lg border-b-4 border-inox-cyan">
+                            <img src="https://via.placeholder.com/80x80/2c3e50/ffffff?text=M1" alt="Foto di Nome Manager 1" class="w-20 h-20 object-cover rounded-full mx-auto mb-3 border-2 border-inox-cyan">
+                            <h4 class="font-semibold text-white mb-1">Nome Manager 1</h4>
+                            <p class="text-xs text-inox-gray">Gestione Logistica ZRL</p>
+                        </div>
+                        
+                        <div class="bg-inox-card p-5 rounded-lg text-center shadow-lg border-b-4 border-inox-orange">
+                            <img src="https://via.placeholder.com/80x80/2c3e50/ffffff?text=M2" alt="Foto di Nome Manager 2" class="w-20 h-20 object-cover rounded-full mx-auto mb-3 border-2 border-inox-orange">
+                            <h4 class="font-semibold text-white mb-1">Nome Manager 2</h4>
+                            <p class="text-xs text-inox-gray">Comunicazioni Discord</p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="text-center text-xs text-gray-700 mt-10 border-t border-gray-900 pt-6">
+                    &copy; 2025 Team INOX. Tutti i diritti riservati.
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="sidebar.js"></script> 
+</body>
+</html>

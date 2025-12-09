@@ -1,0 +1,242 @@
+﻿<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team INOX - Home Pubblica</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inox: {
+                            dark: '#0d0f11',
+                            card: '#1a1d20',
+                            orange: '#fc6719',
+                            blue: '#048ea0',
+                            cyan: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="sidebar.css?v=1.6" type="text/css"> 
+    
+    </head>
+<body>
+
+    <video autoplay muted loop id="background-video">
+        <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
+    </video>
+
+    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-[100] p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
+        <svg id="menu-icon-open" class="w-6 h-6 text-inox-orange block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        <svg id="menu-icon-close" class="w-6 h-6 text-inox-orange hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+
+    <div id="sidebar-overlay"></div>
+
+    <div id="main-layout">
+
+        <aside id="sidebar">
+    <div class="p-6 border-b border-gray-700">
+        <div class="flex items-center space-x-2">
+            <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
+            <span class="text-xl font-bold inox-font text-inox-orange">INOX</span>
+        </div>
+    </div>
+
+    <div class="p-4 space-y-4">
+        
+        <!-- AREA RISERVATA -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Riservata</h3>
+            <a href="index.html" class="sidebar-link">Login/Accesso</a>
+            <a href="registrazione.html" class="sidebar-link">Registrazione</a>
+            <a href="#" class="sidebar-link">Recupera Password</a>
+        </div>
+
+        <!-- TEAM INOX -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Team INOX</h3>
+            <a href="home.html" class="sidebar-link">Home Pubblica</a>
+            <a href="chi_siamo.html" class="sidebar-link">Chi Siamo / Filosofia</a>
+            <a href="contatti.html" class="sidebar-link">Contatti</a>
+        </div>
+
+        <!-- ATTIVITÀ TEAM -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Attività Team</h3>
+            <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+            <a href="mwt_page.html" class="sidebar-link">Master Winter Tour</a>
+            <a href="zrl_page.html" class="sidebar-link">ZRL Roster (API)</a>
+        </div>
+
+        <!-- RISORSE -->
+        <div>
+            <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Risorse</h3>
+            <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="sidebar-link">ZwiftPower</a>
+            <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="sidebar-link">Discord INOX</a>
+            <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="sidebar-link">Gruppo Strava</a>
+            <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
+        </div>
+
+    </div>
+</aside>
+
+        <div id="main-content">
+            
+            <nav id="top-nav" class="bg-inox-card border-b border-gray-700 shadow-lg hidden lg:block w-full">
+                <div class="container mx-auto px-6 py-3 flex justify-end items-center text-sm font-semibold">
+                    <a href="home.html" class="hover:text-inox-orange transition px-4 text-inox-orange">Home</a>
+                    <a href="chi_siamo.html" class="hover:text-inox-orange transition px-4">Chi Siamo</a>
+                    <a href="eventi.html" class="hover:text-inox-orange transition px-4">Eventi</a>
+                    <div class="text-inox-gray px-4">|</div>
+                    <a href="contatti.html" class="text-inox-gray hover:text-inox-orange transition px-4">Contatti </a>
+                    <a href="login_intro_video.html" class="bg-inox-orange text-black font-bold py-1.5 px-3 rounded-md text-xs ml-4 transition hover:bg-red-500">LOGIN</a>
+                </div>
+            </nav>
+
+            <main class="w-full p-4 sm:p-6 lg:p-6 pt-16 lg:pt-6">
+                
+                <section id="hero" class="bg-inox-card rounded-xl p-6 sm:p-8 mb-10 card-shadow border-l-4 border-inox-blue">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-center">
+                        <div class="md:col-span-2">
+                            <h2 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-white inox-font tracking-tight">
+                                <span class="text-inox-orange">TEAM INOX:</span> SEMPLICEMENTE <span class="text-inox-cyan">INOSSIDABILI</span>
+                            </h2>
+                            <p class="text-gray-300 mb-6 max-w-lg text-sm sm:text-base">
+                                Siamo un team virtuale focalizzato sulla serietà e l'onestà, ma anche sul divertimento, per far crescere i nostri atleti in modo sano e stimolante.
+                            </p>
+                            <a href="chi_siamo.html" class="bg-inox-orange hover:bg-red-500 text-black font-bold py-2 px-6 rounded-lg text-sm transition transform hover:scale-105">
+                                Scopri la nostra filosofia
+                            </a>
+                        </div>
+                        <div class="md:col-span-1 hidden md:flex justify-end">
+                            <span class="text-7xl sm:text-8xl text-inox-blue opacity-5">🚴‍♂️</span> 
+                        </div>
+                    </div>
+                </section>
+
+                <section id="obiettivi" class="mb-10 p-2 sm:p-4">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
+                        I Nostri <span class="text-inox-orange">Obiettivi</span>
+                    </h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                        <div class="bg-inox-card p-4 sm:p-5 rounded-lg text-center card-shadow border-b-4 border-inox-orange hover:scale-[1.02] transition">
+                            <div class="text-3xl sm:text-4xl mb-3 text-inox-cyan">🎯</div>
+                            <h3 class="text-base sm:text-lg font-bold inox-font text-inox-orange">OBIETTIVO 1</h3>
+                            <p class="text-gray-400 text-xs sm:text-sm">Valorizzare gli atleti in modo sano e stimolante.</p>
+                        </div>
+                        <a href="mwt_page.html" class="bg-inox-orange p-4 sm:p-5 rounded-lg text-center card-shadow border-b-4 border-white transform scale-105 transition hover:scale-110 block">
+                            <div class="text-3xl sm:text-4xl mb-3 text-black">❄️</div>
+                            <h3 class="text-lg sm:text-xl font-extrabold inox-font text-black">MASTER WINTER TOUR</h3>
+                            <p class="text-gray-900 text-xs sm:text-sm font-semibold">Tutte le tappe e le classifiche qui!</p>
+                        </a>
+                        <div class="bg-inox-card p-4 sm:p-5 rounded-lg text-center card-shadow border-b-4 border-inox-orange hover:scale-[1.02] transition">
+                            <div class="text-3xl sm:text-4xl mb-3 text-inox-cyan">🤝</div>
+                            <h3 class="text-base sm:text-lg font-bold inox-font">OBIETTIVO 2</h3>
+                            <p class="text-gray-400 text-xs sm:text-sm">Creare un ambiente basato su serietà e onestà.</p>
+                        </div>
+                        <div class="bg-inox-card p-4 sm:p-5 rounded-lg text-center card-shadow border-b-4 border-inox-blue hover:scale-[1.02] transition">
+                            <div class="text-3xl sm:text-4xl mb-3 text-inox-cyan">🏆</div>
+                            <h3 class="text-base sm:text-lg font-bold inox-font">#1</h3>
+                            <p class="text-gray-400 text-xs sm:text-sm">Team nella classifica regionale (dati fittizi).</p>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section id="testimonials" class="mb-10 p-2 sm:p-4">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
+                        Atleti in <span class="text-inox-orange">Evidenza</span>
+                    </h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
+                        <div class="bg-inox-card p-4 rounded-lg card-shadow">
+                            <h4 class="font-semibold text-white mb-1 text-sm sm:text-base">Nome Atleta 1</h4>
+                            <p class="text-xs text-inox-gray mb-3">Categoria A</p>
+                            <span class="inline-block bg-inox-orange text-black text-xs px-2 py-0.5 rounded-full font-bold">TOP PERFORMANCE</span>
+                        </div>
+                        <div class="bg-inox-card p-4 rounded-lg card-shadow">
+                            <h4 class="font-semibold text-white mb-1 text-sm sm:text-base">Nome Atleta 2</h4>
+                            <p class="text-xs text-inox-gray mb-3">Categoria B</p>
+                            <span class="inline-block bg-inox-blue text-white text-xs px-2 py-0.5 rounded-full font-bold">TEAM PLAYER</span>
+                        </div>
+                        <div class="bg-inox-card p-4 rounded-lg card-shadow">
+                            <h4 class="font-semibold text-white mb-1 text-sm sm:text-base">Nome Atleta 3</h4>
+                            <p class="text-xs text-inox-gray mb-3">Categoria C</p>
+                            <span class="inline-block bg-inox-cyan text-black text-xs px-2 py-0.5 rounded-full font-bold">ESPERTO</span>
+                        </div>
+                        <div class="bg-inox-card p-4 rounded-lg card-shadow">
+                            <h4 class="font-semibold text-white mb-1 text-sm sm:text-base">Nome Atleta 4</h4>
+                            <p class="text-xs text-inox-gray mb-3">Categoria D</p>
+                            <span class="inline-block bg-green-500 text-black text-xs px-2 py-0.5 rounded-full font-bold">PASSIONE</span>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="footer-links" class="mb-10 p-2 sm:p-4">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mb-6 text-white inox-font tracking-tight border-b border-gray-700 pb-2">
+                        Link Utili <span class="text-inox-orange">e Contatti</span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div>
+                            <h4 class="text-lg sm:text-xl font-bold text-white inox-font mb-3">Contatti e Info</h4>
+                            <a href="chi_siamo.html" class="block text-gray-400 text-sm hover:text-white mb-1">Chi Siamo</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Storia</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Mission</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Valori</a>
+                        </div>
+                        <div>
+                            <h4 class="text-lg sm:text-xl font-bold text-white inox-font mb-3">Links Utili</h4>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Blog</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Media Kit</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Area Tecnica</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Social</a>
+                        </div>
+                        <div class="col-span-2 md:col-span-1"> 
+                            <h4 class="text-lg sm:text-xl font-bold text-white inox-font mb-3">Servizi</h4>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Classifiche</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Gare</a>
+                            <a href="eventi.html" class="block text-gray-400 text-sm hover:text-white mb-1">Eventi</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Regolamento</a>
+                        </div>
+                        <div>
+                            <h4 class="text-lg sm:text-xl font-bold text-white inox-font mb-3">Newsletter</h4>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Iscriviti</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Privacy</a>
+                            <a href="#" class="block text-gray-400 text-sm hover:text-white mb-1">Cookie</a>
+                            <a href="login_intro_video.html" class="block text-gray-400 text-sm hover:text-white mb-1">Login/Area Riservata</a>
+                        </div>
+                    </div>
+                </section>
+                
+                <div class="text-center text-xs text-gray-700 mt-10 border-t border-gray-900 pt-6">
+                    &copy; 2025 Team INOX. Tutti i diritti riservati.
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="sidebar.js"></script>
+
+</body>
+</html>

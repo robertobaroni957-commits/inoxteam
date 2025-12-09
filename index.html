@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team INOX - Accesso Riservato</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        inox: {
+                            dark: '#0d0f11',
+                            card: '#1a1d20',
+                            orange: '#fc6719',
+                            blue: '#048ea0',
+                            cyan: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    </head>
+<body class="bg-inox-dark font-body text-inox-text">
+    
+    <style>
+        /* Stili Sidebar Essenziali */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 250px;
+            background-color: #0d0f11; 
+            z-index: 30;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-out;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+            border-right: 1px solid #1f2937;
+        }
+        #sidebar.active {
+            transform: translateX(0);
+        }
+        #sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        #sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        @media (min-width: 1024px) {
+            #sidebar {
+                position: relative;
+                transform: translateX(0);
+                flex-shrink: 0;
+            }
+            #sidebar-overlay, #menu-toggle {
+                display: none !important;
+            }
+        }
+        /* Stili Link */
+        .sidebar-link {
+            padding: 10px 16px;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(252, 103, 25, 0.1);
+            color: #fc6719;
+        }
+    </style>
+
+    <video autoplay muted loop id="background-video" class="fixed inset-0 w-full h-full object-cover z-[-2] opacity-20">
+        <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
+    </video>
+
+    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-[100] p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
+        <svg id="menu-icon-open" class="w-6 h-6 text-inox-orange block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        <svg id="menu-icon-close" class="w-6 h-6 text-inox-orange hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+
+    <div id="sidebar-overlay"></div>
+
+    <div id="main-layout" class="min-h-screen lg:flex">
+
+        <aside id="sidebar">
+            <div class="p-6 border-b border-gray-700">
+                <div class="flex items-center space-x-2">
+                    <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
+                    <span class="text-xl font-bold font-display text-inox-orange">INOX</span>
+                </div>
+            </div>
+
+            <div class="p-4 space-y-4 overflow-y-auto flex-grow">
+                
+                <div>
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Area Riservata</h3>
+                    <a href="index.html" class="sidebar-link bg-inox-card/30 text-inox-orange">Login/Accesso</a> 
+                    <a href="registrazione.html" class="sidebar-link">Registrazione</a>
+                    <a href="#" class="sidebar-link">Recupera Password</a>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Team INOX</h3>
+                    <a href="home.html" class="sidebar-link">Home Pubblica</a>
+                    <a href="chi_siamo.html" class="sidebar-link">Chi Siamo / Filosofia</a>
+                    <a href="contatti.html" class="sidebar-link">Contatti</a>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Attività Team</h3>
+                    <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+                    <a href="mwt_page.html" class="sidebar-link">Master Winter Tour</a>
+                    <a href="zrl_page.html" class="sidebar-link">ZRL Roster (API)</a>
+                </div>
+
+                <div>
+                    <h3 class="text-sm text-inox-gray uppercase font-semibold pl-2 pt-2 pb-1 border-b border-gray-800">Risorse</h3>
+                    <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="sidebar-link">ZwiftPower</a>
+                    <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="sidebar-link">Discord INOX</a>
+                    <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="sidebar-link">Gruppo Strava</a>
+                    <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
+                </div>
+
+            </div>
+        </aside>
+
+        <div id="main-content" class="flex-grow flex items-center justify-center p-4 z-10">
+            <div class="login-card p-8 sm:p-10 rounded-xl max-w-lg w-full shadow-2xl bg-inox-card/90 backdrop-blur-sm border border-gray-800">
+                
+                <div class="text-center mb-8">
+                    <h2 class="font-display text-4xl sm:text-5xl font-extrabold text-white">
+                        ACCESSO <span class="text-inox-orange">RISERVATO</span>
+                    </h2>
+                    <p class="text-gray-400 mt-2 text-sm sm:text-base">
+                        Inserisci l'email e la password o <a href="registrazione.html" class="text-inox-cyan font-semibold">Registrati</a>.
+                    </p>
+                </div>
+
+                <form id="loginForm" class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-semibold mb-2 text-inox-text">Email</label>
+                        <input type="email" id="email" class="login-input w-full p-3 bg-inox-dark border border-gray-700 rounded-lg text-inox-text focus:ring-inox-blue focus:border-inox-blue transition" required>
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-sm font-semibold mb-2 text-inox-text">Password</label>
+                        <input type="password" id="password" class="login-input w-full p-3 bg-inox-dark border border-gray-700 rounded-lg text-inox-text focus:ring-inox-blue focus:border-inox-blue transition" required>
+                    </div>
+
+                    <div id="errorMessage" class="text-red-500 text-sm hidden font-semibold bg-red-900/20 p-2 rounded-md">
+                        ❌ Credenziali non valide.
+                    </div>
+
+                    <button type="submit" class="w-full bg-inox-orange hover:bg-red-500 text-black font-bold py-3 rounded-lg text-lg transition">
+                        LOGIN
+                    </button>
+
+                    <div class="text-center pt-2">
+                        <a href="registrazione.html" class="text-sm text-inox-cyan block">Registrati ora</a>
+                        <a href="#" class="text-sm text-gray-400 block">Password dimenticata?</a>
+                    </div>
+                </form>
+
+                <div class="text-center pt-4 border-t border-gray-700 mt-6">
+                    <a href="home.html" class="text-base font-bold text-inox-blue block hover:text-inox-cyan transition">
+                        › Bypass Login (Home Pubblica)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // ===========================================
+            // 🔑 LOGICA LOGIN (Client-Side)
+            // ===========================================
+            const loginForm = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // ⚠️ Importante: Sostituisci "tuo-dominio.pages.dev" con l'URL effettivo del tuo Pages Project
+            const LOGIN_API_URL = '/api/login'; 
+
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault(); 
+                    errorMessage.classList.add('hidden');
+                    
+                    const credentials = {
+                        email: emailInput.value, // Usiamo l'email come identificatore
+                        password: passwordInput.value
+                    };
+
+                    try {
+                        const response = await fetch(LOGIN_API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(credentials)
+                        });
+
+                        const data = await response.json();
+                        
+                        if (response.ok && data.token) {
+                            // 1. Salva il JWT in Local Storage
+                            localStorage.setItem('inox_jwt', data.token); 
+                            
+                            // 2. Reindirizza all'area riservata (o al percorso suggerito dal backend)
+                            const redirectPath = data.redirectTo || 'eventi.html';
+                            window.location.href = redirectPath;
+                        
+                        } else {
+                            // 3. Gestisci l'errore
+                            errorMessage.textContent = '❌ ' + (data.message || 'Credenziali non valide. Riprova.');
+                            errorMessage.classList.remove('hidden');
+                        }
+
+                    } catch (error) {
+                        console.error('Errore di rete o API:', error);
+                        errorMessage.textContent = '❌ Si è verificato un errore di connessione. Controlla il Worker.';
+                        errorMessage.classList.remove('hidden');
+                    }
+                });
+            }
+
+
+            // ===========================================
+            // 🖱️ LOGICA TOGGLE SIDEBAR (Mobile)
+            // ===========================================
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const openIcon = document.getElementById('menu-icon-open');
+            const closeIcon = document.getElementById('menu-icon-close');
+
+            if (menuToggle && sidebar && overlay) {
+                
+                const toggleSidebar = () => {
+                    sidebar.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    openIcon.classList.toggle('hidden');
+                    closeIcon.classList.toggle('hidden');
+                };
+
+                menuToggle.addEventListener('click', toggleSidebar);
+
+                // Chiudi la sidebar cliccando sull'overlay scuro
+                overlay.addEventListener('click', () => {
+                     if (sidebar.classList.contains('active')) {
+                        toggleSidebar();
+                     }
+                });
+            }
+        });
+    </script>
+    </body>
+</html>

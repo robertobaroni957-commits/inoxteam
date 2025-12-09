@@ -1,0 +1,13 @@
+# Dipendenze Node
+/node_modules
+
+# File di Log e Temporanei
+*.log
+.DS_Store
+
+# Cloudflare/Wrangler Specifico
+.wrangler
+
+# File di build
+/dist
+/build
