@@ -665,47 +665,46 @@
         };
 
         // Funzione per generare la tabella HTML dai dati JSON filtrati e ordinati (NUOVA FUNZIONE)
+        // Funzione per generare la tabella HTML dai dati JSON filtrati e ordinati (AGGIORNATA PER COLORAZIONE)
         const renderRankingTable = (data, type, category) => {
             
-            // 1. Mappatura Titoli, Colonne e Chiave Dati
+            // 1. Mappatura Titoli, Colonne e Chiave Dati (invariata)
             let title, headers, scoreKey, unit;
             
             if (type === 'punti') {
                 title = 'Punti Generali';
                 headers = ['Posizione', 'Atleta', 'Squadra', 'Punti'];
-                scoreKey = 'total'; // Corrisponde a 'total' nel JSON
+                scoreKey = 'total';
                 unit = ' Pts';
             } else if (type === 'tempo') {
                 title = 'Tempo Cumulato';
                 headers = ['Posizione', 'Atleta', 'Squadra', 'Tempo Totale'];
-                scoreKey = 'time'; // Corrisponde a 'time' nel JSON (in secondi)
+                scoreKey = 'time';
                 unit = '';
             } else if (type === 'sprinter') {
                 title = 'Punti Sprinter';
                 headers = ['Posizione', 'Atleta', 'Squadra', 'Punti Sprint'];
-                scoreKey = 'pts_sprint'; // Corrisponde a 'pts_sprint' nel JSON
+                scoreKey = 'pts_sprint';
                 unit = ' Pts';
             } else if (type === 'scalatore') {
                 title = 'Punti Scalatore';
                 headers = ['Posizione', 'Atleta', 'Squadra', 'Punti Scalata'];
-                scoreKey = 'pts_kom'; // Corrisponde a 'pts_kom' nel JSON
+                scoreKey = 'pts_kom';
                 unit = ' Pts';
             } else {
                 return `<p class="text-red-500 text-lg p-10">Tipo di classifica non valido.</p>`;
             }
             
-            // 2. Ordinamento dei dati
+            // 2. Ordinamento dei dati (invariato)
             const sortedData = [...data].sort((a, b) => {
                 const scoreA = a[scoreKey] || 0;
                 const scoreB = b[scoreKey] || 0;
                 
                 if (type === 'tempo') {
-                    // Ordine crescente per il tempo (il più veloce ha il tempo minore)
                     const timeA = scoreA === 0 ? Infinity : scoreA;
                     const timeB = scoreB === 0 ? Infinity : scoreB;
                     return timeA - timeB;
                 } else {
-                    // Ordine decrescente per i punti (il punteggio più alto vince)
                     return scoreB - scoreA;
                 }
             });
@@ -725,20 +724,39 @@
             
             sortedData.forEach((athlete, index) => {
                 const { name: athleteName, team } = parseNameAndTeam(athlete.name);
+                const rank = index + 1;
                 
-                let scoreDisplay = athlete[scoreKey] || 0; // Se nullo, mostra 0
+                let scoreDisplay = athlete[scoreKey] || 0;
                 
                 if (type === 'tempo') {
-                    // Conversione da secondi a HH:MM:SS
                     scoreDisplay = secondsToHms(scoreDisplay);
                 } else {
-                    // Aggiungi unità ai punteggi
                     scoreDisplay = `${scoreDisplay}${unit}`;
                 }
 
+                // Aggiunta della classe per la colorazione
+                let rowClasses = 'hover:bg-black/30';
+                let medalIcon = '';
+                let rankColor = 'text-white';
+
+                if (rank === 1) {
+                    rowClasses = 'bg-yellow-900/40 hover:bg-yellow-900/60 transition'; // Oro
+                    medalIcon = '🥇 ';
+                    rankColor = 'text-yellow-400';
+                } else if (rank === 2) {
+                    rowClasses = 'bg-gray-700/40 hover:bg-gray-700/60 transition'; // Argento
+                    medalIcon = '🥈 ';
+                    rankColor = 'text-gray-300';
+                } else if (rank === 3) {
+                    rowClasses = 'bg-amber-900/40 hover:bg-amber-900/60 transition'; // Bronzo
+                    medalIcon = '🥉 ';
+                    rankColor = 'text-amber-500';
+                }
+
+
                 html += `
-                    <tr class="hover:bg-black/30">
-                        <td class="px-4 py-3">${index + 1}</td>
+                    <tr class="${rowClasses}">
+                        <td class="px-4 py-3 font-bold ${rankColor}">${medalIcon}${rank}</td>
                         <td class="px-4 py-3 font-semibold text-white">${athleteName}</td>
                         <td class="px-4 py-3 text-gray-400">${team}</td>
                         <td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td>
@@ -753,6 +771,7 @@
             `;
             return html;
         };
+// FINE FUNZIONE renderRankingTable AGGIORNATA
 
 
         // Sostituisce la vecchia loadRanking che caricava file HTML esterni
