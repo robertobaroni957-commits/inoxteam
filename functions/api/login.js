@@ -1,6 +1,9 @@
 // functions/api/login.js
 
-import { compare } from 'bcryptjs';
+// === 🔑 MODIFICA CRITICA: USARE BCrypt-TS PER COMPATIBILITÀ CON CLOUDFLARE PAGES BUILD 🔑 ===
+import { compare } from 'bcrypt-ts'; 
+// ------------------------------------------------------------------------------------------
+
 import * as jose from 'jose'; 
 
 // Durata del token (24 ore in secondi)
@@ -27,10 +30,9 @@ export async function onRequestPOST({ request, env }) {
         }
 
         // 2. Confronta la password con l'hash salvato
-        // === 🔐 CONFRONTO HASH BCrypt REALE 🔐 ===
+        // La chiamata alla funzione rimane la stessa:
         const isPasswordValid = await compare(password, user.password_hash); 
-        // ===========================================
-
+        
         if (!isPasswordValid) {
              return new Response(JSON.stringify({ message: 'Credenziali non valide.' }), { status: 401 });
         }

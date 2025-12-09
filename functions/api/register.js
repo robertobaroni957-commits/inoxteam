@@ -1,13 +1,12 @@
 // functions/api/register.js
 
-// Assicurati che 'bcryptjs' sia correttamente installato e bundleato 
-// per l'ambiente Cloudflare Workers (vedi note a fine risposta).
-import { hash } from 'bcryptjs'; 
+// === 🔑 MODIFICA CRITICA: USARE BCrypt-TS PER COMPATIBILITÀ CON CLOUDFLARE PAGES BUILD 🔑 ===
+import { hash } from 'bcrypt-ts'; 
 
 // Funzione principale che risponde alla richiesta HTTP
 export async function onRequestPOST({ request, env }) {
-    
-    // Assicurati che env.DB sia configurato come binding del tuo database D1
+    
+    // Assicurati che env.DB sia configurato come binding del tuo database D1
     if (!env.DB) {
         return new Response(JSON.stringify({ message: 'Database non configurato.' }), { status: 500 });
     }
@@ -28,10 +27,7 @@ export async function onRequestPOST({ request, env }) {
         }
 
         // === 🔐 PASSO CRITICO: HASHING DELLA PASSWORD REALE CON BCrypt 🔐 ===
-        
-        // 1. Genera l'hash sicuro della password. 
-        // L'utilizzo di un "salt" (fattore di costo) garantisce la sicurezza.
-        // Fattore di costo 10: un buon compromesso tra sicurezza e velocità su Workers.
+        // L'utilizzo del fattore di costo 10 è corretto
         const hashedPassword = await hash(password, 10); 
 
         // ----------------------------------------------------------------------
@@ -52,7 +48,6 @@ export async function onRequestPOST({ request, env }) {
 
     } catch (error) {
         console.error('Errore durante la registrazione:', error);
-        // Potrebbe fallire se l'hashing (bcryptjs) non è configurato correttamente nel tuo bundler
         return new Response(JSON.stringify({ message: 'Errore interno durante la registrazione o l\'hashing.' }), { status: 500 });
     }
 }
