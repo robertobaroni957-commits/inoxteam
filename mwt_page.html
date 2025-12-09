@@ -664,8 +664,7 @@
             });
         };
 
-        // Funzione per generare la tabella HTML dai dati JSON filtrati e ordinati (NUOVA FUNZIONE)
-        // Funzione per generare la tabella HTML dai dati JSON filtrati e ordinati (AGGIORNATA PER COLORAZIONE)
+        // Funzione per generare la tabella HTML dai dati JSON filtrati e ordinati (AGGIORNATA PER COLORAZIONE INLINE)
         const renderRankingTable = (data, type, category) => {
             
             // 1. Mappatura Titoli, Colonne e Chiave Dati (invariata)
@@ -734,28 +733,34 @@
                     scoreDisplay = `${scoreDisplay}${unit}`;
                 }
 
-                // Aggiunta della classe per la colorazione
-                let rowClasses = 'hover:bg-black/30';
-                let medalIcon = '';
+                // Aggiunta degli stili in linea per forzare la colorazione
+                let rowStyle = '';
                 let rankColor = 'text-white';
+                let medalIcon = '';
 
                 if (rank === 1) {
-                    rowClasses = 'bg-yellow-900/40 hover:bg-yellow-900/60 transition'; // Oro
-                    medalIcon = '🥇 ';
+                    // Oro leggermente più scuro per non coprire il testo nero
+                    rowStyle = 'background-color: rgba(255, 215, 0, 0.2);'; 
                     rankColor = 'text-yellow-400';
+                    medalIcon = '🥇 ';
                 } else if (rank === 2) {
-                    rowClasses = 'bg-gray-700/40 hover:bg-gray-700/60 transition'; // Argento
-                    medalIcon = '🥈 ';
+                    // Argento
+                    rowStyle = 'background-color: rgba(192, 192, 192, 0.2);';
                     rankColor = 'text-gray-300';
+                    medalIcon = '🥈 ';
                 } else if (rank === 3) {
-                    rowClasses = 'bg-amber-900/40 hover:bg-amber-900/60 transition'; // Bronzo
-                    medalIcon = '🥉 ';
+                    // Bronzo
+                    rowStyle = 'background-color: rgba(205, 127, 50, 0.2);';
                     rankColor = 'text-amber-500';
+                    medalIcon = '🥉 ';
                 }
 
+                // Applichiamo la classe di hover standard e lo stile in linea
+                const rowClasses = `hover:bg-black/30`;
+                const finalStyle = `style="${rowStyle}"`;
 
                 html += `
-                    <tr class="${rowClasses}">
+                    <tr class="${rowClasses}" ${finalStyle}>
                         <td class="px-4 py-3 font-bold ${rankColor}">${medalIcon}${rank}</td>
                         <td class="px-4 py-3 font-semibold text-white">${athleteName}</td>
                         <td class="px-4 py-3 text-gray-400">${team}</td>
@@ -771,7 +776,6 @@
             `;
             return html;
         };
-// FINE FUNZIONE renderRankingTable AGGIORNATA
 
 
         // Sostituisce la vecchia loadRanking che caricava file HTML esterni
