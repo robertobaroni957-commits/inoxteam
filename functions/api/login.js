@@ -1,6 +1,6 @@
 // functions/api/login.js
 
-import { compare } from 'bcrypt-ts';
+import { compare } from 'bcryptjs';
 import * as jose from 'jose';
 
 // Durata del token (24 ore in secondi)

@@ -1,7 +1,7 @@
 // functions/api/register.js
 
 // === 🔑 MODIFICA CRITICA: USARE BCrypt-TS PER COMPATIBILITÀ CON CLOUDFLARE PAGES BUILD 🔑 ===
-import { hash } from 'bcrypt-ts'; 
+import { hash } from 'bcryptjs'; 
 
 // Funzione principale che risponde alla richiesta HTTP
 export async function onRequestPOST({ request, env }) {

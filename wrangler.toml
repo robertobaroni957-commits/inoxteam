@@ -1,0 +1,9 @@
+name = "inoxteam-pages-functions"
+main = "functions/_middleware.js"
+compatibility_date = "2024-05-18"
+
+# Sezione di configurazione D1
+[[d1_databases]]
+binding = "DB" # Deve corrispondere a env.DB nel codice JS
+database_name = "inox_auth_db" # Nome usato nei comandi Wrangler
+database_id = "c45289cd-c758-4a9b-85c8-3e06713df1e4" # ID fornito durante la creazione
