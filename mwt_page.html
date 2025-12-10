@@ -367,29 +367,42 @@
         </div>
     </footer>
 
+    <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="bg-zwift-card p-6 rounded-lg shadow-xl max-w-lg w-full m-4 border border-gray-700 relative">
+            <button id="close-modal" class="absolute top-3 right-3 text-white text-2xl hover:text-zwift-orange transition">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="modal-event-title" class="text-3xl font-bold text-zwift-orange mb-4 inox-font"></h3>
+            <p id="modal-event-details" class="text-gray-300 whitespace-pre-line mb-4"></p>
+            <a id="modal-route-link" href="#" target="_blank" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-2 px-4 rounded-full text-sm transition transform hover:scale-105 inline-flex items-center">
+                <i class="fas fa-map-marker-alt mr-2"></i> Vedi Percorso su Zwift Insider
+            </a>
+        </div>
+    </div>
+
     <script>
         // DATI ORIGINALI DELLE TAPPE (NON TOCCATI)
         const GENERAL_REGISTER_LINK = "https://www.zwift.com/eu-it/events/tag/inoxwinter";
         
         const tourStages = [
-            { id: 1, date: "2025-12-12T19:20:00", world: "Scotland", route: "Outer Scotland", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247620" },
-            { id: 2, date: "2025-12-16T19:20:00", world: "Makuri", route: "Red Zone Repeats", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247622" },
-            { id: 3, date: "2025-12-19T19:20:00", world: "New York", route: "Issendorf Express", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/issendorf-express/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247623" },
-            { id: 4, date: "2025-12-23T19:20:00", world: "Scotland", route: "City and the Sgurr", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/city-and-the-sgurr/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247624" },
-            { id: 5, date: "2025-12-27T19:20:00", world: "Bologna", route: "Time Trial Lap", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/bologna-time-trial-lap/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247628" },
-            { id: 6, date: "2025-12-30T19:20:00", world: "London", route: "Classique Reverse", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/classique-reverse/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247630" },
-            { id: 7, date: "2026-02-13T19:20:00", world: "Makuri", route: "Sprinter's Playground", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/sprinters-playground/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247687" },
-            { id: 8, date: "2026-02-17T19:20:00", world: "London", route: "London Uprising", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/london-uprising/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247689" },
-            { id: 9, date: "2026-02-20T19:20:00", world: "Watopia", route: "Flat Out Fast", type: "iTT", routeLink: "https://zwiftinsider.com/route/flat-out-fast/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247692" },
-            { id: 10, date: "2026-02-24T19:20:00", world: "France", route: "Bon Voyage", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/bon-voyage/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247696" },
-            { id: 11, date: "2026-02-27T19:20:00", world: "Watopia", route: "Mountain Mash", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/mountain-mash/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247700" },
-            { id: 12, date: "2026-03-04T19:20:00", world: "Richmond", route: "Cobbled Climbs Reverse", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/cobbled-climbs-reverse/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247701" },
-            { id: 13, date: "2026-03-07T19:20:00", world: "London", route: "London Flat", type: "iTT", routeLink: "https://zwiftinsider.com/route/london-flat/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247703" },
-            { id: 14, date: "2026-03-11T19:20:00", world: "New York", route: "Toefield Tormado", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/toefield-tormado/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247705" },
-            { id: 15, date: "2026-03-14T19:20:00", world: "Watopia", route: "Power Punches", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/power-punches/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 16, date: "2026-03-18T19:20:00", world: "Makuri", route: "Electric Loop", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/electric-loop/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 17, date: "2026-03-21T19:20:00", world: "France", route: "Ven-10", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/ven-10/", registerLink: GENERAL_REGISTER_LINK },
-            { id: 18, date: "2026-03-25T19:20:00", world: "Watopia", route: "Jarvis Seaside Sprint", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/jarvis-seaside-sprint/", registerLink: GENERAL_REGISTER_LINK }
+            { id: 1, date: "2025-12-12T19:20:00", world: "Scotland", route: "Outer Scotland", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247620", segments_info: "🚴‍♀❄ Masters Winter Tour - Stage 1 ❄🚴‍♀\nTomorrow 19:20\nOuter Scotland   2 Laps   22 km\nAll riders visible   Scoreboard   No Powerups   No TT bikes\n\nSegments:\n- first Champion Sprint FTS only\n- first Breakaway Brae Reverse FTS only\n- first Clyde Kicker FAL and FTS\n- second Champion Sprint FAL and FTS\n- second Breakaway Brae Reverse FAL only\n- second Clyde Kicker FAL and FTS\n- third Champion Sprint FAL and FTS" },
+            { id: 2, date: "2025-12-16T19:20:00", world: "Makuri", route: "Red Zone Repeats", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247622", segments_info: "" },
+            { id: 3, date: "2025-12-19T19:20:00", world: "New York", route: "Issendorf Express", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/issendorf-express/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247623", segments_info: "" },
+            { id: 4, date: "2025-12-23T19:20:00", world: "Scotland", route: "City and the Sgurr", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/city-and-the-sgurr/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247624", segments_info: "" },
+            { id: 5, date: "2025-12-27T19:20:00", world: "Bologna", route: "Time Trial Lap", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/bologna-time-trial-lap/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247628", segments_info: "" },
+            { id: 6, date: "2025-12-30T19:20:00", world: "London", route: "Classique Reverse", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/classique-reverse/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247630", segments_info: "" },
+            { id: 7, date: "2026-02-13T19:20:00", world: "Makuri", route: "Sprinter's Playground", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/sprinters-playground/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247687", segments_info: "" },
+            { id: 8, date: "2026-02-17T19:20:00", world: "London", route: "London Uprising", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/london-uprising/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247689", segments_info: "" },
+            { id: 9, date: "2026-02-20T19:20:00", world: "Watopia", route: "Flat Out Fast", type: "iTT", routeLink: "https://zwiftinsider.com/route/flat-out-fast/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247692", segments_info: "" },
+            { id: 10, date: "2026-02-24T19:20:00", world: "France", route: "Bon Voyage", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/bon-voyage/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247696", segments_info: "" },
+            { id: 11, date: "2026-02-27T19:20:00", world: "Watopia", route: "Mountain Mash", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/mountain-mash/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247700", segments_info: "" },
+            { id: 12, date: "2026-03-04T19:20:00", world: "Richmond", route: "Cobbled Climbs Reverse", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/cobbled-climbs-reverse/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247701", segments_info: "" },
+            { id: 13, date: "2026-03-07T19:20:00", world: "London", route: "London Flat", type: "iTT", routeLink: "https://zwiftinsider.com/route/london-flat/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247703", segments_info: "" },
+            { id: 14, date: "2026-03-11T19:20:00", world: "New York", route: "Toefield Tormado", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/toefield-tormado/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247705", segments_info: "" },
+            { id: 15, date: "2026-03-14T19:20:00", world: "Watopia", route: "Power Punches", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/power-punches/", registerLink: GENERAL_REGISTER_LINK, segments_info: "" },
+            { id: 16, date: "2026-03-18T19:20:00", world: "Makuri", route: "Electric Loop", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/electric-loop/", registerLink: GENERAL_REGISTER_LINK, segments_info: "" },
+            { id: 17, date: "2026-03-21T19:20:00", world: "France", route: "Ven-10", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/ven-10/", registerLink: GENERAL_REGISTER_LINK, segments_info: "" },
+            { id: 18, date: "2026-03-25T19:20:00", world: "Watopia", route: "Jarvis Seaside Sprint", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/jarvis-seaside-sprint/", registerLink: GENERAL_REGISTER_LINK, segments_info: "" }
         ];
 
         // FUNZIONI PRE-ESISTENTI (NON TOCCATE)
@@ -553,7 +566,25 @@
                         </a>
                     </div>
                 `;
+                card.addEventListener('click', () => {
+                    document.getElementById('modal-event-title').innerText = `Tappa ${stage.id}: ${stage.world} - ${stage.route}`;
+                    document.getElementById('modal-event-details').innerText = stage.segments_info;
+                    document.getElementById('modal-route-link').href = stage.routeLink;
+                    document.getElementById('event-modal').classList.remove('hidden');
+                });
+
                 container.appendChild(card);
+            });
+
+            // Add event listener for closing the modal
+            document.getElementById('close-modal').addEventListener('click', () => {
+                document.getElementById('event-modal').classList.add('hidden');
+            });
+            // Also close if clicking outside the modal content
+            document.getElementById('event-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'event-modal') {
+                    document.getElementById('event-modal').classList.add('hidden');
+                }
             });
         };
 
