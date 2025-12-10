@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regolamento - Inoxteam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="sidebar.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zwift: {
+                            dark: '#111111',
+                            card: '#1e1e24',
+                            orange: '#fc6719',
+                            blue: '#00f0ff',
+                            text: '#f0f0f0',
+                            gray: '#888888'
+                        },
+                        race: {
+                            flat: '#10b981',
+                            mountain: '#ef4444',
+                            hilly: '#f59e0b',
+                            time: '#00f0ff',
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Teko', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* General styles to integrate Rule.html content with existing theme */
+        /* Body styles are handled by Tailwind classes on the body tag */
+
+        /* Styles for the language toggle header */
+        .rule-header {
+            position: relative;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            background-color: transparent; /* Let body background dictate */
+            color: #f0f0f0; /* zwift-text */
+        }
+        .rule-header .organizer {
+            text-align: center;
+            font-weight: 700;
+            color: #d1d5db; /* gray-300 */
+        }
+        .lang-toggle {
+            position: absolute;
+            right: 0;
+            top: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .lang-btn {
+            border: none;
+            background: transparent;
+            font-size: 1.25rem; /* text-xl */
+            cursor: pointer;
+            padding: 0.375rem; /* p-1.5 */
+            border-radius: 0.375rem; /* rounded-md */
+            color: #d1d5db; /* gray-300 */
+        }
+        .lang-btn[aria-pressed="true"] {
+            outline: 2px solid rgba(0, 102, 34, 0.2); /* Accent green, transparent */
+            background: rgba(0, 102, 34, 0.1); /* Accent green, transparent */
+            color: #fc6719; /* zwift-orange to highlight active */
+        }
+        .lang-btn:focus { box-shadow: 0 0 0 3px rgba(252, 103, 25, 0.3); /* zwift-orange focus */ }
+
+        /* Main content styling */
+        .rule-content-wrapper {
+            max-width: 1250px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.7;
+        }
+
+        .rule-section { /* This will be the new content-section equivalent */
+            background-color: #1e1e24; /* zwift-card */
+            border: 1px solid #374151; /* gray-700 */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+
+        .rule-section h1 { /* Main title of the rule document */
+            text-align: center;
+            color: #fc6719; /* zwift-orange */
+            font-size: 2.5em; /* Larger, based on existing h1 */
+            margin: 0.5rem 0 1rem;
+            font-family: 'Teko', sans-serif;
+            font-weight: 700;
+        }
+
+        .rule-section h2 { /* Section titles */
+            color: #00f0ff; /* zwift-blue */
+            font-size: 1.875rem; /* text-3xl */
+            font-weight: 700; /* font-bold */
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-family: 'Teko', sans-serif;
+        }
+
+        .rule-section h3 { /* Sub-section titles */
+            color: #fc6719; /* zwift-orange */
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rule-section p, .rule-section li {
+            color: #d1d5db; /* gray-300 */
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .rule-section ul {
+            list-style-type: disc;
+            margin-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .rule-section ol {
+            list-style-type: decimal;
+            margin-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .rule-section a {
+            color: #00f0ff; /* zwift-blue for links */
+            text-decoration: underline;
+        }
+        .rule-section a:hover {
+            color: #fc6719; /* zwift-orange on hover */
+        }
+
+        .sommario, .summary {
+            background-color: #1e1e24; /* zwift-card */
+            border: 1px solid #374151; /* gray-700 */
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1.25rem 0 2.5rem;
+        }
+        .sommario h2, .summary h2 {
+            margin-top:0;
+            font-size:1.2em;
+            text-align:center;
+            color: #fc6719; /* zwift-orange */
+            font-family: 'Teko', sans-serif;
+        }
+        .sommario ul, .summary ul {
+            columns: 2;
+            -webkit-columns:2;
+            -moz-columns:2;
+            list-style-type: square;
+            padding-left:20px;
+            color: #d1d5db; /* gray-300 */
+        }
+
+        table {
+            border-collapse: collapse;
+            width:100%;
+            margin:1rem 0 2rem 0;
+            color: #d1d5db; /* gray-300 */
+        }
+        table, th, td { border:1px solid #4b5563; /* gray-600 */ }
+        th, td { padding:0.75rem 1rem; text-align:center; }
+        th {
+            background-color: rgba(252, 103, 25, 0.2); /* Transparent zwift-orange */
+            font-weight:600;
+            color: #fc6719; /* zwift-orange */
+        }
+        
+        hr {
+            border:none;
+            border-top:2px solid #4b5563; /* gray-600 */
+            margin:2.5rem 0 2rem;
+        }
+
+        .highlight { color: #00f0ff; /* zwift-blue */ font-weight:bold; }
+
+        .lang-it, .lang-en { display:block; }
+        .lang-en[hidden], .lang-it[hidden] { display:none; }
+
+        @media (max-width:600px){
+            .sommario ul, .summary ul { columns:1; -webkit-columns:1; -moz-columns:1; }
+            .lang-toggle { right:0.5rem; top:0.5rem; }
+            .rule-section h1 { font-size:2em; }
+        }
+    </style>
+</head>
+<body class="bg-zwift-dark text-zwift-text font-body antialiased min-h-screen flex flex-col">
+
+    <!-- Nav Bar (from mwt_page.html) -->
+    <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider inox-font text-zwift-orange">
+                MASTER WINTER TOUR <span class="text-white text-lg font-light">25/26</span>
+            </div>
+            
+            <div class="hidden lg:flex space-x-6 text-sm font-semibold">
+                <a href="mwt_page.html#dashboard" class="hover:text-zwift-orange transition">Dashboard</a>
+                <a href="mwt_page.html#stages" class="hover:text-zwift-orange transition">Tappe</a>
+                <a href="mwt_page.html#analytics" class="hover:text-zwift-orange transition">Analisi</a>
+                <a href="mwt_page.html#ranking" class="hover:text-zwift-orange transition text-zwift-orange font-bold">Classifiche</a>
+            </div>
+            
+            <div class="flex space-x-3 items-center">
+                <!-- Regolamento Button -->
+                <a href="regolamento.html" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-1 px-4 rounded text-sm transition hidden sm:block">
+                    <i class="fas fa-scroll mr-1"></i> REGOLAMENTO
+                </a>
+                <a href="mwt_page.html#ranking" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-1 px-4 rounded text-sm transition hidden sm:block">
+                    CLASSIFICHE
+                </a>
+                <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-1 px-4 rounded text-sm transition">
+                    ISCRIVITI ORA
+                </a>
+                
+                <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
+                    <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
+                    <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar (from mwt_page.html, adapted) -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 lg:hidden"></div>
+    <div id="sidebar" class="lg:hidden shadow-2xl">
+        <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
+            <div class="flex items-center space-x-2">
+                <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
+                <span class="text-2xl font-bold tracking-wider inox-font text-inox-orange">INOX</span>
+            </div>
+        </div>
+        
+        <div class="flex flex-col p-2 space-y-1 text-base font-semibold">
+            <div class="border-b border-gray-700 pb-2 mb-2">
+                <p class="text-xs text-gray-500 uppercase px-3 py-1">Master Winter Tour</p>
+                <a href="mwt_page.html#dashboard" class="sidebar-link">Dashboard</a>
+                <a href="mwt_page.html#stages" class="sidebar-link">Tappe</a>
+                <a href="mwt_page.html#analytics" class="sidebar-link">Analisi</a>
+                <a href="mwt_page.html#ranking" class="sidebar-link">Classifiche</a>
+                <a href="regolamento.html" class="sidebar-link">Regolamento</a>
+            </div>
+
+            <div class="border-b border-gray-700 pb-2 mb-2">
+                <p class="text-xs text-gray-500 uppercase px-3 py-1">Area Riservata</p>
+                <a href="index.html" class="sidebar-link">Login/Accesso</a>
+                <a href="registrazione.html" class="sidebar-link">Registrazione</a>
+            </div>
+
+            <div class="border-b border-gray-700 pb-2 mb-2">
+                <p class="text-xs text-gray-500 uppercase px-3 py-1">Team INOX</p>
+                <a href="chi_siamo.html" class="sidebar-link">Chi Siamo / Filosofia</a>
+                <a href="contatti.html" class="sidebar-link">Contatti</a>
+            </div>
+
+            <div class="border-b border-gray-700 pb-2 mb-2">
+                <p class="text-xs text-gray-500 uppercase px-3 py-1">Attività Team</p>
+                <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
+                <a href="mwt_page.html" class="sidebar-link">Master Winter Tour</a>
+                <a href="zrl_page.html" class="sidebar-link">ZRL Roster (API)</a>
+            </div>
+
+            <div class="pb-2 mb-2">
+                <p class="text-xs text-gray-500 uppercase px-3 py-1">Risorse</p>
+                <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="sidebar-link">ZwiftPower</a>
+                <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="sidebar-link">Discord INOX</a>
+                <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="sidebar-link">Gruppo Strava</a>
+                <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
+            </div>
+
+            <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-inox-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center mt-4 transition text-sm">
+                ISCRIVITI A ZWIFT EVENTS
+            </a>
+        </div>
+    </div>
+
+    <main class="flex-grow container mx-auto py-8 mt-4">
+        <div class="rule-content-wrapper">
+            <!-- Header with language toggles -->
+            <div class="rule-header" role="banner">
+                <p class="organizer" aria-hidden="false"><strong>Organizzato dal Team INOX</strong></p>
+
+                <!-- Language buttons top-right -->
+                <div class="lang-toggle" aria-label="Language selection">
+                    <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
+                    <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
+                </div>
+            </div>
+
+            <!-- =========================
+                 ITALIANO
+                 ========================= -->
+            <div class="lang-it rule-section" id="it-section">
+                <h1>Masters Winter Tour - Regolamento</h1>
+
+                <div class="sommario" id="sommario-it">
+                    <h2>📌 Sommario</h2>
+                    <ul>
+                        <li><a href="#winters-tour-it">1. Masters Winter Tour</a></li>
+                        <li><a href="#rider-it">2. Rider</a></li>
+                        <li><a href="#categorie-it">3. Categorie</a></li>
+                        <li><a href="#classifiche-it">4. Classifiche e Punti</a></li>
+                        <li><a href="#punti-gare-it">5. Punti nelle Diverse Gare</a></li>
+                        <li><a href="#tabelle-punti-it">6. Tabelle Punti</a></li>
+                        <li><a href="#abbuoni-it">7. Abbuoni</a></li>
+                        <li><a href="#contatti-it">8. Contatti</a></li>
+                    </ul>
+                </div>
+
+                <hr id="winters-tour-it" />
+                <h2>1. Masters Winter Tour</h2>
+                <ul>
+                    <li>Competizione individuale per conquistare classifiche: <strong>Punti, Tempo, Sprint e Scalata</strong>.</li>
+                    <li>Griglie di partenza riportate nel Racepass.</li>
+                    <li>Regole generali: vietato l'uso di tecniche o attrezzature non consentite; prima infrazione comporta squalifica (DQ).</li>
+                </ul>
+
+                <h3>Regole specifiche della gara</h3>
+                <ul>
+                    <li>Libera scelta di bici e ruote (bici TT consentite solo negli eventi cronometro).</li>
+                    <li>Power-up assenti.</li>
+                    <li>Vietata modalità ERG.</li>
+                </ul>
+
+                <h3>Regole iTT (cronometro)</h3>
+                <ul>
+                    <li>Scia disattivata.</li>
+                    <li>Libera scelta di bici e ruote (consigliata bici TT).</li>
+                    <li>Power-up assenti.</li>
+                    <li>Vietata modalità ERG.</li>
+                </ul>
+
+                <hr id="rider-it" />
+                <h2>2. Rider</h2>
+                <ul>
+                    <li>Account attivo su ZwiftPower.</li>
+                    <li>Trainer smart o interattivo obbligatorio. Mancata trasmissione dati = annullamento punti.</li>
+                    <li>Cardiofrequenzimetro obbligatorio; malfunzionamenti gestiti dagli organizzatori.</li>
+                    <li>Altezza e peso corretti nel profilo Zwift; variazioni significative possono comportare squalifica.</li>
+                </ul>
+
+                <hr id="categorie-it" />
+                <h2>3. Categorie</h2>
+                <table>
+                    <thead>
+                        <tr><th>Categoria</th><th>in base all'età</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A</td><td>0 – 29</td></tr>
+                        <tr><td>B</td><td>30 – 39</td></tr>
+                        <tr><td>C</td><td>40 – 49</td></tr>
+                        <tr><td>D</td><td>50 – 59</td></tr>
+                        <tr><td>E</td><td>60+</td></tr>
+                    </tbody>
+                </table>
+
+                <hr id="classifiche-it" />
+                <h2>4. Classifiche e Punti</h2>
+                <h3>Classificazione Individuale a punti</h3>
+                <ul>
+                    <li>Punti accumulati in fasi iTT e Points.</li>
+                    <li>Punti totali = FIN + FTS + FAL.</li>
+                    <li>Ogni tappa conta per la classifica finale.</li>
+                    <li>In caso di parità: si considerano i punti FIN.</li>
+                </ul>
+
+                <h3>Classifica Specialista Sprinter</h3>
+                <ul>
+                    <li>Punti FTS e FAL Sprint da iTT e Points.</li>
+                    <li>In caso di parità: si considerano punti iTT.</li>
+                </ul>
+
+                <h3>Classifica Specialista Scalatore (KOM)</h3>
+                <ul>
+                    <li>Punti FTS e FAL KOM da iTT e Points.</li>
+                    <li>In caso di parità: si considerano punti iTT.</li>
+                </ul>
+
+                <h3>Classifica Tempo Individuale</h3>
+                <ul>
+                    <li>Somma dei tempi di ogni tappa, con abbuoni FIN, FAL, FTS.</li>
+                    <li>Non partecipazione o ingresso in corso: tempo ultimo classificato.</li>
+                </ul>
+
+                <hr id="punti-gare-it" />
+                <h2>5. Punti nelle Diverse Gare</h2>
+
+                <h3>Gare a punti (Points & Luna Park)</h3>
+                <ul>
+                    <li>FIN: secondo tabella.</li>
+                    <li>FTS: primi 10 segmenti Prime.</li>
+                    <li>FAL: primi 10 segmenti Prime.</li>
+                    <li>Punti totali = FIN + FTS + FAL.</li>
+                </ul>
+
+                <h3>Gare iTT Climber</h3>
+                <ul>
+                    <li>FIN: secondo tabella.</li>
+                    <li>FTS e FAL non assegnati.</li>
+                    <li>Punti totali = FIN.</li>
+                </ul>
+
+                <h3>Fasi iTT</h3>
+                <ul>
+                    <li>FIN: secondo tabella.</li>
+                    <li>FTS: primi 10 segmenti Sprint/KOM.</li>
+                    <li>FAL: non assegnato.</li>
+                    <li>Punti totali = FIN + FTS.</li>
+                </ul>
+
+                <hr id="tabelle-punti-it" />
+                <h2>6. Tabelle Punti</h2>
+
+                <h3>FIN – Punti di Arrivo</h3>
+                <table>
+                    <thead>
+                        <tr><th>Posizione</th><th>1°</th><th>2°</th><th>3°</th><th>4°</th><th>5°</th><th>6°</th><th>7°</th><th>8°</th><th>9°</th><th>10°</th><th>11°</th><th>12°</th><th>13°</th><th>14°</th><th>15°</th><th>16°</th><th>17°</th><th>18°</th><th>19°</th><th>20°</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Punti</td><td>100</td><td>80</td><td>70</td><td>60</td><td>55</td><td>50</td><td>45</td><td>40</td><td>36</td><td>32</td><td>29</td><td>26</td><td>24</td><td>22</td><td>20</td><td>18</td><td>16</td><td>14</td><td>12</td><td>10</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>FAL – First Across a Line</h3>
+                <table>
+                    <thead>
+                        <tr><th>Posizione</th><th>1°</th><th>2°</th><th>3°</th><th>4°</th><th>5°</th><th>6°</th><th>7°</th><th>8°</th><th>9°</th><th>10°</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Punti</td><td>25</td><td>21</td><td>17</td><td>14</td><td>11</td><td>8</td><td>6</td><td>4</td><td>2</td><td>1</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>FTS – Fastest Through a Segment</h3>
+                <table>
+                    <thead>
+                        <tr><th>Posizione</th><th>1°</th><th>2°</th><th>3°</th><th>4°</th><th>5°</th><th>6°</th><th>7°</th><th>8°</th><th>9°</th><th>10°</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Punti</td><td>25</td><td>21</td><td>17</td><td>14</td><td>11</td><td>8</td><td>6</td><td>4</td><td>2</td><td>1</td></tr>
+                    </tbody>
+                </table>
+
+                <hr id="abbuoni-it" />
+                <h2>7. Abbuoni</h2>
+                <ul>
+                    <li>FIN: NO</li>
+                    <li>FAL: NO</li>
+                    <li>FTS: NO</li>
+                </ul>
+
+                <hr id="contatti-it" />
+                <h2>8. Contatti</h2>
+                <ul>
+                    <li>Website: <a href="https://www.teaminox.it" target="_blank" rel="noopener">teaminox.it</a></li>
+                    <li>Facebook Page: <a href="https://www.facebook.com/groups/inoxteam/" target="_blank" rel="noopener">InoxTeam</a></li>
+                    <li>Zwift Companion Club: <a href="https://www.zwift.com/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" rel="noopener">Zwift Club</a></li>
+                    <li>Discord Channel: <a href="https://discord.gg/cpr3rBGaZy" target="_blank" rel="noopener">Discord</a></li>
+                    <li>ZwiftPower: <a href="https://zwiftpower.com/team.php?id=1646" target="_blank" rel="noopener">ZwiftPower</a></li>
+                    <li>STRAVA: <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" rel="noopener">Strava</a></li>
+                </ul>
+            </div>
+
+            <!-- =========================
+                 ENGLISH
+                 ========================= -->
+            <div class="lang-en rule-section" id="en-section" hidden aria-hidden="true">
+                <h1>Masters Winter Tour - Rules</h1>
+
+                <div class="summary" id="summary-en">
+                    <h2>📌 Contents</h2>
+                    <ul>
+                        <li><a href="#winters-tour-en">1. Masters Winter Tour</a></li>
+                        <li><a href="#rider-en">2. Riders</a></li>
+                        <li><a href="#categorie-en">3. Categories</a></li>
+                        <li><a href="#classifiche-en">4. Rankings & Points</a></li>
+                        <li><a href="#punti-gare-en">5. Points in Different Races</a></li>
+                        <li><a href="#tabelle-punti-en">6. Points Tables</a></li>
+                        <li><a href="#abbuoni-en">7. Time Bonuses</a></li>
+                        <li><a href="#contatti-en">8. Contacts</a></li>
+                    </ul>
+                </div>
+
+                <hr id="winters-tour-en" />
+                <h2>1. Masters Winter Tour</h2>
+                <ul>
+                    <li>Individual competition with rankings for: <strong>Points, Time, Sprint and Climb</strong>.</li>
+                    <li>Start grids reported in the Racepass.</li>
+                    <li>General rules: use of prohibited techniques or equipment is forbidden; first violation results in disqualification (DQ).</li>
+                </ul>
+
+                <h3>Specific race rules</h3>
+                <ul>
+                    <li>Free choice of bike and wheels (TT bikes allowed only in time trial events).</li>
+                    <li>No power-ups.</li>
+                    <li>ERG mode is forbidden.</li>
+                </ul>
+
+                <h3>Time Trial (iTT) rules</h3>
+                <ul>
+                    <li>Drafting disabled.</li>
+                    <li>Free choice of bike and wheels (TT bike recommended).</li>
+                    <li>No power-ups.</li>
+                    <li>ERG mode is forbidden.</li>
+                </ul>
+
+                <hr id="rider-en" />
+                <h2>2. Riders</h2>
+                <ul>
+                    <li>Active ZwiftPower account required.</li>
+                    <li>Smart or interactive trainer required. If no data is transmitted, points will be voided.</li>
+                    <li>Heart-rate monitor mandatory; malfunctions will be handled by the organisers.</li>
+                    <li>Correct height and weight in Zwift profile; significant discrepancies may lead to disqualification.</li>
+                </ul>
+
+                <hr id="categorie-en" />
+                <h2>3. Categories</h2>
+                <table>
+                    <thead>
+                        <tr><th>Category</th><th>By age</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A</td><td>0 – 29</td></tr>
+                        <tr><td>B</td><td>30 – 39</td></tr>
+                        <tr><td>C</td><td>40 – 49</td></tr>
+                        <tr><td>D</td><td>50 – 59</td></tr>
+                        <tr><td>E</td><td>60+</td></tr>
+                    </tbody>
+                </table>
+
+                <hr id="classifiche-en" />
+                <h2>4. Rankings & Points</h2>
+                <h3>Individual points ranking</h3>
+                <ul>
+                    <li>Points accumulated from iTT and Points stages.</li>
+                    <li>Total points = FIN + FTS + FAL.</li>
+                    <li>Each stage counts toward the final ranking.</li>
+                    <li>Tie: FIN points are used to break ties.</li>
+                </ul>
+
+                <h3>Sprint Specialist Ranking</h3>
+                <ul>
+                    <li>FTS and FAL sprint points from iTT and Points stages.</li>
+                    <li>Tie: iTT points are used to break ties.</li>
+                </ul>
+
+                <h3>Climber Specialist (KOM) Ranking</h3>
+                <ul>
+                    <li>FTS and FAL KOM points from iTT and Points stages.</li>
+                    <li>Tie: iTT points are used to break ties.</li>
+                </ul>
+
+                <h3>Individual Time Ranking</h3>
+                <ul>
+                    <li>Sum of times from each stage, including FIN, FAL and FTS bonuses.</li>
+                    <li>Non participation or late entry: time of the last classified rider.</li>
+                </ul>
+
+                <hr id="punti-gare-en" />
+                <h2>5. Points in Different Races</h2>
+
+                <h3>Points races (Points & Luna Park)</h3>
+                <ul>
+                    <li>FIN: see table.</li>
+                    <li>FTS: top 10 Prime segments.</li>
+                    <li>FAL: top 10 Prime segments.</li>
+                    <li>Punti totali = FIN + FTS + FAL.</li>
+                </ul>
+
+                <h3>iTT Climber races</h3>
+                <ul>
+                    <li>FIN: see table.</li>
+                    <li>FTS e FAL non assegnati.</li>
+                    <li>Punti totali = FIN.</li>
+                </ul>
+
+                <h3>iTT stages</h3>
+                <ul>
+                    <li>FIN: see table.</li>
+                    <li>FTS: top 10 Sprint/KOM.</li>
+                    <li>FAL: non awarded.</li>
+                    <li>Punti totali = FIN + FTS.</li>
+                </ul>
+
+                <hr id="tabelle-punti-en" />
+                <h2>6. Points Tables</h2>
+
+                <h3>FIN – Finish Points</h3>
+                <table>
+                    <thead>
+                        <tr><th>Place</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th>7th</th><th>8th</th><th>9th</th><th>10th</th><th>11th</th><th>12th</th><th>13th</th><th>14th</th><th>15th</th><th>16th</th><th>17th</th><th>18th</th><th>19th</th><th>20th</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Points</td><td>100</td><td>80</td><td>70</td><td>60</td><td>55</td><td>50</td><td>45</td><td>40</td><td>36</td><td>32</td><td>29</td><td>26</td><td>24</td><td>22</td><td>20</td><td>18</td><td>16</td><td>14</td><td>12</td><td>10</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>FAL – First Across a Line</h3>
+                <table>
+                    <thead>
+                        <tr><th>Place</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th>7th</th><th>8th</th><th>9th</th><th>10th</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Points</td><td>25</td><td>21</td><td>17</td><td>14</td><td>11</td><td>8</td><td>6</td><td>4</td><td>2</td><td>1</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>FTS – Fastest Through a Segment</h3>
+                <table>
+                    <thead>
+                        <tr><th>Place</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th>7th</th><th>8th</th><th>9th</th><th>10th</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Points</td><td>25</td><td>21</td><td>17</td><td>14</td><td>11</td><td>8</td><td>6</td><td>4</td><td>2</td><td>1</td></tr>
+                    </tbody>
+                </table>
+
+                <hr id="abbuoni-en" />
+                <h2>7. Time Bonuses</h2>
+                <ul>
+                    <li>FIN: NO</li>
+                    <li>FAL: NO</li>
+                    <li>FTS: NO</li>
+                </ul>
+
+                <hr id="contatti-en" />
+                <h2>8. Contacts</h2>
+                <ul>
+                    <li>Website: <a href="https://www.teaminox.it" target="_blank" rel="noopener">teaminox.it</a></li>
+                    <li>Facebook Page: <a href="https://www.facebook.com/groups/inoxteam/" target="_blank" rel="noopener">InoxTeam</a></li>
+                    <li>Zwift Companion Club: <a href="https://www.zwift.com/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" rel="noopener">Zwift Club</a></li>
+                    <li>Discord Channel: <a href="https://discord.gg/cpr3rBGaZy" target="_blank" rel="noopener">Discord</a></li>
+                    <li>ZwiftPower: <a href="https://zwiftpower.com/team.php?id=1646" target="_blank" rel="noopener">ZwiftPower</a></li>
+                    <li>STRAVA: <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" rel="noopener">Strava</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (from mwt_page.html) -->
+    <footer class="bg-black py-8 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+                
+                <div>
+                    <div class="text-zwift-orange text-2xl font-bold inox-font mb-4">MASTER WINTER TOUR</div>
+                    <p class="text-gray-500 text-sm mb-4">
+                        Segui le dirette streaming su Twitch e YouTube.<br>
+                        Usa l'hashtag <span class="text-white">#MasterWinterTour2025</span>
+                    </p>
+                    <div class="flex flex-col space-y-2 text-sm">
+                        <a href="https://support.zwift.com/en_us/race-events-faqs-BJX5w0m5W" target="_blank" class="text-gray-400 hover:text-white transition">Regolamento (FAQ Zwift)</a>
+                        <a href="ranking.html" target="_blank" class="text-gray-400 hover:text-white transition">Classifiche Generali (ZwiftPower)</a>
+                        <a href="https://www.zwift.com/eu-it/contact-us" target="_blank" class="text-gray-400 hover:text-white transition">Assistenza Zwift</a>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="text-white text-xl font-bold inox-font mb-4 border-b border-zwift-orange pb-2 inline-block">ORGANIZZATO DA TEAM INOX</div>
+                    <div class="flex flex-col space-y-2 text-sm">
+                        <a href="mailto:info@teaminox.it" class="text-gray-400 hover:text-white transition">📧 info@teaminox.it</a>
+                        <a href="https://www.facebook.com/groups/inoxteam/" target="_blank" class="text-gray-400 hover:text-white transition">👥 Gruppo Facebook</a>
+                        <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="text-gray-400 hover:text-white transition">🚴‍♂️ Club Zwift</a>
+                        <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="text-gray-400 hover:text-white transition">📊 Team su ZwiftPower</a>
+                        <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="text-gray-400 hover:text-white transition">💬 Canale Discord</a>
+                        <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="text-gray-400 hover:text-white transition">🏃 Gruppo STRAVA</a>
+                    </div>
+                </div>
+                
+                <div class="flex justify-center md:justify-end items-start h-full">
+                    <span class="text-8xl text-zwift-blue opacity-10 hidden md:block">🚴‍♂️</span>
+                </div>
+            </div>
+
+            <p class="text-gray-700 text-xs mt-8 border-t border-gray-900 pt-4 text-center">&copy; 2025 Master Winter Tour. Organizzato da Team INOX. | Piattaforma fornita da Zwift Inc.</p>
+        </div>
+    </footer>
+
+    <script>
+        (function(){
+            const btnIt = document.getElementById('btn-it');
+            const btnEn = document.getElementById('btn-en');
+            const itSection = document.getElementById('it-section');
+            const enSection = document.getElementById('en-section');
+
+            function setLanguage(lang, persist=true){
+                if(lang === 'it'){
+                    itSection.removeAttribute('hidden');
+                    itSection.setAttribute('aria-hidden','false');
+                    enSection.setAttribute('hidden','');
+                    enSection.setAttribute('aria-hidden','true');
+                    btnIt.setAttribute('aria-pressed','true');
+                    btnEn.setAttribute('aria-pressed','false');
+                } else {
+                    enSection.removeAttribute('hidden');
+                    enSection.setAttribute('aria-hidden','false');
+                    itSection.setAttribute('hidden','');
+                    itSection.setAttribute('aria-hidden','true');
+                    btnEn.setAttribute('aria-pressed','true');
+                    btnIt.setAttribute('aria-pressed','false');
+                }
+                if(persist){
+                    try { localStorage.setItem('mwt_lang', lang); } catch(e){}
+                }
+            }
+
+            // Initialize from localStorage or default to Italian
+            try{
+                const saved = localStorage.getItem('mwt_lang');
+                if(saved === 'en') setLanguage('en', false);
+                else setLanguage('it', false);
+            } catch(e){
+                setLanguage('it', false);
+            }
+
+            btnIt.addEventListener('click', ()=> setLanguage('it'));
+            btnEn.addEventListener('click', ()=> setLanguage('en'));
+
+            // keyboard support: Left/Right to toggle
+            document.addEventListener('keydown', (e)=>{
+                if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+                    const current = localStorage.getItem('mwt_lang') === 'en' ? 'en' : 'it';
+                    setLanguage(current === 'it' ? 'en' : 'it');
+                }
+            });
+        })();
+    </script>
+    <script src="sidebar.js"></script>
+
+</body>
+</html>
