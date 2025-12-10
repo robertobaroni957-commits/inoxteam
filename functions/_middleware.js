@@ -11,7 +11,8 @@ const PUBLIC_ROUTES = [
     '/api/register',
     '/home.html',
     '/chi_siamo.html',
-    '/contatti.html' 
+    '/contatti.html',
+    '/favicon.ico' 
 ];
 
 const ALG = 'HS256'; 
