@@ -1,5 +1,5 @@
 name = "inoxteam-pages-functions"
-main = "functions/_middleware.js"
+
 compatibility_date = "2024-05-18"
 
 # Sezione di configurazione D1
