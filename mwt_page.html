@@ -865,13 +865,23 @@
                 const response = await fetch(raceFilePath);
                 if (!response.ok) throw new Error(`Impossibile caricare il file JSON della gara: ${raceFilePath}`);
 
-                const raceResults = await response.json();
+                const rawRaceResults = await response.json(); // This will be an array of athletes
                 
+                // Group athletes by category
+                const groupedRaceResults = {};
+                rawRaceResults.forEach(athlete => {
+                    const category = athlete.category;
+                    if (!groupedRaceResults[category]) {
+                        groupedRaceResults[category] = [];
+                    }
+                    groupedRaceResults[category].push(athlete);
+                });
+
                 let allCategoriesHtml = '';
-                const categories = ['A', 'B', 'C', 'D', 'E']; // Assuming these categories always exist
+                const categories = ['A', 'B', 'C', 'D', 'E'];
 
                 categories.forEach(cat => {
-                    const categoryData = raceResults[cat];
+                    const categoryData = groupedRaceResults[cat];
                     if (categoryData && categoryData.length > 0) {
                         allCategoriesHtml += `<div class="mb-8">
                                                 <h3 class="text-2xl text-zwift-orange mb-4 inox-font">Categoria ${cat}</h3>
