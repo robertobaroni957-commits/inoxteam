@@ -328,6 +328,24 @@
             </div>
         </div>
     </section>
+
+    <section id="single-race" class="py-12 bg-zwift-card">
+        <div class="container mx-auto px-4">
+            <div class="mb-8 border-b border-gray-700 pb-4">
+                <h2 class="text-4xl font-bold text-white inox-font">RISULTATI SINGOLA GARA</h2>
+                <p class="text-gray-400">Seleziona una gara per visualizzare i risultati dettagliati.</p>
+            </div>
+
+            <div class="flex space-x-3 mb-8 flex-wrap">
+                <button id="btn-gara-1" data-race-file="gara_1_results.json" class="race-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Gara 1</button>
+                <!-- Add more buttons for other races here -->
+            </div>
+
+            <div id="single-race-ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] relative">
+                <p class="text-gray-500 absolute inset-0 flex items-center justify-center" id="single-race-loading-message">Seleziona una gara per visualizzare i risultati.</p>
+            </div>
+        </div>
+    </section>
     
     <footer class="bg-black py-8 border-t border-gray-800">
         <div class="container mx-auto px-4">
@@ -838,6 +856,61 @@
             });
         };
 
+        // Funzione per caricare e visualizzare i risultati di una singola gara
+        const loadSingleRaceResults = async (raceFilePath) => {
+            const container = document.getElementById('single-race-ranking-container');
+            container.innerHTML = `<p class="text-gray-500 absolute inset-0 flex items-center justify-center text-lg" id="single-race-loading-message">Caricamento risultati da ${raceFilePath}...</p>`;
+
+            try {
+                const response = await fetch(raceFilePath);
+                if (!response.ok) throw new Error(`Impossibile caricare il file JSON della gara: ${raceFilePath}`);
+
+                const raceResults = await response.json();
+                
+                let allCategoriesHtml = '';
+                const categories = ['A', 'B', 'C', 'D', 'E']; // Assuming these categories always exist
+
+                categories.forEach(cat => {
+                    const categoryData = raceResults[cat];
+                    if (categoryData && categoryData.length > 0) {
+                        allCategoriesHtml += `<div class="mb-8">
+                                                <h3 class="text-2xl text-zwift-orange mb-4 inox-font">Categoria ${cat}</h3>
+                                                ${renderRankingTable(categoryData, 'punti', cat)}
+                                              </div>`;
+                    }
+                });
+
+                if (allCategoriesHtml) {
+                    container.innerHTML = allCategoriesHtml;
+                } else {
+                    container.innerHTML = `<p class="text-gray-500 text-lg p-10">⚠️ Nessun risultato trovato nel file ${raceFilePath}.</p>`;
+                }
+
+            } catch (error) {
+                console.error("Errore nel caricamento dei risultati della gara:", error);
+                container.innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare i risultati della gara. Riprova più tardi. (Dettagli: ${error.message})</p>`;
+            }
+        };
+
+        // Inizializza i listener per i pulsanti di selezione della singola gara
+        const initSingleRaceListeners = () => {
+            document.querySelectorAll('.race-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    // Rimuove la classe 'bg-zwift-orange' da tutti i pulsanti e aggiunge 'bg-zwift-card'
+                    document.querySelectorAll('.race-btn').forEach(btn => {
+                        btn.classList.replace('bg-zwift-orange', 'bg-zwift-card');
+                        btn.classList.add('hover:bg-gray-700');
+                    });
+                    // Aggiunge la classe 'bg-zwift-orange' al pulsante cliccato
+                    e.target.classList.replace('bg-zwift-card', 'bg-zwift-orange');
+                    e.target.classList.remove('hover:bg-gray-700');
+
+                    const raceFile = e.target.dataset.raceFile;
+                    loadSingleRaceResults(raceFile);
+                });
+            });
+        };
+
         // DOMContentLoaded (Invariato, tranne il caricamento iniziale)
         document.addEventListener('DOMContentLoaded', () => {
             initCountdown();
@@ -845,6 +918,7 @@
             populateFilters();
             renderStages(tourStages);
             initRankingListeners();
+            initSingleRaceListeners(); // Initialize single race listeners
             // Carica la prima classifica all'avvio: Categoria A - Punti Generali
             loadRanking('A', 'punti'); 
         });
