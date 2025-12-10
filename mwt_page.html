@@ -385,7 +385,7 @@
         const GENERAL_REGISTER_LINK = "https://www.zwift.com/eu-it/events/tag/inoxwinter";
         
         const tourStages = [
-            { id: 1, date: "2025-12-12T19:20:00", world: "Scotland", route: "Outer Scotland", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247620", segments_info: "🚴‍♀❄ Masters Winter Tour - Stage 1 ❄🚴‍♀\nTomorrow 19:20\nOuter Scotland   2 Laps   22 km\nAll riders visible   Scoreboard   No Powerups   No TT bikes\n\nSegments:\n- first Champion Sprint FTS only\n- first Breakaway Brae Reverse FTS only\n- first Clyde Kicker FAL and FTS\n- second Champion Sprint FAL and FTS\n- second Breakaway Brae Reverse FAL only\n- second Clyde Kicker FAL and FTS\n- third Champion Sprint FAL and FTS" },
+            { id: 1, date: "2025-12-12T19:20:00", world: "Scotland", route: "Outer Scotland", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247620", segments_info: "🚴‍♀❄ Masters Winter Tour - Stage 1 ❄🚴‍♀\nOuter Scotland   2 Laps   22 km\nAll riders visible   Scoreboard   No Powerups   No TT bikes\n\nSegments:\n- first Champion Sprint FTS only\n- first Breakaway Brae Reverse FTS only\n- first Clyde Kicker FAL and FTS\n- second Champion Sprint FAL and FTS\n- second Breakaway Brae Reverse FAL only\n- second Clyde Kicker FAL and FTS\n- third Champion Sprint FAL and FTS" },
             { id: 2, date: "2025-12-16T19:20:00", world: "Makuri", route: "Red Zone Repeats", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247622", segments_info: "" },
             { id: 3, date: "2025-12-19T19:20:00", world: "New York", route: "Issendorf Express", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/issendorf-express/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247623", segments_info: "" },
             { id: 4, date: "2025-12-23T19:20:00", world: "Scotland", route: "City and the Sgurr", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/city-and-the-sgurr/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247624", segments_info: "" },
@@ -567,8 +567,10 @@
                     </div>
                 `;
                 card.addEventListener('click', () => {
+                    const formattedDate = formatDate(stage.date);
+                    const modalDetails = `Date: ${formattedDate}\n${stage.segments_info}`;
                     document.getElementById('modal-event-title').innerText = `Tappa ${stage.id}: ${stage.world} - ${stage.route}`;
-                    document.getElementById('modal-event-details').innerText = stage.segments_info;
+                    document.getElementById('modal-event-details').innerText = modalDetails;
                     document.getElementById('modal-route-link').href = stage.routeLink;
                     document.getElementById('event-modal').classList.remove('hidden');
                 });
