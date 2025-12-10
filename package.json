@@ -11,7 +11,7 @@
   "license": "ISC",
   "type": "module", 
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt-ts": "^5.0.0",
     "jose": "^6.1.3"
   }  
 }
