@@ -1,17 +1,18 @@
-// functions/api/login.js
+// functions/login_auth.js
 
-import * as jose from 'jose'; 
+import { compare } from 'bcrypt-ts'; 
+import * as jose from 'jose';
 
 // Durata del token (24 ore in secondi)
 const TOKEN_EXPIRY_SECONDS = 60 * 60 * 24;
 const ALG = 'HS256';
 
-// Usiamo l'handler generico che hai fornito, ma senza next non usato.
-export async function onRequest({ request, env }) { 
+// Usiamo onRequest per compatibilità, ma gestiamo solo il metodo POST
+export async function onRequest({ request, env }) {
     
-    // Controlliamo ESPLICITAMENTE il metodo per essere sicuri
+    // 1. Controllo del Metodo HTTP
     if (request.method !== 'POST') {
-        return new Response('Method Not Allowed: Usa POST per il login.', { status: 405 });
+        return new Response(JSON.stringify({ message: 'Method Not Allowed: Usa POST per l\'accesso.' }), { status: 405 });
     }
 
     if (!env.DB || !env.JWT_SECRET) {
@@ -21,25 +22,33 @@ export async function onRequest({ request, env }) {
     try {
         const { email, password } = await request.json();
         
-        // 1. Cerca l'utente
+        // 2. Cerca l'utente
         const { results } = await env.DB.prepare(
             "SELECT id, username, password_hash, role FROM users WHERE email = ?"
         ).bind(email).all();
 
         const user = results[0];
         if (!user) {
+             // Non specificare se è l'email o la password a essere sbagliata per sicurezza
              return new Response(JSON.stringify({ message: 'Credenziali non valide.' }), { status: 401 });
         }
 
-        // 2. BYPASS TOTALE DEL CONFRONTO PASSWORD PER DIAGNOSI DEL 405
-        // 🚨 Il login è sempre VERO se l'utente esiste. 
-        const isPasswordValid = true; 
-        
-        if (!isPasswordValid) { // Questa riga non verrà mai eseguita
+        // 3. Confronta la password con l'hash salvato (Logica riattivata)
+        let isPasswordValid = false;
+        try {
+            // Tentativo di confronto con la libreria bcrypt-ts
+            isPasswordValid = await compare(password, user.password_hash); 
+        } catch (bcryptError) {
+            // Errore nella libreria BCrypt (es. hash corrotto/non valido)
+            console.error('ERRORE BCrypt COMPARE:', bcryptError.message);
+            return new Response(JSON.stringify({ message: 'Credenziali non valide.' }), { status: 401 });
+        }
+
+        if (!isPasswordValid) {
              return new Response(JSON.stringify({ message: 'Credenziali non valide.' }), { status: 401 });
         }
 
-        // 3. Firma il Token con JOSE (Il codice è corretto qui)
+        // 4. Firma il Token con JOSE
         const payload = {
             userId: user.id,
             username: user.username,
@@ -53,7 +62,7 @@ export async function onRequest({ request, env }) {
             .setExpirationTime(`${TOKEN_EXPIRY_SECONDS}s`) 
             .sign(secret);
         
-        // 4. Risposta di Successo
+        // 5. Risposta di Successo
         const redirectToPath = user.role === 'admin' ? '/dashboard.html' : '/eventi.html';
 
         return new Response(JSON.stringify({ 
@@ -66,8 +75,8 @@ export async function onRequest({ request, env }) {
         });
 
     } catch (error) {
-        // Cattura gli errori solo se il DB fallisce o la generazione JWT fallisce
-        console.error('Errore critico (DB/JWT) durante il login:', error.message);
+        // Cattura errori di DB, parse JSON o generazione JWT
+        console.error('Errore critico durante il login:', error.message);
         return new Response(JSON.stringify({ message: 'Errore interno del server.' }), { status: 500 });
     }
 }
