@@ -1,13 +1,1 @@
-{
-  "A": [
-    { "name": "Atleta 1 A [Team Alpha]", "total": 100, "time": 3600, "pts_sprint": 10, "pts_kom": 5 },
-    { "name": "Atleta 2 A [Team Beta]", "total": 90, "time": 3650, "pts_sprint": 8, "pts_kom": 4 }
-  ],
-  "B": [
-    { "name": "Atleta 1 B [Team Gamma]", "total": 80, "time": 3700, "pts_sprint": 7, "pts_kom": 3 },
-    { "name": "Atleta 2 B [Team Delta]", "total": 70, "time": 3750, "pts_sprint": 6, "pts_kom": 2 }
-  ],
-  "C": [],
-  "D": [],
-  "E": []
-}
+[]
