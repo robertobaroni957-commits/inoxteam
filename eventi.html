@@ -105,9 +105,12 @@
         <source src="https://www.teaminox.it/wp-content/uploads/2025/11/Presentazione-2025-.mp4" type="video/mp4">
     </video>
 
-    <button id="menu-toggle-mobile" class="lg:hidden fixed top-4 left-4 z-[100] p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
-        <svg class="w-6 h-6 text-inox-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <button id="menu-toggle" class="lg:hidden fixed top-4 left-4 z-[100] p-2 bg-inox-card rounded-md shadow-2xl border border-gray-700">
+        <svg id="menu-icon-open" class="w-6 h-6 text-inox-orange block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        <svg id="menu-icon-close" class="w-6 h-6 text-inox-orange hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
     </button>
     <div id="sidebar-overlay" class="fixed inset-0 bg-black opacity-0 transition-opacity duration-300 pointer-events-none z-20 lg:hidden"></div>
@@ -160,11 +163,7 @@
             <nav id="top-nav" class="bg-inox-card border-b border-gray-700 shadow-lg sticky top-0 z-20">
                 <div class="px-6 py-3 flex justify-between items-center text-sm font-semibold">
                     
-                    <button id="menu-toggle" class="text-white p-2 lg:hidden flex items-center">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
+                    
                     
                     <div class="hidden lg:flex items-center">
                         <a href="home.html" class="hover:text-inox-orange px-4">Home</a>
@@ -414,39 +413,9 @@
                     window.location.href = 'index.html?logout=success';
                 });
             }
-
-
-            // ===========================================
-            // 4. LOGICA TOGGLE SIDEBAR (Mobile)
-            // ===========================================
-            const menuToggle = document.getElementById('menu-toggle');
-            const menuToggleMobile = document.getElementById('menu-toggle-mobile'); 
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebar-overlay');
-
-            const toggleSidebar = () => {
-                sidebar.classList.toggle('-translate-x-full'); // Corretto per Tailwind
-                overlay.classList.toggle('opacity-0');
-                overlay.classList.toggle('pointer-events-none');
-            };
-
-            const handleToggleClick = (e) => {
-                e.preventDefault();
-                toggleSidebar();
-            };
-
-            if (menuToggle) menuToggle.addEventListener('click', handleToggleClick);
-            if (menuToggleMobile) menuToggleMobile.addEventListener('click', handleToggleClick);
-            
-            if (overlay) {
-                overlay.addEventListener('click', () => {
-                    if (!sidebar.classList.contains('-translate-x-full')) {
-                        toggleSidebar();
-                    }
-                });
-            }
         });
     </script>
+    <script src="sidebar.js"></script>
     
 </body>
 </html>

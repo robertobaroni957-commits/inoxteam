@@ -13,7 +13,8 @@
     if (!sidebar || !toggleButton) return;
 
     const openSidebar = () => {
-        sidebar.classList.add('sidebar-open');
+        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('translate-x-0');
         // Aggiungo le classi per rendere visibile e cliccabile l'overlay
         // NOTA: 'opacity-50' è una classe Tailwind che deve essere definita nel tuo setup!
         overlay.classList.add('opacity-50', 'pointer-events-auto'); 
@@ -24,7 +25,8 @@
     };
 
     const closeSidebar = () => {
-        sidebar.classList.remove('sidebar-open');
+        sidebar.classList.remove('translate-x-0');
+        sidebar.classList.add('-translate-x-full');
         // Rimuovo le classi per nascondere e rendere non cliccabile l'overlay
         overlay.classList.remove('opacity-50', 'pointer-events-auto');
         overlay.classList.add('pointer-events-none');
@@ -34,7 +36,7 @@
     };
 
     toggleButton.addEventListener('click', () => {
-        if (sidebar.classList.contains('sidebar-open')) {
+        if (sidebar.classList.contains('translate-x-0')) {
             closeSidebar();
         } else {
             openSidebar();
