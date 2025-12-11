@@ -43,75 +43,17 @@
     </script>
 
     <style>
-        /* Rimosso Body e H1/H2/H3 base style: gestiti ora da sidebar.css */
-        
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            height: 350px;
-            max-height: 400px;
-            margin: 0 auto;
-        }
-        
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1e1e24; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #fc6719; 
-            border-radius: 4px;
-        }
-        
-        /* Stili per normalizzare la classifica se caricata da un file esterno */
-        /* Nota: questi stili non servono più se si usa renderRankingTable, ma li ho lasciati per precauzione */
-        #ranking-container h1,
-        #ranking-container h2,
-        #ranking-container h3,
-        #ranking-container p,
-        #ranking-container td,
-        #ranking-container th {
-            color: #f0f0f0 !important;
-        }
-        
-        #ranking-container h1 {
-            color: #fc6719 !important;
-        }
-        
-        #ranking-container h2 {
-            color: #00f0ff !important; 
-        }
-        
-        #ranking-container table,
-        #ranking-container tr,
-        #ranking-container td,
-        #ranking-container th {
-            background-color: #1e1e24 !important;
-            box-shadow: none !important;
-        }
-        
-        #ranking-container td {
-            border-bottom: 1px solid #374151 !important;
-        }
-        
-        #ranking-container td[style*="width: 50px"] {
-            width: auto !important;
-        }
-        
-        #ranking-container td[style*="color: #0"] {
-            color: inherit !important;
-        }
-        
-        /* La classe .no-scroll è ora definita nel tuo sidebar.css */
+        .chart-container { position: relative; width: 100%; max-width: 500px; height: 350px; max-height: 400px; margin: 0 auto; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e1e24; }
+        ::-webkit-scrollbar-thumb { background: #fc6719; border-radius: 4px; }
     </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col">
+<body class="antialiased min-h-screen flex flex-col bg-zwift-dark font-body text-zwift-text">
 
     <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-wider inox-font text-zwift-orange">
+            <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">
                 MASTER WINTER TOUR <span class="text-white text-lg font-light">25/26</span>
             </div>
             
@@ -147,7 +89,7 @@
     <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
         <div class="flex items-center space-x-2">
             <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
-            <span class="text-2xl font-bold tracking-wider inox-font text-inox-orange">INOX</span>
+            <span class="text-2xl font-bold tracking-wider font-display text-zwift-orange">INOX</span>
         </div>
     </div>
     
@@ -191,7 +133,7 @@
             <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
         </div>
 
-        <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-inox-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center mt-4 transition text-sm">
+        <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center mt-4 transition text-sm">
             ISCRIVITI A ZWIFT EVENTS
         </a>
         
@@ -201,7 +143,7 @@
     
     <header id="dashboard" class="relative py-16 min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-zwift-card to-zwift-dark">
         <div class="container mx-auto px-4 text-center">
-            <h1 class="text-6xl md:text-8xl font-bold mb-4 leading-none text-white drop-shadow-lg inox-font">
+            <h1 class="text-6xl md:text-8xl font-bold mb-4 leading-none text-white drop-shadow-lg font-display">
                 DOMINA <span class="text-transparent bg-clip-text bg-gradient-to-r from-zwift-orange to-red-500">L'INVERNO</span>
             </h1>
             <p class="text-xl md:text-2xl text-zwift-gray mb-8 max-w-2xl mx-auto font-light drop-shadow-md">
@@ -210,19 +152,19 @@
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10 text-zwift-blue">
                 <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
-                    <span id="days" class="text-4xl font-bold inox-font block">00</span>
+                    <span id="days" class="text-4xl font-bold font-display block">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Giorni</span>
                 </div>
                 <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
-                    <span id="hours" class="text-4xl font-bold inox-font block">00</span>
+                    <span id="hours" class="text-4xl font-bold font-display block">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Ore</span>
                 </div>
                 <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
-                    <span id="minutes" class="text-4xl font-bold inox-font block">00</span>
+                    <span id="minutes" class="text-4xl font-bold font-display block">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Minuti</span>
                 </div>
                 <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
-                    <span id="seconds" class="text-4xl font-bold inox-font block">00</span>
+                    <span id="seconds" class="text-4xl font-bold font-display block">00</span>
                     <span class="text-xs text-gray-400 uppercase tracking-widest">Secondi</span>
                 </div>
             </div>
@@ -236,13 +178,13 @@
     <section id="analytics" class="py-12 bg-zwift-dark">
         <div class="container mx-auto px-4">
             <div class="mb-10 text-center md:text-left">
-                <h2 class="text-4xl font-bold mb-2 inox-font">ANALISI DEL TOUR</h2>
+                <h2 class="text-4xl font-bold mb-2 font-display">ANALISI DEL TOUR</h2>
                 <p class="text-gray-400">Studia il terreno. Prepara l'attrezzatura. Ecco cosa ti aspetta nelle 18 tappe.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg">
-                    <h3 class="text-2xl text-zwift-blue mb-4 inox-font">Tipologie di Gara</h3>
+                    <h3 class="text-2xl text-zwift-blue mb-4 font-display">Tipologie di Gara</h3>
                     <div class="chart-container">
                         <canvas id="raceTypeChart"></canvas>
                     </div>
@@ -250,22 +192,22 @@
                 </div>
 
                 <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg flex flex-col justify-center">
-                    <h3 class="text-2xl text-zwift-orange mb-6 inox-font">Statistiche Chiave</h3>
+                    <h3 class="text-2xl text-zwift-orange mb-6 font-display">Statistiche Chiave</h3>
                     <div class="grid grid-cols-2 gap-6">
                         <div class="text-center p-4 bg-black/30 rounded-lg">
-                            <div class="text-5xl font-bold text-white inox-font">18</div>
+                            <div class="text-5xl font-bold text-white font-display">18</div>
                             <div class="text-sm text-gray-400 uppercase">Tappe Totali</div>
                         </div>
                         <div class="text-center p-4 bg-black/30 rounded-lg">
-                            <div class="text-5xl font-bold text-white inox-font">6</div>
+                            <div class="text-5xl font-bold text-white font-display">6</div>
                             <div class="text-sm text-gray-400 uppercase">Settimane</div>
                         </div>
                         <div class="text-center p-4 bg-black/30 rounded-lg">
-                            <div class="text-5xl font-bold text-white inox-font">8</div>
+                            <div class="text-5xl font-bold text-white font-display">8</div>
                             <div class="text-sm text-gray-400 uppercase">Mondi Zwift</div>
                         </div>
                         <div class="text-center p-4 bg-black/30 rounded-lg">
-                            <div class="text-5xl font-bold text-white inox-font">5</div>
+                            <div class="text-5xl font-bold text-white font-display">5</div>
                             <div class="text-sm text-gray-400 uppercase">Tappe di Montagna</div>
                         </div>
                     </div>
@@ -283,7 +225,7 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-gray-700 pb-4">
                 <div>
-                    <h2 class="text-4xl font-bold text-white inox-font">CALENDARIO TAPPE</h2>
+                    <h2 class="text-4xl font-bold text-white font-display">CALENDARIO TAPPE</h2>
                     <p class="text-gray-400">Esplora e registrati. Clicca su una tappa per i dettagli del percorso (Zwift Insider).</p>
                 </div>
                 
@@ -305,38 +247,37 @@
     <section id="ranking" class="py-12 bg-zwift-dark">
         <div class="container mx-auto px-4">
             <div class="mb-8 border-b border-gray-700 pb-4">
-                <h2 class="text-4xl font-bold text-white inox-font">CLASSIFICHE TOUR</h2>
+                <h2 class="text-4xl font-bold text-white font-display">CLASSIFICHE TOUR</h2>
                 <p class="text-gray-400">Seleziona una categoria e un tipo di classifica per visualizzare i risultati aggiornati.</p>
             </div>
             
-            <div class="flex space-x-3 mb-4 flex-wrap items-center">
-                <label for="selectGaraRanking" class="text-gray-400 text-sm font-semibold">Gara:</label>
-                <select id="selectGaraRanking" class="bg-zwift-card text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
-                    <option value="cumulative">Generale (Tutte le Gare)</option>
-                    <!-- Options for stages 1-18 will be populated by JS -->
-                </select>
-                <div class="flex space-x-2">
-                    <button id="view-cumulative" data-view="cumulative" class="view-btn bg-zwift-orange text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Cumulata</button>
-                    <button id="view-single-race" data-view="single-race" class="view-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Singola Gara</button>
+            <div class="flex space-x-4 mb-4 flex-wrap items-center bg-zwift-card p-4 rounded-lg border border-gray-700">
+                <div class="flex items-center space-x-2">
+                    <label for="selectGaraRanking" class="text-gray-400 text-sm font-semibold">Gara:</label>
+                    <select id="selectGaraRanking" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
+                        <option value="cumulative">Generale (Cumulata)</option>
+                        <!-- Options for stages 1-18 will be populated by JS -->
+                    </select>
                 </div>
-            </div>
-
-            <div class="flex space-x-3 mb-4 flex-wrap">
-                <button id="btn-A" data-category="A" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria A</button>
-                <button id="btn-B" data-category="B" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria B</button>
-                <button id="btn-C" data-category="C" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria C</button>
-                <button id="btn-D" data-category="D" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria D</button>
-                <button id="btn-E" data-category="E" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition mb-2">Categoria E</button>
+                <div class="flex items-center space-x-2">
+                    <label class="text-gray-400 text-sm font-semibold">Categoria:</label>
+                    <div class="flex space-x-1">
+                        <button data-category="A" class="category-btn bg-zwift-orange text-white font-bold py-2 px-4 rounded text-sm transition">A</button>
+                        <button data-category="B" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition">B</button>
+                        <button data-category="C" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition">C</button>
+                        <button data-category="D" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition">D</button>
+                        <button data-category="E" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition">E</button>
+                    </div>
+                </div>
             </div>
 
             <div class="flex space-x-3 mb-8 flex-wrap border-t border-gray-700 pt-4">
                 <button id="type-punti" data-type="punti" class="type-btn bg-zwift-orange text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Punti Generali</button>
-                <button id="type-tempo" data-type="tempo" class="type-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Tempo Cumulato</button>
+                <button id="type-tempo" data-type="tempo" class="type-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Tempo</button>
                 <button id="type-sprinter" data-type="sprinter" class="type-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Punti Sprinter</button>
                 <button id="type-scalatore" data-type="scalatore" class="type-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Punti Scalatore</button>
             </div>
             <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] relative">
-                <p class="text-gray-500 absolute inset-0 flex items-center justify-center" id="loading-message">Seleziona una categoria per visualizzare la classifica.</p>
             </div>
         </div>
     </section>
@@ -346,7 +287,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                 
                 <div>
-                    <div class="text-zwift-orange text-2xl font-bold inox-font mb-4">MASTER WINTER TOUR</div>
+                    <div class="text-zwift-orange text-2xl font-bold font-display mb-4">MASTER WINTER TOUR</div>
                     <p class="text-gray-500 text-sm mb-4">
                         Segui le dirette streaming su Twitch e YouTube.<br>
                         Usa l'hashtag <span class="text-white">#MasterWinterTour2025</span>
@@ -359,7 +300,7 @@
                 </div>
 
                 <div>
-                    <div class="text-white text-xl font-bold inox-font mb-4 border-b border-zwift-orange pb-2 inline-block">ORGANIZZATO DA TEAM INOX</div>
+                    <div class="text-white text-xl font-bold font-display mb-4 border-b border-zwift-orange pb-2 inline-block">ORGANIZZATO DA TEAM INOX</div>
                     <div class="flex flex-col space-y-2 text-sm">
                         <a href="mailto:info@teaminox.it" class="text-gray-400 hover:text-white transition">📧 info@teaminox.it</a>
                         <a href="https://www.facebook.com/groups/inoxteam/" target="_blank" class="text-gray-400 hover:text-white transition">👥 Gruppo Facebook</a>
@@ -384,7 +325,7 @@
             <button id="close-modal" class="absolute top-3 right-3 text-white text-2xl hover:text-zwift-orange transition">
                 <i class="fas fa-times"></i>
             </button>
-            <h3 id="modal-event-title" class="text-3xl font-bold text-zwift-orange mb-4 inox-font"></h3>
+            <h3 id="modal-event-title" class="text-3xl font-bold text-zwift-orange mb-4 font-display"></h3>
             <p id="modal-event-details" class="text-gray-300 whitespace-pre-line mb-4"></p>
             <a id="modal-route-link" href="#" target="_blank" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-2 px-4 rounded-full text-sm transition transform hover:scale-105 inline-flex items-center">
                 <i class="fas fa-map-marker-alt mr-2"></i> Vedi Percorso su Zwift Insider
@@ -641,12 +582,13 @@
         
         
         // ===================================================================
-        // NUOVE FUNZIONI PER GESTIRE IL JSON E LE CLASSIFICHE MULTIPLE
+        // NUOVE FUNZIONI PER GESTIRE IL JSON E LE CLASSIFICHE MULTIPLE (INIZIO MODIFICHE)
         // ===================================================================
 
         // Variabili globali per tracciare lo stato
         let currentCategory = 'A';
-        let currentType = 'punti'; // Default alla classifica Punti Generali
+        let currentType = 'punti'; 
+        let currentStage = 'cumulative'; 
 
         // Helper: converte i secondi totali in formato HH:MM:SS
         const secondsToHms = (d) => {
@@ -665,19 +607,15 @@
             let team = '';
             let name = fullName.trim();
             
-            // Espressione per trovare contenuti tra parentesi [ ], ( ), < >
             const regex = /\s*(\(|\[|&lt;)([^)\]&gt;]+)(\)|\]|&gt;)\s*$/;
             const match = name.match(regex);
 
             if (match) {
-                // Gruppo 2 è il contenuto delle parentesi/staffe (la squadra)
                 team = match[2];
-                // Rimuove la squadra dal nome
                 name = name.replace(match[0], '').trim(); 
             }
             
-            // Rimuove eventuali emoji o caratteri speciali rimanenti
-            name = name.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\s*&#\d+;|\s*[\u2600-\u26FF]|\s*[\u2700-\u27BF]/g, '').trim();
+            name = name.replace(/[�-�][�-�]|\s*&#\d+;|\s*[☀-⛿]|\s*[✀-➿]/g, '').trim();
 
             return { name, team: team || 'Individuale' };
         };
@@ -687,215 +625,163 @@
             document.querySelectorAll('.category-btn').forEach(button => {
                 if (button.dataset.category === activeCategory) {
                     button.classList.replace('bg-zwift-card', 'bg-zwift-orange');
-                    button.classList.add('transform', 'hover:scale-105');
-                    button.classList.remove('hover:bg-gray-700');
                 } else {
                     button.classList.replace('bg-zwift-orange', 'bg-zwift-card');
-                    button.classList.remove('transform', 'hover:scale-105');
-                    button.classList.add('hover:bg-gray-700');
                 }
             });
         };
 
-        // Aggiorna lo stato visivo dei pulsanti Tipo Classifica (NUOVA FUNZIONE)
+        // Aggiorna lo stato visivo dei pulsanti Tipo Classifica
         const updateTypeButtons = (activeType) => {
             document.querySelectorAll('.type-btn').forEach(button => {
                 if (button.dataset.type === activeType) {
                     button.classList.replace('bg-zwift-card', 'bg-zwift-orange');
-                    button.classList.remove('hover:bg-gray-700');
                 } else {
                     button.classList.replace('bg-zwift-orange', 'bg-zwift-card');
-                    button.classList.add('hover:bg-gray-700');
                 }
             });
         };
-
-        // Funzione per generare la tabella HTML dai dati JSON filtrati e ordinati (AGGIORNATA PER COLORAZIONE INLINE)
-        const renderRankingTable = (data, type, category) => {
+        
+        const renderRankingTable = (data, type, category, stage) => {
+            const isCumulative = (stage === 'cumulative');
             
-            // 1. Mappatura Titoli, Colonne e Chiave Dati (invariata)
             let title, headers, scoreKey, unit;
             
             if (type === 'punti') {
-                title = 'Punti Generali';
-                headers = ['Posizione', 'Atleta', 'Squadra', 'Punti'];
+                title = isCumulative ? 'Punti Generali (Cumulati)' : `Gara ${stage} - Punti`;
+                headers = ['Pos', 'Atleta', 'Squadra', 'Punti'];
                 scoreKey = 'total';
                 unit = ' Pts';
             } else if (type === 'tempo') {
-                title = 'Tempo Cumulato';
-                headers = ['Posizione', 'Atleta', 'Squadra', 'Tempo Totale'];
+                title = isCumulative ? 'Tempo Generale (Cumulato)' : `Gara ${stage} - Tempo`;
+                headers = ['Pos', 'Atleta', 'Squadra', 'Tempo'];
                 scoreKey = 'time';
                 unit = '';
             } else if (type === 'sprinter') {
-                title = 'Punti Sprinter';
-                headers = ['Posizione', 'Atleta', 'Squadra', 'Punti Sprint'];
+                title = isCumulative ? 'Punti Sprinter (Cumulati)' : `Gara ${stage} - Punti Sprint`;
+                headers = ['Pos', 'Atleta', 'Squadra', 'Punti Sprint'];
                 scoreKey = 'pts_sprint';
                 unit = ' Pts';
             } else if (type === 'scalatore') {
-                title = 'Punti Scalatore';
-                headers = ['Posizione', 'Atleta', 'Squadra', 'Punti Scalata'];
+                title = isCumulative ? 'Punti Scalatore (Cumulati)' : `Gara ${stage} - Punti Scalata`;
+                headers = ['Pos', 'Atleta', 'Squadra', 'Punti Scalata'];
                 scoreKey = 'pts_kom';
                 unit = ' Pts';
             } else {
                 return `<p class="text-red-500 text-lg p-10">Tipo di classifica non valido.</p>`;
             }
             
-            // 2. Ordinamento dei dati (invariato)
             const sortedData = [...data].sort((a, b) => {
                 const scoreA = a[scoreKey] || 0;
                 const scoreB = b[scoreKey] || 0;
-                
-                if (type === 'tempo') {
-                    const timeA = scoreA === 0 ? Infinity : scoreA;
-                    const timeB = scoreB === 0 ? Infinity : scoreB;
-                    return timeA - timeB;
-                } else {
-                    return scoreB - scoreA;
-                }
+                if (type === 'tempo') { return (scoreA || Infinity) - (scoreB || Infinity); }
+                return scoreB - scoreA;
             });
 
-            // 3. Generazione dell'HTML
-            let html = `
-                <h2 class="text-2xl text-zwift-blue mb-4 inox-font">${title} Categoria ${category}</h2>
-                <div class="overflow-x-auto">
-                <table class="min-w-full table-auto text-left whitespace-nowrap">
-                    <thead>
-                        <tr class="bg-black/50">
-                            ${headers.map(h => `<th class="px-4 py-2 border-b-2 border-zwift-orange">${h}</th>`).join('')}
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+            let html = `<h2 class="text-2xl text-zwift-blue mb-4 font-display">${title} Categoria ${category}</h2>
+                        <div class="overflow-x-auto"><table class="min-w-full table-auto text-left whitespace-nowrap"><thead><tr class="bg-black/50">
+                        ${headers.map(h => `<th class="px-4 py-2 border-b-2 border-zwift-orange">${h}</th>`).join('')}
+                        </tr></thead><tbody>`;
             
-            sortedData.forEach((athlete, index) => {
-                const { name: athleteName, team } = parseNameAndTeam(athlete.name);
-                const rank = index + 1;
-                
-                let scoreDisplay = athlete[scoreKey] || 0;
-                
-                if (type === 'tempo') {
-                    scoreDisplay = secondsToHms(scoreDisplay);
-                } else {
-                    scoreDisplay = `${scoreDisplay}${unit}`;
-                }
+            if (sortedData.length === 0) {
+                 html += `<tr><td colspan="${headers.length}" class="text-center py-8 text-gray-500">Nessun dato disponibile per questa selezione.</td></tr>`;
+            } else {
+                sortedData.forEach((athlete, index) => {
+                    const { name: athleteName, team } = parseNameAndTeam(athlete.name);
+                    const rank = index + 1;
+                    let scoreDisplay = athlete[scoreKey] || 0;
+                    if (type === 'tempo') {
+                        scoreDisplay = secondsToHms(scoreDisplay);
+                    } else {
+                        scoreDisplay += unit;
+                    }
+                    let rowStyle = ''; let rankColor = 'text-white'; let medalIcon = '';
+                    if (rank === 1) { rowStyle = 'background-color: rgba(255, 215, 0, 0.2);'; rankColor = 'text-yellow-400'; medalIcon = '🥇 '; } 
+                    else if (rank === 2) { rowStyle = 'background-color: rgba(192, 192, 192, 0.2);'; rankColor = 'text-gray-300'; medalIcon = '🥈 '; }
+                    else if (rank === 3) { rowStyle = 'background-color: rgba(205, 127, 50, 0.2);'; rankColor = 'text-amber-500'; medalIcon = '🥉 '; }
 
-                // Aggiunta degli stili in linea per forzare la colorazione
-                let rowStyle = '';
-                let rankColor = 'text-white';
-                let medalIcon = '';
-
-                if (rank === 1) {
-                    // Oro leggermente più scuro per non coprire il testo nero
-                    rowStyle = 'background-color: rgba(255, 215, 0, 0.2);'; 
-                    rankColor = 'text-yellow-400';
-                    medalIcon = '🥇 ';
-                } else if (rank === 2) {
-                    // Argento
-                    rowStyle = 'background-color: rgba(192, 192, 192, 0.2);';
-                    rankColor = 'text-gray-300';
-                    medalIcon = '🥈 ';
-                } else if (rank === 3) {
-                    // Bronzo
-                    rowStyle = 'background-color: rgba(205, 127, 50, 0.2);';
-                    rankColor = 'text-amber-500';
-                    medalIcon = '🥉 ';
-                }
-
-                // Applichiamo la classe di hover standard e lo stile in linea
-                const rowClasses = `hover:bg-black/30`;
-                const finalStyle = `style="${rowStyle}"`;
-
-                html += `
-                    <tr class="${rowClasses}" ${finalStyle}>
-                        <td class="px-4 py-3 font-bold ${rankColor}">${medalIcon}${rank}</td>
-                        <td class="px-4 py-3 font-semibold text-white">${athleteName}</td>
-                        <td class="px-4 py-3 text-gray-400">${team}</td>
-                        <td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td>
-                    </tr>
-                `;
-            });
-
-            html += `
-                    </tbody>
-                </table>
-                </div>
-            `;
+                    html += `<tr class="hover:bg-black/30" style="${rowStyle}">
+                                <td class="px-4 py-3 font-bold ${rankColor}">${medalIcon}${rank}</td>
+                                <td class="px-4 py-3 font-semibold text-white">${athleteName}</td>
+                                <td class="px-4 py-3 text-gray-400">${team}</td>
+                                <td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td>
+                             </tr>`;
+                });
+            }
+            html += `</tbody></table></div>`;
             return html;
         };
 
 
-        // Sostituisce la vecchia loadRanking che caricava file HTML esterni
-        const loadRanking = async (category, type) => {
-            const container = document.getElementById('ranking-container');
-
-            // Aggiorna lo stato globale
+        const loadRanking = async (category, type, stage) => {
             currentCategory = category;
             currentType = type;
+            currentStage = stage;
             
-            // Aggiorna lo stato visivo dei pulsanti
             updateCategoryButtons(category);
             updateTypeButtons(type);
             
-            // Messaggio di caricamento
-            container.innerHTML = `<p class="text-gray-500 absolute inset-0 flex items-center justify-center text-lg">Caricamento classifica ${currentType.toUpperCase()} Categoria ${currentCategory}...</p>`;
-
+            const container = document.getElementById('ranking-container');
+            container.innerHTML = `<div class="text-gray-500 absolute inset-0 flex items-center justify-center">Caricamento classifica...</div>`;
+            
             try {
-                // Carica il file JSON contenente tutti i dati
-                const response = await fetch('cumulative_results.json');
-                if (!response.ok) throw new Error('Impossibile caricare il file JSON delle classifiche.');
-
+                const isCumulative = stage === 'cumulative';
+                const dataUrl = isCumulative ? 'cumulative_results.json' : `gara_${stage}_results.json`;
+                
+                const response = await fetch(dataUrl);
+                if (!response.ok) throw new Error(`File non trovato: ${dataUrl}`);
+                
                 const allRankings = await response.json();
                 
-                // Filtra i dati per la categoria selezionata (il JSON usa la categoria come chiave)
-                const categoryData = allRankings[category]; 
-
-                if (categoryData && categoryData.length > 0) {
-                    // Renderizza la tabella con i dati della categoria e il tipo selezionato
-                    container.innerHTML = renderRankingTable(categoryData, type, category);
+                let categoryData;
+                if (isCumulative) {
+                    categoryData = allRankings[category] || [];
                 } else {
-                    container.innerHTML = `<p class="text-gray-500 text-lg p-10">⚠️ Nessun risultato trovato per la Categoria ${category}.</p>`;
+                    categoryData = (allRankings[category] && allRankings[category][type]) ? allRankings[category][type] : [];
                 }
+                
+                container.innerHTML = renderRankingTable(categoryData, type, category, stage);
 
             } catch (error) {
-                console.error("Errore nel caricamento della classifica:", error);
-                container.innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare la classifica. Riprova più tardi. (Dettagli: ${error.message})</p>`;
+                console.error("Errore caricamento classifica:", error);
+                container.innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare la classifica. Assicurati che i file JSON per la gara selezionata siano presenti nella directory principale. (Dettaglio: ${error.message})</p>`;
             }
         };
 
-        // Aggiorna initRankingListeners per ascoltare entrambi i set di pulsanti
         const initRankingListeners = () => {
-            // Listener per i pulsanti Categoria (A, B, C, D, E)
+            const selectGaraRanking = document.getElementById('selectGaraRanking');
+            const stageNames = Array.from({length: 18}, (_, i) => `Gara ${i + 1}`);
+            stageNames.forEach((name, index) => {
+                selectGaraRanking.appendChild(new Option(name, index + 1));
+            });
+
+            selectGaraRanking.addEventListener('change', (e) => {
+                loadRanking(currentCategory, currentType, e.target.value);
+            });
+
             document.querySelectorAll('.category-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const category = e.target.dataset.category;
-                    // Mantiene il tipo di classifica corrente
-                    loadRanking(category, currentType); 
+                    loadRanking(e.target.dataset.category, currentType, currentStage);
                 });
             });
             
-            // Listener per i pulsanti Tipo (Punti, Tempo, Sprinter, Scalatore)
             document.querySelectorAll('.type-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
-                    const type = e.target.dataset.type;
-                    // Mantiene la categoria corrente
-                    loadRanking(currentCategory, type); 
+                    loadRanking(currentCategory, e.target.dataset.type, currentStage); 
                 });
             });
         };
 
-        // DOMContentLoaded (Invariato, tranne il caricamento iniziale)
         document.addEventListener('DOMContentLoaded', () => {
             initCountdown();
             initChart();
             populateFilters();
             renderStages(tourStages);
             initRankingListeners();
-            // Carica la prima classifica all'avvio: Categoria A - Punti Generali
-            loadRanking('A', 'punti'); 
+            loadRanking('A', 'punti', 'cumulative'); 
         });
     </script>
     
     <script src="sidebar.js"></script>
-
 </body>
 </html>
