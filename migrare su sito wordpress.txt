@@ -1,0 +1,82 @@
+Shell echo "Ok, capisco. Vuoi ospitare il progetto come una \"isola a parte\" sul tuo host WordPress, probabilme… │
+│                                                                                                                      │
+│ Ok, capisco. Vuoi ospitare il progetto come una \                                                                    │
+│ isola                                                                                                                │
+│ a                                                                                                                    │
+│ parte\ sul tuo host WordPress, probabilmente in una sottocartella o un sottodominio, in modo che non inter           │
+│ ferisca con il sito WordPress principale ma sia accessibile dallo stesso server.                                     │
+│                                                                                                                      │
+│ Questo è un approccio comune per ospitare applicazioni separate. Ecco i passaggi e le considerazioni chiav           │
+│ e:                                                                                                                   │
+│                                                                                                                      │
+│ **1. Scelta della Posizione dei File:**                                                                              │
+│    La soluzione più semplice è creare una nuova cartella (es. \inoxteam\) all'interno della directory radi           │
+│ ce del tuo host web (spesso chiamata \public_html\ o \www\) dove risiede WordPress.                                  │
+│    - Esempio: Se WordPress è in \/public_html/\, tu creerai \/public_html/inoxteam/\ e caricherai tutti i            │
+│ file del tuo progetto (HTML, CSS, JS, JSON) lì dentro.                                                               │
+│                                                                                                                      │
+│ **2. Accesso tramite URL:**                                                                                          │
+│    Se carichi i file come nell'esempio precedente, il tuo progetto sarà accessibile tramite l'URL: \    uo           │
+│ dominio.com/inoxteam/\.                                                                                              │
+│                                                                                                                      │
+│ **3. Risoluzione dei Percorsi (Paths):**                                                                             │
+│    Tutti i percorsi relativi nei tuoi file HTML, CSS e JavaScript (es. \sidebar.css\, \mwt_page_logic.js\,           │
+│  \cumulative_results.json\) dovrebbero funzionare correttamente se il tuo \index.html\ (o \mwt_page.html\)           │
+│  è la pagina di ingresso della cartella \inoxteam\.                                                                  │
+│    **Attenzione:** Se hai percorsi che iniziano con uno slash (es. \/css/style.css\), questi sono percorsi           │
+│  assoluti e si riferiranno alla radice del dominio (\   uodominio.com/\). Se la tua applicazione non è all           │
+│ a radice, dovrai cambiarli in percorsi relativi (es. \css/style.css\) o assicurarti che il server web sia            │
+│ configurato per gestirli correttamente (meno probabile in questo scenario).                                          │
+│    *I file del tuo progetto attuale sembrano usare percorsi relativi o root-relative che puntano a file ne           │
+│ lla stessa directory o sottocartelle, il che dovrebbe funzionare bene se tutto il progetto è caricato nell           │
+│ a sottocartella \inoxteam\.*                                                                                         │
+│                                                                                                                      │
+│ **4. Connettività al Backend (CORS):**                                                                               │
+│    Il tuo progetto utilizza Cloudflare Workers/D1 per il backend (autenticazione, punteggi). Se il tuo sit           │
+│ o sarà ospitato su \    uodominio.com/inoxteam/\, quando il frontend cercherà di comunicare con il backend           │
+│  su Cloudflare Workers, si tratterà di una richiesta cross-origin (da \ uodominio.com\ a \      uo-worker.           │
+│ workers.dev\ o il dominio personalizzato del Worker).                                                                │
+│    **È fondamentale configurare le tue Cloudflare Workers per accettare richieste CORS dal tuo dominio (\h           │
+│ ttps://tuodominio.com\).** Senza questa configurazione, le chiamate API dal tuo frontend falliranno.                 │
+│                                                                                                                      │
+│ **5. Configurazione del Server Web (.htaccess / Nginx):**                                                            │
+│    Gli host WordPress hanno spesso regole \.htaccess\ (per server Apache) o configurazioni Nginx che reind           │
+│ irizzano tutte le richieste a \index.php\ di WordPress. Nella maggior parte dei casi, se crei una nuova so           │
+│ ttocartella e metti i tuoi file lì, queste regole *non* si applicheranno alla sottocartella, e i tuoi file           │
+│  statici verranno serviti direttamente dal web server.                                                               │
+│    Tuttavia, se riscontri problemi di routing (es. 404 per i tuoi file, o WordPress che cerca di gestire g           │
+│ li URL del tuo progetto), potresti dover aggiungere una regola \.htaccess\ all'interno della cartella \ino           │
+│ xteam\ per prevenire che WordPress interferisca, o modificare il \.htaccess\ nella radice. Una regola comu           │
+│ ne all'interno della tua sottocartella \inoxteam\ potrebbe essere:                                                   │
+│    \\\                                                                                                               │
+│    <IfModule mod_rewrite.c>                                                                                          │
+│        RewriteEngine Off                                                                                             │
+│    </IfModule>                                                                                                       │
+│    \\\                                                                                                               │
+│    Questo disabilita le riscritture URL per quella sottocartella.                                                    │
+│                                                                                                                      │
+│ **Passaggi per te:**                                                                                                 │
+│                                                                                                                      │
+│ 1.  **Connettiti al tuo host WordPress** via FTP/SFTP o tramite il file manager del pannello di controllo            │
+│ (es. cPanel, Plesk).                                                                                                 │
+│ 2.  **Naviga alla directory radice** del tuo sito WordPress (\public_html\ o simile).                                │
+│ 3.  **Crea una nuova cartella**, ad esempio \inoxteam\.                                                              │
+│ 4.  **Carica tutti i file e le cartelle del tuo progetto** (tranne \.git/\ e \                                       │
+│ ode_modules/\) all'interno di questa nuova cartella \inoxteam\.                                                      │
+│ 5.  **Verifica i percorsi:** Assicurati che tutti i \href\ e \src\ nei tuoi file HTML/JS/CSS siano corrett           │
+│ i per la nuova struttura. Dal mio ultimo controllo, sembrano essere gestiti bene con percorsi relativi.              │
+│ 6.  **Configura CORS** sulle tue Cloudflare Workers per consentire richieste dal tuo \  uodominio.com\.              │
+│ 7.  **Testa il sito:** Accedi a \       uodominio.com/inoxteam/\ nel tuo browser e verifica che tutto funz           │
+│ ioni come previsto (navigazione, grafici, modali, classifiche).                                                      │
+│ 8.  Se incontri problemi di routing, prova ad aggiungere il file \.htaccess\ suggerito al punto 5 all'inte           │
+│ rno della cartella \inoxteam\.                                                                                       │
+│                                                                                                                      │
+│ Poiché non ho accesso diretto al tuo host WordPress, dovrai eseguire questi passaggi. Fammi sapere se hai            │
+│ domande durante il processo!                                                                                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ Ho fornito le istruzioni dettagliate su come ospitare il tuo progetto come un'entità separata all'interno del tuo host
+  WordPress. Questo include la strategia di posizionamento dei file in una sottocartella, come sarà accessibile tramite
+  URL, l'importanza della risoluzione dei percorsi e la configurazione CORS per la comunicazione con i tuoi Cloudflare
+  Workers. Ho anche suggerito possibili aggiustamenti al file .htaccess qualora si presentassero conflitti.
+
+  Ora tocca a te eseguire questi passaggi sul tuo host WordPress. Fammi sapere se hai domande durante il processo.
