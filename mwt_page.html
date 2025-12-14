@@ -200,10 +200,32 @@
             const getTypeColor = (type) => { type = type.toLowerCase(); if (type.includes('flat')) return 'text-race-flat'; if (type.includes('mountain')) return 'text-race-mountain'; if (type.includes('hilly')) return 'text-race-hilly'; return 'text-race-time'; };
             initCountdown(); initChart(); populateFilters(); renderStages();
             function initCountdown() {
-                const firstStageDate = new Date(tourStages[0].date).getTime();
                 const countdownInterval = setInterval(() => {
                     const now = new Date().getTime();
-                    const distance = firstStageDate - now;
+                    const nextRace = tourStages.find(stage => new Date(stage.date).getTime() > now);
+                    let distance;
+                    let countdownText = '';
+                    let mainMessage = '';
+
+                    if (nextRace) {
+                        distance = new Date(nextRace.date).getTime() - now;
+                        countdownText = `PROSSIMA GARA TRA: ${formatDate(nextRace.date)} - ${nextRace.route} (${nextRace.world})`;
+                        mainMessage = `PROSSIMA GARA TRA:`;
+                    } else {
+                        // Check if the tour has already started (i.e., first stage date is in the past)
+                        const firstStageDate = new Date(tourStages[0].date).getTime();
+                        if (now >= firstStageDate) {
+                             // Tour started, no future races found
+                             mainMessage = 'TOUR IN CORSO O COMPLETATO';
+                             countdownText = 'Tutte le gare sono state completate!';
+                             distance = -1; // Indicate no active countdown
+                        } else {
+                            // Tour not started yet, countdown to first race
+                            distance = firstStageDate - now;
+                            countdownText = `INIZIO TOUR TRA: ${formatDate(tourStages[0].date)} - ${tourStages[0].route} (${tourStages[0].world})`;
+                            mainMessage = `INIZIO TOUR TRA:`;
+                        }
+                    }
 
                     if (distance < 0) {
                         clearInterval(countdownInterval);
@@ -211,7 +233,7 @@
                         document.getElementById('hours').innerText = '00';
                         document.getElementById('minutes').innerText = '00';
                         document.getElementById('seconds').innerText = '00';
-                        document.getElementById('next-race-info').innerText = 'TOUR IN CORSO O COMPLETATO';
+                        document.getElementById('next-race-info').innerText = mainMessage; // Use mainMessage here
                         return;
                     }
 
@@ -224,14 +246,7 @@
                     document.getElementById('hours').innerText = String(hours).padStart(2, '0');
                     document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
                     document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-
-                    // Find next race info
-                    const nextRace = tourStages.find(stage => new Date(stage.date).getTime() > now);
-                    if (nextRace) {
-                        document.getElementById('next-race-info').innerHTML = `PROSSIMA GARA: ${formatDate(nextRace.date)} - ${nextRace.route} (${nextRace.world})`;
-                    } else {
-                        document.getElementById('next-race-info').innerText = 'Tutte le gare sono state completate!';
-                    }
+                    document.getElementById('next-race-info').innerHTML = countdownText;
 
                 }, 1000);
             }
