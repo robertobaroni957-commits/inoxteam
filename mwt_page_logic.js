@@ -1,13 +1,13 @@
 // mwt_page_logic.js
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Smooth scrolling and active link highlighting
     const mainNavLinks = document.querySelectorAll('.bg-zwift-card > .container > div:nth-child(2) a');
     const sidebarLinks = document.querySelectorAll('#sidebar .sidebar-link');
     const allLinks = [...mainNavLinks, ...sidebarLinks];
 
     const sections = document.querySelectorAll('header[id], section[id], #leaders');
 
-    // Smooth scrolling for all internal links
     allLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const hash = this.hash;
@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const targetElement = document.querySelector(hash);
                 if (targetElement) {
-                    history.pushState(null, null, hash); // Update URL hash without jumping
+                    history.pushState(null, null, hash);
                     window.scrollTo({
-                        top: targetElement.offsetTop - 80, // Adjust for fixed header if any
+                        top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
                     });
                 }
@@ -25,11 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Intersection Observer for active link highlighting
     const observerOptions = {
-        root: null, // viewport
-        rootMargin: '-50% 0px -50% 0px', // Trigger when section is in the middle 50% of the viewport
-        threshold: 0 // As soon as target enters/leaves root
+        root: null,
+        rootMargin: '-50% 0px -50% 0px',
+        threshold: 0
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -37,20 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 const currentSectionId = entry.target.id;
                 
-                // Remove active classes from all links
                 allLinks.forEach(link => {
                     link.classList.remove('text-zwift-orange', 'font-bold');
-                    link.classList.add('hover:text-zwift-orange'); // Add hover back if removed
+                    link.classList.add('hover:text-zwift-orange');
                 });
 
-                // Add active class to corresponding main nav link
                 const mainNavLink = document.querySelector(`#nav-${currentSectionId}`);
                 if (mainNavLink) {
                     mainNavLink.classList.add('text-zwift-orange', 'font-bold');
                     mainNavLink.classList.remove('hover:text-zwift-orange');
                 }
 
-                // Add active class to corresponding sidebar link
                 const sidebarNavLink = document.querySelector(`#sidebar a[href="#${currentSectionId}"]`);
                 if (sidebarNavLink) {
                     sidebarNavLink.classList.add('text-zwift-orange', 'font-bold');
@@ -64,12 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
-    // Handle initial load - check hash in URL
     if (window.location.hash) {
         const initialTarget = document.querySelector(window.location.hash);
         if (initialTarget) {
             window.scrollTo({
-                top: initialTarget.offsetTop - 80, // Adjust for fixed header
+                top: initialTarget.offsetTop - 80,
                 behavior: 'smooth'
             });
         }
@@ -77,10 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define jersey icons
     const jerseyIcons = {
-        punti: '🟢', // Green jersey for points
-        tempo: '⚪', // White jersey for general classification/time
-        sprinter: '⚫', // Black jersey for sprint
-        scalatore: '🔴'  // Red jersey for climber
+        punti: '🟢',
+        tempo: '⚪',
+        sprinter: '⚫',
+        scalatore: '🔴'
     };
 
     // Define age category mapping
@@ -92,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'E': '60+'
     };
 
-    // Original page logic for stages, countdown, etc.
+    // Tour Stages Data
     const tourStages = [
         { id: 1, date: "2025-12-12T19:20:00", world: "Scotland", route: "Outer Scotland (2 laps - 22 km)", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247620", segments: ["primo Champion Sprint solo FTS", "primo Breakaway Brae reverse solo FTS", "primo Clyde Kicker FAL e FTS", "secondo Champion Sprint FAL e FTS", "secondo Breakaway Brae reverse solo FAL", "secondo Clyde Kicker FAL e FTS", "terzo Champion Sprint FAL e FTS"] },
         { id: 2, date: "2025-12-16T19:20:00", world: "Makuri", route: "Red Zone Repeats (1 lap - 19.6 km - 87 mt +)", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247622", segments: [] },
@@ -113,6 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 17, date: "2026-03-21T19:20:00", world: "France", route: "Ven-10", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/ven-10/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247710", segments: [] },
         { id: 18, date: "2026-03-25T19:20:00", world: "Watopia", route: "Jarvis Seaside Sprint", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/jarvis-seaside-sprint/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247712", segments: [] }
     ];
+
+    // Utility functions for stages
     const formatDate = (dateString) => { const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }; return new Date(dateString).toLocaleDateString('it-IT', options); };
     const getTypeIcon = (type) => { type = type.toLowerCase(); if (type.includes('flat')) return '⚡'; if (type.includes('mountain')) return '🏔️'; if (type.includes('hilly')) return '⛰️'; if (type.includes('luna park')) return '🔄'; if (type.includes('itt') || type.includes('chrono scalata')) return '⏱️'; return '🚴'; };
     const getTypeColor = (type) => { type = type.toLowerCase(); if (type.includes('flat')) return 'text-race-flat'; if (type.includes('mountain')) return 'text-race-mountain'; if (type.includes('hilly')) return 'text-race-hilly'; return 'text-race-time'; };
@@ -269,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="mb-3 md:mb-0">
                         <h3 class="text-xl font-bold text-zwift-orange font-display">Tappa ${stage.id}: ${stage.route}</h3>
                         <p class="text-gray-400 text-sm">${formatDate(stage.date)}</p>
-                        <p class="text-gray-300 text-sm">${stage.world} - <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(type.includes('itt') ? 'Time Trial' : (type.includes('chrono scalata') ? 'Chrono Scalata' : stage.type))} ${stage.type}</span></p>
+                        <p class="text-gray-300 text-sm">${stage.world} - <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${stage.type}</span></p>
                     </div>
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                         <a href="${stage.routeLink}" target="_blank" class="bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition text-center flex items-center justify-center">
@@ -344,12 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.classList.add('hidden');
         modal.innerHTML = '';
         document.body.classList.remove('overflow-hidden');
-    }
-
-    // Call this once on DOMContentLoaded to set up initial listeners for elements that persist
-    function setupModalListeners() {
-        // This function can be expanded if there are other global elements that trigger the modal
-        // or if modal-related listeners need to be attached outside of renderStages for any reason.
     }
 
     // RANKING LOGIC
@@ -583,5 +574,5 @@ document.addEventListener('DOMContentLoaded', () => {
     renderStages();
     initRankingListeners();
     loadRanking('A', 'punti', 'cumulative'); 
-    renderLeadersSection(); // Call the new function to populate the leaders section
+    renderLeadersSection();
 });
