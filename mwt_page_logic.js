@@ -577,6 +577,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    initCountdown();
+    initChart();
+    populateFilters();
+    renderStages();
     initRankingListeners();
     loadRanking('A', 'punti', 'cumulative'); 
     renderLeadersSection(); // Call the new function to populate the leaders section
