@@ -13,12 +13,10 @@
     if (!sidebar || !toggleButton) return;
 
     const openSidebar = () => {
-        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.remove('hidden', '-translate-x-full'); // Remove hidden and transform for opening
         sidebar.classList.add('translate-x-0');
-        // Aggiungo le classi per rendere visibile e cliccabile l'overlay
-        // NOTA: 'opacity-50' è una classe Tailwind che deve essere definita nel tuo setup!
+        overlay.classList.remove('hidden', 'pointer-events-none'); // Remove hidden and disable clicks for overlay
         overlay.classList.add('opacity-50', 'pointer-events-auto'); 
-        overlay.classList.remove('pointer-events-none');
         body.classList.add('no-scroll');
         menuIconOpen.classList.add('hidden');
         menuIconClose.classList.remove('hidden');
@@ -27,12 +25,15 @@
     const closeSidebar = () => {
         sidebar.classList.remove('translate-x-0');
         sidebar.classList.add('-translate-x-full');
-        // Rimuovo le classi per nascondere e rendere non cliccabile l'overlay
         overlay.classList.remove('opacity-50', 'pointer-events-auto');
-        overlay.classList.add('pointer-events-none');
+        overlay.classList.add('hidden', 'pointer-events-none'); // Add hidden and disable clicks for overlay
         body.classList.remove('no-scroll');
         menuIconOpen.classList.remove('hidden');
         menuIconClose.classList.add('hidden');
+        // Add hidden class back after a short delay to allow transition to complete
+        setTimeout(() => {
+            sidebar.classList.add('hidden'); 
+        }, 300); // Match transition duration (0.28s)
     };
 
     toggleButton.addEventListener('click', () => {
