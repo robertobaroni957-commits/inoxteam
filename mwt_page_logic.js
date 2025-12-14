@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="mb-3 md:mb-0">
                         <h3 class="text-xl font-bold text-zwift-orange font-display">Tappa ${stage.id}: ${stage.route}</h3>
                         <p class="text-gray-400 text-sm">${formatDate(stage.date)}</p>
-                        <p class="text-gray-300 text-sm">${stage.world} - <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${stage.type}</span></p>
+                        <p class="text-gray-300 text-sm">${stage.world} - <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(type.includes('itt') ? 'Time Trial' : (type.includes('chrono scalata') ? 'Chrono Scalata' : stage.type))} ${stage.type}</span></p>
                     </div>
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                         <a href="${stage.routeLink}" target="_blank" class="bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition text-center flex items-center justify-center">
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h3 class="text-3xl font-bold text-zwift-orange font-display mb-4">Tappa ${stage.id}: ${stage.route}</h3>
                 <p class="text-gray-300 text-lg mb-2"><strong>Data:</strong> ${formatDate(stage.date)}</p>
                 <p class="text-gray-300 text-lg mb-2"><strong>Mondo:</strong> ${stage.world}</p>
-                <p class="text-gray-300 text-lg mb-4"><strong>Tipo:</strong> <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${type.includes('itt') ? 'Time Trial' : (type.includes('chrono scalata') ? 'Chrono Scalata' : stage.type)}</span></p>
+                <p class="text-gray-300 text-lg mb-4"><strong>Tipo:</strong> <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${stage.type}</span></p>
                 
                 ${segmentsHtml}
 
