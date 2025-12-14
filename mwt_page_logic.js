@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebarLinks = document.querySelectorAll('#sidebar .sidebar-link');
     const allLinks = [...mainNavLinks, ...sidebarLinks];
 
-    const sections = document.querySelectorAll('header[id], section[id]');
+    const sections = document.querySelectorAll('header[id], section[id], #leaders');
 
     // Smooth scrolling for all internal links
     allLinks.forEach(link => {
@@ -83,6 +83,15 @@ document.addEventListener('DOMContentLoaded', () => {
         scalatore: '🔴'  // Red jersey for climber
     };
 
+    // Define age category mapping
+    const ageCategoryMap = {
+        'A': '0-29',
+        'B': '30-39',
+        'C': '40-49',
+        'D': '50-59',
+        'E': '60+'
+    };
+
     // RANKING LOGIC
     let currentCategory = 'A';
     let currentType = 'punti'; 
@@ -109,7 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateCategoryButtons = (activeCategory) => {
         document.querySelectorAll('.category-btn').forEach(button => {
-            if (button.dataset.category === activeCategory) {
+            const categoryCode = button.dataset.category;
+            button.textContent = ageCategoryMap[categoryCode] || categoryCode; // Display age range
+            if (categoryCode === activeCategory) {
                 button.classList.add('bg-zwift-orange', 'font-bold'); button.classList.remove('bg-zwift-card');
             } else {
                 button.classList.add('bg-zwift-card'); button.classList.remove('bg-zwift-orange', 'font-bold');
@@ -150,7 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return scoreB - scoreA;
         });
 
-        let html = `<h2 class="text-2xl text-zwift-blue mb-4 font-display">${title} - Cat. ${category}</h2>
+        const categoryDisplayName = ageCategoryMap[category] || category; // Get display name
+        let html = `<h2 class="text-2xl text-zwift-blue mb-4 font-display">${title} - Cat. ${categoryDisplayName}</h2>
                     <div class="overflow-x-scroll"><table class="min-w-full table-fixed text-left whitespace-nowrap"><thead><tr class="bg-black/50">
                     ${headers.map(h => `<th class="px-4 py-2 border-b-2 border-zwift-orange">${h}</th>`).join('')}
                     </tr></thead><tbody>`;
@@ -235,68 +247,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const categories = ['A', 'B', 'C', 'D', 'E'];
         const types = ['punti', 'tempo', 'sprinter', 'scalatore'];
         const dataUrl = 'cumulative_results.json';
-        const leadersData = {};
 
         try {
             const response = await fetch(dataUrl);
             if (!response.ok) throw new Error(`File non trovato: ${dataUrl}`);
             const allRankings = await response.json();
 
-            for (const type of types) {
-                let bestAthlete = null;
-                let bestScore = (type === 'tempo') ? Infinity : -Infinity;
-
-                for (const category of categories) {
-                    const categoryRankings = allRankings[category] || [];
+            for (const categoryCode of categories) {
+                for (const type of types) {
+                    const categoryRankings = allRankings[categoryCode] || [];
                     const scoreKey = (type === 'tempo') ? 'time' : ((type === 'sprinter') ? 'pts_sprint' : ((type === 'scalatore') ? 'pts_kom' : 'total'));
 
-                    // Find the leader in the current category for the current type
-                    const leaderInCat = categoryRankings.reduce((leader, athlete) => {
-                        const currentScore = athlete[scoreKey] || 0;
+                    const leader = categoryRankings.reduce((best, current) => {
+                        const currentScore = current[scoreKey] || 0;
                         if (type === 'tempo') {
-                            if (currentScore < (leader ? leader[scoreKey] : Infinity)) {
-                                return athlete;
-                            }
+                            return (currentScore < (best ? best[scoreKey] : Infinity)) ? current : best;
                         } else {
-                            if (currentScore > (leader ? leader[scoreKey] : -Infinity)) {
-                                return athlete;
-                            }
+                            return (currentScore > (best ? best[scoreKey] : -Infinity)) ? current : best;
                         }
-                        return leader;
                     }, null);
 
-                    // Compare with the overall best athlete for this type across all categories
-                    if (leaderInCat) {
-                        const currentOverallScore = leaderInCat[scoreKey] || 0;
-                        if (type === 'tempo') {
-                            if (currentOverallScore < bestScore) {
-                                bestScore = currentOverallScore;
-                                bestAthlete = leaderInCat;
-                            }
-                        } else {
-                            if (currentOverallScore > bestScore) {
-                                bestScore = currentOverallScore;
-                                bestAthlete = leaderInCat;
-                            }
-                        }
+                    const jerseyElement = document.getElementById(`leader-${type}-jersey-${categoryCode}`);
+                    const nameElement = document.getElementById(`leader-${type}-name-${categoryCode}`);
+                    const teamElement = document.getElementById(`leader-${type}-team-${categoryCode}`);
+                    
+                    if (leader) {
+                        const { name: athleteName, team } = parseNameAndTeam(leader.name);
+                        if (jerseyElement) jerseyElement.innerHTML = jerseyIcons[type];
+                        if (nameElement) nameElement.innerText = athleteName;
+                        if (teamElement) teamElement.innerText = team;
+                    } else {
+                        if (jerseyElement) jerseyElement.innerHTML = '❓';
+                        if (nameElement) nameElement.innerText = 'N/A';
+                        if (teamElement) teamElement.innerText = '';
                     }
-                }
-                leadersData[type] = bestAthlete;
-            }
-
-            // Populate the HTML
-            for (const type of types) {
-                const leader = leadersData[type];
-                const typeCapitalized = type.charAt(0).toUpperCase() + type.slice(1);
-                
-                if (leader) {
-                    const { name: athleteName, team } = parseNameAndTeam(leader.name);
-                    document.getElementById(`leader-${type}-jersey`).innerHTML = jerseyIcons[type];
-                    document.getElementById(`leader-${type}-name`).innerText = athleteName;
-                    document.getElementById(`leader-${type}-team`).innerText = team;
-                } else {
-                    document.getElementById(`leader-${type}-name`).innerText = 'N/A';
-                    document.getElementById(`leader-${type}-team`).innerText = '';
                 }
             }
 
