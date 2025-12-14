@@ -72,10 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Define jersey icons
     const jerseyIcons = {
-        punti: '🟢',
-        tempo: '⚪',
-        sprinter: '⚫',
-        scalatore: '🔴'
+        punti: '<img src="points.png" alt="Jersey Punti" class="w-12 h-12 mx-auto">',
+        tempo: '<img src="time.png" alt="Jersey Generale" class="w-12 h-12 mx-auto">',
+        sprinter: '<img src="sprint.png" alt="Jersey Sprinter" class="w-12 h-12 mx-auto">',
+        scalatore: '<img src="climb.png" alt="Jersey Scalatore" class="w-12 h-12 mx-auto">'
     };
 
     // Define age category mapping
