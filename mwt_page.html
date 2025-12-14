@@ -209,8 +209,8 @@
 
                     if (nextRace) {
                         distance = new Date(nextRace.date).getTime() - now;
-                        countdownText = `PROSSIMA GARA TRA: ${formatDate(nextRace.date)} - ${nextRace.route} (${nextRace.world})`;
-                        mainMessage = `PROSSIMA GARA TRA:`;
+                        countdownText = `PROSSIMA GARA: ${formatDate(nextRace.date)} - ${nextRace.route} (${nextRace.world})`;
+                        mainMessage = `PROSSIMA GARA:`;
                     } else {
                         // Check if the tour has already started (i.e., first stage date is in the past)
                         const firstStageDate = new Date(tourStages[0].date).getTime();
