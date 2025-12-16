@@ -87,27 +87,29 @@ document.addEventListener('DOMContentLoaded', () => {
         'E': '60+'
     };
 
-    // Tour Stages Data
-    const tourStages = [
-        { id: 1, date: "2025-12-12T19:20:00", world: "Scotland", route: "Outer Scotland (2 laps - 22 km)", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/outer-scotland/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247620", segments: ["primo Champion Sprint solo FTS", "primo Breakaway Brae reverse solo FTS", "primo Clyde Kicker FAL e FTS", "secondo Champion Sprint FAL e FTS", "secondo Breakaway Brae reverse solo FAL", "secondo Clyde Kicker FAL e FTS", "terzo Champion Sprint FAL e FTS"] },
-        { id: 2, date: "2025-12-16T19:20:00", world: "Makuri", route: "Red Zone Repeats (1 lap - 19.6 km - 87 mt +)", type: "iTT", routeLink: "https://zwiftinsider.com/route/red-zone-repeats/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247622", segments: [] },
-        { id: 3, date: "2025-12-19T19:20:00", world: "New York", route: "Issendorf Express", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/issendorf-express/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247623", segments: [] },
-        { id: 4, date: "2025-12-23T19:20:00", world: "Scotland", route: "City and the Sgurr", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/city-and-the-sgurr/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247624", segments: [] },
-        { id: 5, date: "2025-12-27T19:20:00", world: "Bologna", route: "Time Trial Lap", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/bologna-time-trial-lap/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247628", segments: [] },
-        { id: 6, date: "2025-12-30T19:20:00", world: "London", route: "Classique Reverse", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/classique-reverse/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247630", segments: [] },
-        { id: 7, date: "2026-02-13T19:20:00", world: "Makuri", route: "Sprinter's Playground", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/sprinters-playground/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247687", segments: [] },
-        { id: 8, date: "2026-02-17T19:20:00", world: "London", route: "London Uprising", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/london-uprising/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247689", segments: [] },
-        { id: 9, date: "2026-02-20T19:20:00", world: "Watopia", route: "Flat Out Fast", type: "iTT", routeLink: "https://zwiftinsider.com/route/flat-out-fast/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247692", segments: [] },
-        { id: 10, date: "2026-02-24T19:20:00", world: "France", route: "Bon Voyage", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/bon-voyage/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247696", segments: [] },
-        { id: 11, date: "2026-02-27T19:20:00", world: "Watopia", route: "Mountain Mash", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/mountain-mash/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247700", segments: [] },
-        { id: 12, date: "2026-03-04T19:20:00", world: "Richmond", route: "Cobbled Climbs Reverse", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/cobbled-climbs-reverse/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247701", segments: [] },
-        { id: 13, date: "2026-03-07T19:20:00", world: "London", route: "London Flat", type: "iTT", routeLink: "https://zwiftinsider.com/route/london-flat/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247703", segments: [] },
-        { id: 14, date: "2026-03-11T19:20:00", world: "New York", route: "Toefield Tormado", type: "Luna Park", routeLink: "https://zwiftinsider.com/route/toefield-tormado/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247705", segments: [] },
-        { id: 15, date: "2026-03-14T19:20:00", world: "Watopia", route: "Power Punches", type: "Point Mountain", routeLink: "https://zwiftinsider.com/route/power-punches/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247707", segments: [] },
-        { id: 16, date: "2026-03-18T19:20:00", world: "Makuri", route: "Electric Loop", type: "Point Flat", routeLink: "https://zwiftinsider.com/route/electric-loop/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247709", segments: [] },
-        { id: 17, date: "2026-03-21T19:20:00", world: "France", route: "Ven-10", type: "Chrono Scalata", routeLink: "https://zwiftinsider.com/route/ven-10/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247710", segments: [] },
-        { id: 18, date: "2026-03-25T19:20:00", world: "Watopia", route: "Jarvis Seaside Sprint", type: "Point Hilly", routeLink: "https://zwiftinsider.com/route/jarvis-seaside-sprint/", registerLink: "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247712", segments: [] }
-    ];
+    let tourStages = []; // Declare tourStages as a mutable variable
+
+    // Function to load tour stages
+    const loadTourStages = async () => {
+        try {
+            const response = await fetch('stages.json'); // Fetch from new JSON file
+            if (!response.ok) throw new Error(`File non trovato: stages.json`);
+            tourStages = await response.json(); // Assign fetched data to tourStages
+            
+            // Now that tourStages is loaded, initialize dependent functions
+            initCountdown();
+            initChart();
+            populateFilters();
+            renderStages();
+            initRankingListeners();
+            loadRanking('A', 'punti', 'cumulative'); 
+            renderLeadersSection();
+        } catch (error) {
+            console.error("Errore caricamento tappe del tour:", error);
+            // Optionally display an error message on the page
+            document.getElementById('stage-list').innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare le tappe del tour. (Dettaglio: ${error.message})</p>`;
+        }
+    };
 
     // Utility functions for stages
     const formatDate = (dateString) => { const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }; return new Date(dateString).toLocaleDateString('it-IT', options); };
@@ -568,11 +570,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    initCountdown();
-    initChart();
-    populateFilters();
-    renderStages();
-    initRankingListeners();
-    loadRanking('A', 'punti', 'cumulative'); 
-    renderLeadersSection();
+    loadTourStages();
 });
