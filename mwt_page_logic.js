@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let dataToRender;
             if (isCumulative) {
-                dataToRender = allRankings[category] || [];
+                dataToRender = allRankings.results[category] || [];
             } else {
                 if (Array.isArray(allRankings)) {
                     dataToRender = allRankings.filter(rider => rider.category === category);
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             for (const categoryCode of categories) {
                 for (const type of types) {
-                    const categoryRankings = allRankings[categoryCode] || [];
+                    const categoryRankings = allRankings.results[categoryCode] || [];
                     const scoreKey = (type === 'tempo') ? 'time' : ((type === 'sprinter') ? 'pts_sprint' : ((type === 'scalatore') ? 'pts_kom' : 'total'));
 
                     const leader = categoryRankings.reduce((best, current) => {
