@@ -398,10 +398,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const singleRaceKeys = { punti: 'punti_total', tempo: 'tempo_time', sprinter: 'sprinter_points', scalatore: 'climber_points' };
         const cumulativeKeys = { punti: 'total', tempo: 'time', sprinter: 'pts_sprint', scalatore: 'pts_kom' };
 
-        if (type === 'punti') { title = `Punti`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti']; unit = ' Pts'; }
-        else if (type === 'tempo') { title = `Tempo`; headers = ['Pos', 'Atleta', 'Squadra', 'Tempo']; unit = ''; }
-        else if (type === 'sprinter') { title = `Punti Sprint`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti Sprint']; unit = ' Pts'; }
-        else if (type === 'scalatore') { title = `Punti Scalatore`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti Scalata']; unit = ' Pts'; }
+        if (type === 'punti') { title = `Punti`; headers = ['Pos', 'Nazione', 'Atleta', 'Squadra', 'Punti']; unit = ' Pts'; }
+        else if (type === 'tempo') { title = `Tempo`; headers = ['Pos', 'Nazione', 'Atleta', 'Squadra', 'Tempo']; unit = ''; }
+        else if (type === 'sprinter') { title = `Punti Sprint`; headers = ['Pos', 'Nazione', 'Atleta', 'Squadra', 'Punti Sprint']; unit = ' Pts'; }
+        else if (type === 'scalatore') { title = `Punti Scalatore`; headers = ['Pos', 'Nazione', 'Atleta', 'Squadra', 'Punti Scalata']; unit = ' Pts'; }
         else { return `<p class="text-red-500">Tipo classifica non valido.</p>`; }
 
         scoreKey = isCumulative ? cumulativeKeys[type] : singleRaceKeys[type];
@@ -424,30 +424,29 @@ document.addEventListener('DOMContentLoaded', () => {
              html += `<tr><td colspan="${headers.length}" class="text-center py-8 text-gray-500">Nessun dato disponibile per questa selezione.</td></tr>`;
         } else {
             sortedData.forEach((athlete, index) => {
-                let { name: athleteName, team } = parseNameAndTeam(athlete.name);
+                let { name: athleteName, team: parsedTeam } = parseNameAndTeam(athlete.name);
+                const actualTeam = athlete.tname && athlete.tname.trim() !== '' ? athlete.tname : parsedTeam; // Prioritize athlete.tname
                 const rank = index + 1;
                 let scoreDisplay = athlete[scoreKey] || 0;
                 if (type === 'tempo') { scoreDisplay = secondsToHms(scoreDisplay); }
                 else { scoreDisplay += unit; }
-                let rowStyle = '', rankColor = 'text-white', medalIcon = '';
+                let rowStyle = '', rankColor = 'text-white', medalIcon = '', flagEmoji = athlete.flag ? `<span class="flag-icon" role="img" aria-label="${athlete.flag.toUpperCase()}">${String.fromCodePoint(...athlete.flag.toUpperCase().split('').map(char => 0x1F1E6 + char.charCodeAt(0) - 'A'.charCodeAt(0)))}</span>` : '';
                 
                 if (rank === 1) { 
                     rowStyle = 'background-color: rgba(255, 215, 0, 0.2);'; 
                     rankColor = 'text-yellow-400'; 
                     medalIcon = '🥇 ';
-                    // Add jersey icon for the leader
-                    athleteName = `<span class="jersey-icon">${jerseyIcons[type] || ''}</span> ${athleteName}`;
                 }
                 else if (rank === 2) { rowStyle = 'background-color: rgba(192, 192, 192, 0.2);'; rankColor = 'text-gray-300'; medalIcon = '🥈 '; }
                 else if (rank === 3) { rowStyle = 'background-color: rgba(205, 127, 50, 0.2);'; rankColor = 'text-amber-500'; medalIcon = '🥉 '; }
 
                 html += `<tr class="hover:bg-black/30" style="${rowStyle}">
                             <td class="px-4 py-3 font-bold ${rankColor}">${medalIcon}${rank}</td>
+                            <td class="px-4 py-3 text-gray-400">${flagEmoji}</td>
                             <td class="px-4 py-3 font-semibold text-white">${athleteName}</td>
-                            <td class="px-4 py-3 text-gray-400">${team}</td>
+                            <td class="px-4 py-3 text-gray-400">${actualTeam}</td>
                             <td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td>
                          </tr>`;
-            });
         }
         html += `</tbody></table></div>`;
         return html;
@@ -525,10 +524,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const teamElement = document.getElementById(`leader-${type}-team-${categoryCode}`);
                     
                     if (leader) {
-                        const { name: athleteName, team } = parseNameAndTeam(leader.name);
+                        const { name: athleteName, team: parsedTeam } = parseNameAndTeam(leader.name);
+                        const actualTeam = leader.tname && leader.tname.trim() !== '' ? leader.tname : parsedTeam; // Prioritize leader.tname
+                        const flagEmoji = leader.flag ? `<span class="flag-icon" role="img" aria-label="${leader.flag.toUpperCase()}">${String.fromCodePoint(...leader.flag.toUpperCase().split('').map(char => 0x1F1E6 + char.charCodeAt(0) - 'A'.charCodeAt(0)))}</span>` : '';
+
                         if (jerseyElement) jerseyElement.innerHTML = jerseyIcons[type];
-                        if (nameElement) nameElement.innerText = athleteName;
-                        if (teamElement) teamElement.innerText = team;
+                        if (nameElement) nameElement.innerHTML = `${flagEmoji} ${athleteName}`;
+                        if (teamElement) teamElement.innerText = actualTeam;
                     } else {
                         if (jerseyElement) jerseyElement.innerHTML = '❓';
                         if (nameElement) nameElement.innerText = 'N/A';
