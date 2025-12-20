@@ -88,26 +88,50 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     let tourStages = []; // Declare tourStages as a mutable variable
+    let cumulativeResultsData = null; // To store cumulative results
+    let zwidToFlagMap = {}; // Map to store zwid -> flag
+    let zwidToTnameMap = {}; // Map to store zwid -> tname
 
-    // Function to load tour stages
+    // Function to load tour stages and cumulative data
     const loadTourStages = async () => {
         try {
-            const response = await fetch('stages.json'); // Fetch from new JSON file
-            if (!response.ok) throw new Error(`File non trovato: stages.json`);
-            tourStages = await response.json(); // Assign fetched data to tourStages
+            // Fetch both stages and cumulative results at the same time
+            const [stagesResponse, cumulativeResponse] = await Promise.all([
+                fetch('stages.json'),
+                fetch('cumulative_results.json')
+            ]);
 
-            // Now that tourStages is loaded, initialize dependent functions
+            if (!stagesResponse.ok) throw new Error(`File non trovato: stages.json`);
+            if (!cumulativeResponse.ok) throw new Error(`File non trovato: cumulative_results.json`);
+
+            tourStages = await stagesResponse.json();
+            cumulativeResultsData = await cumulativeResponse.json();
+
+            // Populate the maps
+            if (cumulativeResultsData && cumulativeResultsData.results) {
+                for (const category in cumulativeResultsData.results) {
+                    cumulativeResultsData.results[category].forEach(rider => {
+                        if (rider.zwid) {
+                            zwidToFlagMap[rider.zwid] = rider.flag || '';
+                            zwidToTnameMap[rider.zwid] = rider.tname || '';
+                        }
+                    });
+                }
+            }
+
+            // Now that all data is loaded, initialize dependent functions
             initCountdown();
             initChart();
             populateFilters();
             renderStages();
             initRankingListeners();
             loadRanking('A', 'punti', 'cumulative');
+            console.log('Mappe create:', { zwidToFlagMap, zwidToTnameMap }); // DEBUG
             renderLeadersSection();
         } catch (error) {
-            console.error("Errore caricamento tappe del tour:", error);
+            console.error("Errore caricamento dati iniziali:", error);
             // Optionally display an error message on the page
-            document.getElementById('stage-list').innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare le tappe del tour. (Dettaglio: ${error.message})</p>`;
+            document.getElementById('stage-list').innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare i dati essenziali per la pagina. (Dettaglio: ${error.message})</p>`;
         }
     };
 
@@ -424,27 +448,29 @@ document.addEventListener('DOMContentLoaded', () => {
              html += `<tr><td colspan="${headers.length}" class="text-center py-8 text-gray-500">Nessun dato disponibile per questa selezione.</td></tr>`;
         } else {
             sortedData.forEach((athlete, index) => {
-                let { name: athleteName, team } = parseNameAndTeam(athlete.name);
                 const rank = index + 1;
                 let scoreDisplay = athlete[scoreKey] || 0;
                 if (type === 'tempo') { scoreDisplay = secondsToHms(scoreDisplay); }
                 else { scoreDisplay += unit; }
                 let rowStyle = '', rankColor = 'text-white', medalIcon = '';
 
+                // Add flag image
+                const flagHtml = athlete.flag ? `<img src="https://flagcdn.com/w20/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline h-4 mr-2 -translate-y-px">` : '<span class="inline-block w-5"></span>';
+                let athleteNameHtml = `${flagHtml}${athlete.name}`;
+
                 if (rank === 1) {
                     rowStyle = 'background-color: rgba(255, 215, 0, 0.2);';
                     rankColor = 'text-yellow-400';
                     medalIcon = '🥇 ';
-                    // Add jersey icon for the leader
-                    athleteName = `<span class="jersey-icon">${jerseyIcons[type] || ''}</span> ${athleteName}`;
+                    athleteNameHtml = `<span class="jersey-icon">${jerseyIcons[type] || ''}</span> ${athleteNameHtml}`;
                 }
                 else if (rank === 2) { rowStyle = 'background-color: rgba(192, 192, 192, 0.2);'; rankColor = 'text-gray-300'; medalIcon = '🥈 '; }
                 else if (rank === 3) { rowStyle = 'background-color: rgba(205, 127, 50, 0.2);'; rankColor = 'text-amber-500'; medalIcon = '🥉 '; }
 
                 html += `<tr class="hover:bg-black/30" style="${rowStyle}">
                             <td class="px-4 py-3 font-bold ${rankColor}">${medalIcon}${rank}</td>
-                            <td class="px-4 py-3 font-semibold text-white">${athleteName}</td>
-                            <td class="px-4 py-3 text-gray-400">${team}</td>
+                            <td class="px-4 py-3 font-semibold text-white">${athleteNameHtml}</td>
+                            <td class="px-4 py-3 text-gray-400">${athlete.tname || 'N/A'}</td>
                             <td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td>
                          </tr>`;
             });
@@ -467,21 +493,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const isCumulative = stage === 'cumulative';
-            const dataUrl = isCumulative ? 'cumulative_results.json' : `gara_${stage}_results.json`;
+            let dataToRender = [];
 
-            const response = await fetch(dataUrl);
-            if (!response.ok) throw new Error(`File non trovato: ${dataUrl}`);
-
-            const allRankings = await response.json();
-
-            let dataToRender;
             if (isCumulative) {
-                dataToRender = allRankings.results[category] || [];
+                // Use pre-loaded cumulative data
+                dataToRender = cumulativeResultsData.results[category] || [];
             } else {
+                // Fetch single race data
+                const dataUrl = `gara_${stage}_results.json`;
+                const response = await fetch(dataUrl);
+                if (!response.ok) throw new Error(`File non trovato: ${dataUrl}`);
+                const allRankings = await response.json();
+                
+                // Filter by category and enrich with flag/tname
                 if (Array.isArray(allRankings)) {
-                    dataToRender = allRankings.filter(rider => rider.category === category);
-                } else if (typeof allRankings === 'object' && allRankings !== null) {
-                    dataToRender = (allRankings[category] && allRankings[category][type]) ? allRankings[category][type] : [];
+                    dataToRender = allRankings
+                        .filter(rider => rider.category === category)
+                        .map(rider => ({
+                            ...rider,
+                            flag: zwidToFlagMap[rider.zwid] || '',
+                            console.log('Rider originale:', rider); // DEBUG
+                            const flag = zwidToFlagMap[rider.zwid] || '';
+                            const tname = zwidToTnameMap[rider.zwid] || '';
+                            console.log(`Trovato per zwid ${rider.zwid}: flag='${flag}', tname='${tname}'`); // DEBUG
+                            const enrichedRider = { ...rider, flag, tname };
+                            console.log('Rider arricchito:', enrichedRider); // DEBUG
+                            return enrichedRider;
+                        }));
                 } else {
                     throw new Error("Formato JSON della gara singola non riconosciuto.");
                 }
