@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const currentSectionId = entry.target.id;
-                
+
                 allLinks.forEach(link => {
                     link.classList.remove('text-zwift-orange', 'font-bold');
                     link.classList.add('hover:text-zwift-orange');
@@ -95,14 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('stages.json'); // Fetch from new JSON file
             if (!response.ok) throw new Error(`File non trovato: stages.json`);
             tourStages = await response.json(); // Assign fetched data to tourStages
-            
+
             // Now that tourStages is loaded, initialize dependent functions
             initCountdown();
             initChart();
             populateFilters();
             renderStages();
             initRankingListeners();
-            loadRanking('A', 'punti', 'cumulative'); 
+            loadRanking('A', 'punti', 'cumulative');
             renderLeadersSection();
         } catch (error) {
             console.error("Errore caricamento tappe del tour:", error);
@@ -293,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-    
+
     function openStageModal(stageId) {
         const modal = document.getElementById('event-modal');
         const stage = tourStages.find(s => s.id === stageId);
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="text-gray-300 text-lg mb-2"><strong>Data:</strong> ${formatDate(stage.date)}</p>
                 <p class="text-gray-300 text-lg mb-2"><strong>Mondo:</strong> ${stage.world}</p>
                 <p class="text-gray-300 text-lg mb-4"><strong>Tipo:</strong> <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${stage.type}</span></p>
-                
+
                 ${segmentsHtml}
 
                 <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-4">
@@ -347,8 +347,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // RANKING LOGIC
     let currentCategory = 'A';
-    let currentType = 'punti'; 
-    let currentStage = 'cumulative'; 
+    let currentType = 'punti';
+    let currentStage = 'cumulative';
 
     const secondsToHms = (d) => {
         if (d === undefined || d === null || isNaN(d) || d === 0) return "--:--:--";
@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-    
+
     const renderRankingTable = (data, type, category, stage) => {
         const isCumulative = (stage === 'cumulative');
         let title, headers, scoreKey, unit;
@@ -419,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="overflow-x-scroll"><table class="min-w-full table-fixed text-left whitespace-nowrap"><thead><tr class="bg-black/50">
                     ${headers.map(h => `<th class="px-4 py-2 border-b-2 border-zwift-orange">${h}</th>`).join('')}
                     </tr></thead><tbody>`;
-        
+
         if (sortedData.length === 0) {
              html += `<tr><td colspan="${headers.length}" class="text-center py-8 text-gray-500">Nessun dato disponibile per questa selezione.</td></tr>`;
         } else {
@@ -430,10 +430,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (type === 'tempo') { scoreDisplay = secondsToHms(scoreDisplay); }
                 else { scoreDisplay += unit; }
                 let rowStyle = '', rankColor = 'text-white', medalIcon = '';
-                
-                if (rank === 1) { 
-                    rowStyle = 'background-color: rgba(255, 215, 0, 0.2);'; 
-                    rankColor = 'text-yellow-400'; 
+
+                if (rank === 1) {
+                    rowStyle = 'background-color: rgba(255, 215, 0, 0.2);';
+                    rankColor = 'text-yellow-400';
                     medalIcon = '🥇 ';
                     // Add jersey icon for the leader
                     athleteName = `<span class="jersey-icon">${jerseyIcons[type] || ''}</span> ${athleteName}`;
@@ -448,6 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td>
                          </tr>`;
             });
+        }
         html += `</tbody></table></div>`;
         return html;
     };
@@ -456,23 +457,23 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCategory = category;
         currentType = type;
         currentStage = stage;
-        
+
         updateCategoryButtons(category);
         updateTypeButtons(type);
         document.getElementById('selectGaraRanking').value = stage;
-        
+
         const container = document.getElementById('ranking-container');
         container.innerHTML = `<div class="text-gray-500 absolute inset-0 flex items-center justify-center">Caricamento classifica...</div>`;
-        
+
         try {
             const isCumulative = stage === 'cumulative';
             const dataUrl = isCumulative ? 'cumulative_results.json' : `gara_${stage}_results.json`;
-            
+
             const response = await fetch(dataUrl);
             if (!response.ok) throw new Error(`File non trovato: ${dataUrl}`);
-            
+
             const allRankings = await response.json();
-            
+
             let dataToRender;
             if (isCumulative) {
                 dataToRender = allRankings.results[category] || [];
@@ -485,7 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error("Formato JSON della gara singola non riconosciuto.");
                 }
             }
-            
+
             container.innerHTML = renderRankingTable(dataToRender, type, category, stage);
 
         } catch (error) {
@@ -522,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const jerseyElement = document.getElementById(`leader-${type}-jersey-${categoryCode}`);
                     const nameElement = document.getElementById(`leader-${type}-name-${categoryCode}`);
                     const teamElement = document.getElementById(`leader-${type}-team-${categoryCode}`);
-                    
+
                     if (leader) {
                         const { name: athleteName, team } = parseNameAndTeam(leader.name);
                         if (jerseyElement) jerseyElement.innerHTML = jerseyIcons[type];
@@ -560,11 +561,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadRanking(e.target.dataset.category, currentType, stage);
             });
         });
-        
+
         document.querySelectorAll('.type-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const stage = document.getElementById('selectGaraRanking').value;
-                loadRanking(currentCategory, e.target.dataset.type, stage); 
+                loadRanking(currentCategory, e.target.dataset.type, stage);
             });
         });
     };
