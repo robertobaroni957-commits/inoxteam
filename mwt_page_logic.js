@@ -92,288 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let zwidToFlagMap = {}; // Map to store zwid -> flag
     let zwidToTnameMap = {}; // Map to store zwid -> tname
 
-    // Function to load tour stages and cumulative data
-    const loadTourStages = async () => {
-        try {
-            // Fetch both stages and cumulative results at the same time
-            const [stagesResponse, cumulativeResponse] = await Promise.all([
-                fetch('stages.json'),
-                fetch('cumulative_results.json')
-            ]);
-
-            if (!stagesResponse.ok) throw new Error(`File non trovato: stages.json`);
-            if (!cumulativeResponse.ok) throw new Error(`File non trovato: cumulative_results.json`);
-
-            tourStages = await stagesResponse.json();
-            cumulativeResultsData = await cumulativeResponse.json();
-
-            // Populate the maps
-            if (cumulativeResultsData && cumulativeResultsData.results) {
-                for (const category in cumulativeResultsData.results) {
-                    cumulativeResultsData.results[category].forEach(rider => {
-                        if (rider.zwid) {
-                            zwidToFlagMap[rider.zwid] = rider.flag || '';
-                            zwidToTnameMap[rider.zwid] = rider.tname || '';
-                        }
-                    });
-                }
-            }
-
-            // Now that all data is loaded, initialize dependent functions
-            initCountdown();
-            initChart();
-            populateFilters();
-            renderStages();
-            initRankingListeners();
-            loadRanking('A', 'punti', 'cumulative');
-            console.log('Mappe create:', { zwidToFlagMap, zwidToTnameMap }); // DEBUG
-            renderLeadersSection();
-        } catch (error) {
-            console.error("Errore caricamento dati iniziali:", error);
-            // Optionally display an error message on the page
-            document.getElementById('stage-list').innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare i dati essenziali per la pagina. (Dettaglio: ${error.message})</p>`;
-        }
-    };
-
-    // Utility functions for stages
-    const formatDate = (dateString) => { const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }; return new Date(dateString).toLocaleDateString('it-IT', options); };
-    const getTypeIcon = (type) => { type = type.toLowerCase(); if (type.includes('flat')) return '⚡'; if (type.includes('mountain')) return '🏔️'; if (type.includes('hilly')) return '⛰️'; if (type.includes('luna park')) return '🔄'; if (type.includes('itt') || type.includes('chrono scalata')) return '⏱️'; return '🚴'; };
-    const getTypeColor = (type) => { type = type.toLowerCase(); if (type.includes('flat')) return 'text-race-flat'; if (type.includes('mountain')) return 'text-race-mountain'; if (type.includes('hilly')) return 'text-race-hilly'; return 'text-race-time'; };
-
-    // Function definitions for countdown, chart, filters, and stages
-    function initCountdown() {
-        const countdownInterval = setInterval(() => {
-            const now = new Date().getTime();
-            const nextRace = tourStages.find(stage => new Date(stage.date).getTime() > now);
-            let distance;
-            let countdownText = '';
-            let mainMessage = '';
-
-            if (nextRace) {
-                distance = new Date(nextRace.date).getTime() - now;
-                countdownText = `PROSSIMA GARA: ${formatDate(nextRace.date)} - ${nextRace.route} (${nextRace.world})`;
-                mainMessage = `PROSSIMA GARA:`;
-            } else {
-                const firstStageDate = new Date(tourStages[0].date).getTime();
-                if (now >= firstStageDate) {
-                     mainMessage = 'TOUR IN CORSO O COMPLETATO';
-                     countdownText = 'Tutte le gare sono state completate!';
-                     distance = -1;
-                } else {
-                    distance = firstStageDate - now;
-                    countdownText = `INIZIO TOUR TRA: ${formatDate(tourStages[0].date)} - ${tourStages[0].route} (${tourStages[0].world})`;
-                    mainMessage = `INIZIO TOUR TRA:`;
-                }
-            }
-
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById('days').innerText = '00';
-                document.getElementById('hours').innerText = '00';
-                document.getElementById('minutes').innerText = '00';
-                document.getElementById('seconds').innerText = '00';
-                document.getElementById('next-race-info').innerText = mainMessage;
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = String(days).padStart(2, '0');
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-            document.getElementById('next-race-info').innerHTML = countdownText;
-
-        }, 1000);
-    }
-
-    function initChart() {
-        const raceTypes = tourStages.map(stage => stage.type);
-        const typeCounts = raceTypes.reduce((acc, type) => {
-            acc[type] = (acc[type] || 0) + 1;
-            return acc;
-        }, {});
-
-        const labels = Object.keys(typeCounts);
-        const data = Object.values(typeCounts);
-        const backgroundColors = [
-            'rgba(16, 185, 129, 0.7)', // flat (green)
-            'rgba(239, 68, 68, 0.7)',  // mountain (red)
-            'rgba(245, 158, 11, 0.7)', // hilly (orange)
-            'rgba(0, 240, 255, 0.7)',  // time (blue)
-            'rgba(100, 100, 255, 0.7)' // Luna Park (purple)
-        ];
-
-        const ctx = document.getElementById('raceTypeChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: data,
-                    backgroundColor: backgroundColors.slice(0, labels.length),
-                    borderColor: '#1e1e24',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: '#f0f0f0',
-                            font: { size: 14 }
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                const total = tooltipItem.dataset.data.reduce((a, b) => a + b, 0);
-                                const currentValue = tooltipItem.raw;
-                                const percentage = ((currentValue / total) * 100).toFixed(1);
-                                return `${tooltipItem.label}: ${currentValue} (${percentage}%)`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    function populateFilters() {
-        const worlds = [...new Set(tourStages.map(stage => stage.world))];
-        const types = [...new Set(tourStages.map(stage => stage.type))];
-
-        const worldFilter = document.getElementById('worldFilter');
-        worlds.forEach(world => {
-            const option = document.createElement('option');
-            option.value = world;
-            option.textContent = world;
-            worldFilter.appendChild(option);
-        });
-
-        const typeFilter = document.getElementById('typeFilter');
-        types.forEach(type => {
-            const option = document.createElement('option');
-            option.value = type;
-            option.textContent = type;
-            typeFilter.appendChild(option);
-        });
-
-        worldFilter.addEventListener('change', () => renderStages());
-        typeFilter.addEventListener('change', () => renderStages());
-    }
-
-    function renderStages() {
-        const stageList = document.getElementById('stage-list');
-        stageList.innerHTML = ''; // Clear previous stages
-
-        const worldFilter = document.getElementById('worldFilter').value;
-        const typeFilter = document.getElementById('typeFilter').value;
-
-        const filteredStages = tourStages.filter(stage => {
-            const matchesWorld = (worldFilter === 'all' || stage.world === worldFilter);
-            const matchesType = (typeFilter === 'all' || stage.type === typeFilter);
-            return matchesWorld && matchesType;
-        });
-
-        if (filteredStages.length === 0) {
-            stageList.innerHTML = `<p class="text-gray-400 text-center py-8">Nessuna tappa trovata per i filtri selezionati.</p>`;
-            return;
-        }
-
-        filteredStages.forEach(stage => {
-            const stageCardHtml = `
-                <div class="bg-zwift-dark p-4 rounded-lg border border-gray-700 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer stage-card" data-stage-id="${stage.id}">
-                    <div class="mb-3 md:mb-0">
-                        <h3 class="text-xl font-bold text-zwift-orange font-display">Tappa ${stage.id}: ${stage.route}</h3>
-                        <p class="text-gray-400 text-sm">${formatDate(stage.date)}</p>
-                        <p class="text-gray-300 text-sm">${stage.world} - <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${stage.type}</span></p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                        <a href="${stage.routeLink}" target="_blank" class="bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition text-center flex items-center justify-center">
-                            <i class="fas fa-route mr-2"></i> Dettagli Percorso
-                        </a>
-                        <a href="${stage.registerLink}" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-2 px-4 rounded text-sm transition text-center flex items-center justify-center">
-                            <i class="fas fa-clipboard-list mr-2"></i> Iscriviti
-                        </a>
-                    </div>
-                </div>
-            `;
-            stageList.innerHTML += stageCardHtml;
-        });
-
-        document.querySelectorAll('.stage-card').forEach(card => {
-            card.addEventListener('click', (event) => {
-                if (event.target.tagName === 'A' || event.target.closest('a')) {
-                    return;
-                }
-                const stageId = parseInt(card.dataset.stageId);
-                openStageModal(stageId);
-            });
-        });
-    }
-
-    function openStageModal(stageId) {
-        const modal = document.getElementById('event-modal');
-        const stage = tourStages.find(s => s.id === stageId);
-
-        if (!stage) {
-            console.error('Stage not found for ID:', stageId);
-            return;
-        }
-
-        const segmentsHtml = stage.segments && stage.segments.length > 0 ?
-            `<div class="mt-4">
-                <h4 class="text-xl font-bold text-zwift-blue font-display mb-2">Segmenti Rilevanti:</h4>
-                <ul class="list-disc list-inside text-gray-300 ml-4">
-                    ${stage.segments.map(segment => `<li>${segment}</li>`).join('')}
-                </ul>
-            </div>` : '';
-
-        let modalContent = `
-            <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg w-11/12 max-w-2xl relative">
-                <button class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl" id="close-event-modal">&times;</button>
-                <h3 class="text-3xl font-bold text-zwift-orange font-display mb-4">Tappa ${stage.id}: ${stage.route}</h3>
-                <p class="text-gray-300 text-lg mb-2"><strong>Data:</strong> ${formatDate(stage.date)}</p>
-                <p class="text-gray-300 text-lg mb-2"><strong>Mondo:</strong> ${stage.world}</p>
-                <p class="text-gray-300 text-lg mb-4"><strong>Tipo:</strong> <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${stage.type}</span></p>
-
-                ${segmentsHtml}
-
-                <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-4">
-                    <a href="${stage.routeLink}" target="_blank" class="bg-zwift-dark hover:bg-gray-700 text-white font-bold py-3 px-4 rounded text-center transition flex items-center justify-center text-base">
-                        <i class="fas fa-route mr-2"></i> Dettagli Percorso
-                    </a>
-                    <a href="${stage.registerLink}" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center transition flex items-center justify-center text-base">
-                        <i class="fas fa-clipboard-list mr-2"></i> Iscriviti
-                    </a>
-                </div>
-            </div>
-        `;
-        modal.innerHTML = modalContent;
-        modal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-
-        document.getElementById('close-event-modal').addEventListener('click', closeStageModal);
-    }
-
-    function closeStageModal() {
-        const modal = document.getElementById('event-modal');
-        modal.classList.add('hidden');
-        modal.innerHTML = '';
-        document.body.classList.remove('overflow-hidden');
-    }
-
-    // RANKING LOGIC
-    let currentCategory = 'A';
-    let currentType = 'punti';
-    let currentStage = 'cumulative';
-
+    // Helper functions
     const secondsToHms = (d) => {
         if (d === undefined || d === null || isNaN(d) || d === 0) return "--:--:--";
         const h = Math.floor(d / 3600);
@@ -383,16 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${pad(h)}:${pad(m)}:${pad(s)}`;
     };
 
-    const parseNameAndTeam = (fullName) => {
-        let team = '';
-        let name = fullName.trim();
-        const regex = /\s*(\(|\[|&lt;)([^)\]&gt;]+)(\)|\]|&gt;)\s*$/;
-        const match = name.match(regex);
-        if (match) { team = match[2]; name = name.replace(match[0], '').trim(); }
-        name = name.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]|\s*&#\d+;|\s*[\u2600-\u26FF]|\s*[\u2700-\u27BF]/g, '').trim();
-        return { name, team: team || 'Individuale' };
-    };
-
+    // UI update functions
     const updateCategoryButtons = (activeCategory) => {
         document.querySelectorAll('.category-btn').forEach(button => {
             const categoryCode = button.dataset.category;
@@ -415,68 +125,162 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const renderRankingTable = (data, type, category, stage) => {
+    // Ranking rendering functions (defined before loadRanking)
+    const renderPodium = (data, type, category, stage) => {
+        const podiumContainer = document.getElementById('podium-container-mwt');
         const isCumulative = (stage === 'cumulative');
-        let title, headers, scoreKey, unit;
-
         const singleRaceKeys = { punti: 'punti_total', tempo: 'tempo_time', sprinter: 'sprinter_points', scalatore: 'climber_points' };
         const cumulativeKeys = { punti: 'total', tempo: 'time', sprinter: 'pts_sprint', scalatore: 'pts_kom' };
+        const scoreKey = isCumulative ? cumulativeKeys[type] : singleRaceKeys[type];
 
-        if (type === 'punti') { title = `Punti`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti']; unit = ' Pts'; }
-        else if (type === 'tempo') { title = `Tempo`; headers = ['Pos', 'Atleta', 'Squadra', 'Tempo']; unit = ''; }
-        else if (type === 'sprinter') { title = `Punti Sprint`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti Sprint']; unit = ' Pts'; }
-        else if (type === 'scalatore') { title = `Punti Scalatore`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti Scalata']; unit = ' Pts'; }
-        else { return `<p class="text-red-500">Tipo classifica non valido.</p>`; }
-
-        scoreKey = isCumulative ? cumulativeKeys[type] : singleRaceKeys[type];
-        title = isCumulative ? `${title} Generali` : `Gara ${stage} - ${title}`;
-
-        const sortedData = [...data].sort((a, b) => {
+        const topRiders = [...data].sort((a, b) => {
             const scoreA = a[scoreKey] || 0;
+            const scoreB = b[scoreKey] || 0;
+            if (type === 'tempo') { return (scoreA || Infinity) - (scoreB || Infinity); }
+            return scoreB - scoreA;
+        }).slice(0, 3);
+
+        if (topRiders.length === 0) {
+            podiumContainer.innerHTML = '';
+            return;
+        }
+
+        let podiumHtml = `
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold text-zwift-orange font-display">Podio - Cat. ${ageCategoryMap[category] || category}</h3>
+                <p class="text-gray-400">Classifica: ${type.charAt(0).toUpperCase() + type.slice(1)}</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+        `;
+
+        const podiumOrder = [1, 0, 2]; // 2nd, 1st, 3rd
+        const podiumStyles = {
+            0: { place: '1st', medal: '🥇', color: 'text-yellow-400', height: 'pt-8' },
+            1: { place: '2nd', medal: '🥈', color: 'text-gray-300', height: 'pt-4' },
+            2: { place: '3rd', medal: '🥉', color: 'text-amber-500', height: '' }
+        };
+
+        podiumOrder.forEach(index => {
+            if (topRiders[index]) {
+                const rider = topRiders[index];
+                const style = podiumStyles[index];
+                let scoreDisplay = rider[scoreKey] || 0;
+                if (type === 'tempo') { scoreDisplay = secondsToHms(scoreDisplay); } else { scoreDisplay += ' Pts'; }
+                
+                const flagHtml = rider.flag ? `<img src="https://flagcdn.com/w20/${rider.flag.toLowerCase()}.png" alt="${rider.flag}" class="inline h-5 mr-2">` : '';
+
+                podiumHtml += `
+                    <div class="bg-black/20 p-6 rounded-t-xl text-center ${style.height}">
+                        <div class="text-5xl mb-2">${style.medal}</div>
+                        <p class="text-2xl font-bold ${style.color} font-display">${rider.name}</p>
+                        <p class="text-gray-400 text-sm mb-2">${rider.tname || 'N/A'}</p>
+                        <p class="text-xl font-semibold text-white">${scoreDisplay}</p>
+                        <p class="text-sm font-bold ${style.color}">${style.place}</p>
+                    </div>
+                `;
+            } else {
+                 podiumHtml += `<div></div>`; // Empty div for placeholder
+            }
+        });
+
+        podiumHtml += `</div>`;
+        podiumContainer.innerHTML = podiumHtml;
+    };
+
+    const renderRankingTable = (data, type, category, stage) => {
+        const rankingContainer = document.getElementById('ranking-container');
+        const isCumulative = (stage === 'cumulative');
+
+        // Define keys for points
+        const keys = {
+            fal: isCumulative ? 'fal' : 'punti_fal',
+            fts: isCumulative ? 'fts' : 'punti_fts',
+            fin: isCumulative ? 'fin' : 'punti_fin',
+            total: isCumulative ? 'total' : 'punti_total',
+            time: isCumulative ? 'time' : 'tempo_time',
+            sprinter: isCumulative ? 'pts_sprint' : 'sprinter_points',
+            scalatore: isCumulative ? 'pts_kom' : 'climber_points'
+        };
+
+        const sortKey = (type === 'tempo') ? keys.time : (type === 'sprinter' ? keys.sprinter : (type === 'scalatore' ? keys.scalatore : keys.total));
+        
+        const sortedData = [...data].sort((a, b) => {
+            const scoreA = a[sortKey] || 0;
             const scoreB = b[scoreKey] || 0;
             if (type === 'tempo') { return (scoreA || Infinity) - (scoreB || Infinity); }
             return scoreB - scoreA;
         });
 
-        const categoryDisplayName = ageCategoryMap[category] || category; // Get display name
-        let html = `<h2 class="text-2xl text-zwift-blue mb-4 font-display">${title} - Cat. ${categoryDisplayName}</h2>
-                    <div class="overflow-x-scroll"><table class="min-w-full table-fixed text-left whitespace-nowrap"><thead><tr class="bg-black/50">
-                    ${headers.map(h => `<th class="px-4 py-2 border-b-2 border-zwift-orange">${h}</th>`).join('')}
-                    </tr></thead><tbody>`;
+        const categoryDisplayName = ageCategoryMap[category] || category;
+        let tableHtml;
 
-        if (sortedData.length === 0) {
-             html += `<tr><td colspan="${headers.length}" class="text-center py-8 text-gray-500">Nessun dato disponibile per questa selezione.</td></tr>`;
+        if (type === 'punti' || type === 'sprinter' || type === 'scalatore') {
+            // DETAILED POINTS VIEW
+            const title = (type === 'punti') ? 'Punti Generali' : (type === 'sprinter' ? 'Punti Sprint' : 'Punti Scalatore');
+            tableHtml = `<h2 class="text-2xl text-zwift-blue mb-4 font-display">Classifica ${title} - Cat. ${categoryDisplayName}</h2>
+                         <div class="overflow-x-auto">
+                             <table class="min-w-full text-left whitespace-nowrap">
+                                 <thead><tr class="bg-black/50">
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">Pos</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">Atleta</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">Squadra</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">FAL</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">FTS</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">FIN</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange bg-black/50">Totale</th>
+                                 </tr></thead><tbody>`;
+            
+            if (sortedData.length === 0) {
+                tableHtml += `<tr><td colspan="7" class="text-center py-8 text-gray-500">Nessun dato disponibile.</td></tr>`;
+            } else {
+                sortedData.forEach((athlete, index) => {
+                    const rank = index + 1;
+                    const flagHtml = athlete.flag ? `<img src="https://flagcdn.com/w20/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline h-4 mr-2 -translate-y-px">` : '<span class="inline-block w-5"></span>';
+                    
+                    tableHtml += `<tr class="hover:bg-black/30">
+                                    <td class="px-4 py-3 font-bold">${rank}</td>
+                                    <td class="px-4 py-3 font-semibold text-white">${flagHtml}${athlete.name}</td>
+                                    <td class="px-4 py-3 text-gray-400">${athlete.tname || 'N/A'}</td>
+                                    <td class="px-4 py-3">${athlete[keys.fal] || 0}</td>
+                                    <td class="px-4 py-3">${athlete[keys.fts] || 0}</td>
+                                    <td class="px-4 py-3">${athlete[keys.fin] || 0}</td>
+                                    <td class="px-4 py-3 font-bold text-zwift-orange">${athlete[sortKey] || 0}</td>
+                                 </tr>`;
+                });
+            }
+            tableHtml += `</tbody></table></div>`;
+
         } else {
-            sortedData.forEach((athlete, index) => {
-                const rank = index + 1;
-                let scoreDisplay = athlete[scoreKey] || 0;
-                if (type === 'tempo') { scoreDisplay = secondsToHms(scoreDisplay); }
-                else { scoreDisplay += unit; }
-                let rowStyle = '', rankColor = 'text-white', medalIcon = '';
+            // SIMPLE TIME VIEW
+            tableHtml = `<h2 class="text-2xl text-zwift-blue mb-4 font-display">Classifica a Tempo - Cat. ${categoryDisplayName}</h2>
+                         <div class="overflow-x-auto">
+                             <table class="min-w-full text-left whitespace-nowrap">
+                                 <thead><tr class="bg-black/50">
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">Pos</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">Atleta</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">Squadra</th>
+                                     <th class="px-4 py-2 border-b-2 border-zwift-orange">Tempo</th>
+                                 </tr></thead><tbody>`;
 
-                // Add flag image
-                const flagHtml = athlete.flag ? `<img src="https://flagcdn.com/w20/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline h-4 mr-2 -translate-y-px">` : '<span class="inline-block w-5"></span>';
-                let athleteNameHtml = `${flagHtml}${athlete.name}`;
-
-                if (rank === 1) {
-                    rowStyle = 'background-color: rgba(255, 215, 0, 0.2);';
-                    rankColor = 'text-yellow-400';
-                    medalIcon = '🥇 ';
-                    athleteNameHtml = `<span class="jersey-icon">${jerseyIcons[type] || ''}</span> ${athleteNameHtml}`;
-                }
-                else if (rank === 2) { rowStyle = 'background-color: rgba(192, 192, 192, 0.2);'; rankColor = 'text-gray-300'; medalIcon = '🥈 '; }
-                else if (rank === 3) { rowStyle = 'background-color: rgba(205, 127, 50, 0.2);'; rankColor = 'text-amber-500'; medalIcon = '🥉 '; }
-
-                html += `<tr class="hover:bg-black/30" style="${rowStyle}">
-                            <td class="px-4 py-3 font-bold ${rankColor}">${medalIcon}${rank}</td>
-                            <td class="px-4 py-3 font-semibold text-white">${athleteNameHtml}</td>
-                            <td class="px-4 py-3 text-gray-400">${athlete.tname || 'N/A'}</td>
-                            <td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td>
-                         </tr>`;
-            });
+            if (sortedData.length === 0) {
+                tableHtml += `<tr><td colspan="4" class="text-center py-8 text-gray-500">Nessun dato disponibile.</td></tr>`;
+            } else {
+                sortedData.forEach((athlete, index) => {
+                    const rank = index + 1;
+                    const flagHtml = athlete.flag ? `<img src="https://flagcdn.com/w20/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline h-4 mr-2 -translate-y-px">` : '<span class="inline-block w-5"></span>';
+                    
+                    tableHtml += `<tr class="hover:bg-black/30">
+                                    <td class="px-4 py-3 font-bold">${rank}</td>
+                                    <td class="px-4 py-3 font-semibold text-white">${flagHtml}${athlete.name}</td>
+                                    <td class="px-4 py-3 text-gray-400">${athlete.tname || 'N/A'}</td>
+                                    <td class="px-4 py-3 font-bold text-zwift-orange">${secondsToHms(athlete[keys.time])}</td>
+                                 </tr>`;
+                });
+            }
+            tableHtml += `</tbody></table></div>`;
         }
-        html += `</tbody></table></div>`;
-        return html;
+
+        rankingContainer.innerHTML = tableHtml;
     };
 
     const loadRanking = async (category, type, stage) => {
@@ -488,8 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateTypeButtons(type);
         document.getElementById('selectGaraRanking').value = stage;
 
-        const container = document.getElementById('ranking-container');
-        container.innerHTML = `<div class="text-gray-500 absolute inset-0 flex items-center justify-center">Caricamento classifica...</div>`;
+        const rankingContainer = document.getElementById('ranking-container');
+        rankingContainer.innerHTML = `<div class="text-gray-500 absolute inset-0 flex items-center justify-center">Caricamento classifica...</div>`;
+        document.getElementById('podium-container-mwt').innerHTML = ''; // Clear podium
 
         try {
             const isCumulative = stage === 'cumulative';
@@ -512,24 +317,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         .map(rider => ({
                             ...rider,
                             flag: zwidToFlagMap[rider.zwid] || '',
-                            console.log('Rider originale:', rider); // DEBUG
-                            const flag = zwidToFlagMap[rider.zwid] || '';
-                            const tname = zwidToTnameMap[rider.zwid] || '';
-                            console.log(`Trovato per zwid ${rider.zwid}: flag='${flag}', tname='${tname}'`); // DEBUG
-                            const enrichedRider = { ...rider, flag, tname };
-                            console.log('Rider arricchito:', enrichedRider); // DEBUG
-                            return enrichedRider;
+                            tname: zwidToTnameMap[rider.zwid] || ''
                         }));
                 } else {
                     throw new Error("Formato JSON della gara singola non riconosciuto.");
                 }
             }
-
-            container.innerHTML = renderRankingTable(dataToRender, type, category, stage);
+            
+            // Render both podium and table
+            renderPodium(dataToRender, type, category, stage);
+            renderRankingTable(dataToRender, type, category, stage);
 
         } catch (error) {
             console.error("Errore caricamento classifica:", error);
-            container.innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare la classifica. Assicurati che i file JSON per la gara selezionata siano presenti nella directory principale. (Dettaglio: ${error.message})</p>`;
+            rankingContainer.innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare la classifica. (Dettaglio: ${error.message})</p>`;
         }
     };
 
