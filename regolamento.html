@@ -207,6 +207,11 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
                         <div class="flex space-x-3 items-center">
+                            <!-- Language buttons top-right -->
+                            <div class="lang-toggle" aria-label="Language selection">
+                                <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
+                                <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
+                            </div>
                             <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
                                 <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
                                 <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
@@ -240,12 +245,6 @@
                         <!-- Header with language toggles -->
                         <div class="rule-header" role="banner">
                             <p class="organizer" aria-hidden="false"><strong>Organized by Team INOX</strong></p>
-        
-                            <!-- Language buttons top-right -->
-                            <div class="lang-toggle" aria-label="Language selection">
-                                <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
-                                <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
-                            </div>
                         </div>
             <!-- =========================
                  ITALIANO
@@ -610,23 +609,18 @@
             const itSection = document.getElementById('it-section');
             const enSection = document.getElementById('en-section');
 
-            function setLanguage(lang, persist=true){
-                if(lang === 'it'){
-                    itSection.removeAttribute('hidden');
-                    itSection.setAttribute('aria-hidden','false');
-                    enSection.setAttribute('hidden','');
-                    enSection.setAttribute('aria-hidden','true');
-                    btnIt.setAttribute('aria-pressed','true');
-                    btnEn.setAttribute('aria-pressed','false');
-                } else {
-                    enSection.removeAttribute('hidden');
-                    enSection.setAttribute('aria-hidden','false');
-                    itSection.setAttribute('hidden','');
-                    itSection.setAttribute('aria-hidden','true');
-                    btnEn.setAttribute('aria-pressed','true');
-                    btnIt.setAttribute('aria-pressed','false');
-                }
-                if(persist){
+            function setLanguage(lang, persist = true){
+                const isItalian = lang === 'it';
+                
+                itSection.hidden = !isItalian;
+                enSection.hidden = isItalian;
+
+                btnIt.setAttribute('aria-pressed', isItalian);
+                btnEn.setAttribute('aria-pressed', !isItalian);
+                
+                document.documentElement.lang = lang;
+
+                if (persist) {
                     try { localStorage.setItem('mwt_lang', lang); } catch(e){}
                 }
             }
@@ -646,7 +640,7 @@
             // keyboard support: Left/Right to toggle
             document.addEventListener('keydown', (e)=>{
                 if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
-                    const current = localStorage.getItem('mwt_lang') === 'en' ? 'en' : 'it';
+                    const current = (localStorage.getItem('mwt_lang') || 'it') === 'en' ? 'en' : 'it';
                     setLanguage(current === 'it' ? 'en' : 'it');
                 }
             });
