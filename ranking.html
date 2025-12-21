@@ -159,7 +159,7 @@
                 'time': { it: 'Tempo', en: 'Time' }, 'sprint_points': { it: 'Punti Sprint', en: 'Sprint Points' }, 'climb_points': { it: 'Punti Scalata', en: 'Climb Points' },
                 'race_prefix': { it: 'Gara', en: 'Race' }, 'general_suffix': { it: 'Generali', en: 'General' },
                 'cumulative_general': { it: 'Generale (Cumulata)', en: 'General (Cumulative)' }, 'time_ranking': { it: 'Tempo', en: 'Time' },
-                'points_ranking': { it: 'Punti Generali', en: 'General Points' }, 'sprinter_ranking': { it: 'Punti Sprinter', en: 'Sprinter Points' },
+                'points_ranking': { it: 'Punti', en: 'Points' }, 'sprinter_ranking': { it: 'Punti Sprinter', en: 'Sprinter Points' },
                 'climber_ranking': { it: 'Punti Scalatore', en: 'Climber Points' }
             };
 
@@ -251,8 +251,10 @@
                 populateSelect(selectGaraRanking, [{text: t('cumulative_general'), value: 'cumulative'}, ...Array.from({length: 18}, (_, i) => ({ text: `${t('race_prefix')} ${i + 1}`, value: i + 1 }))]);
                 populateSelect(selectCategory, Object.keys(ageCategoryMap).map(key => ({ text: ageCategoryMap[key], value: key })));
                 populateSelect(selectType, [
-                    { value: 'punti', text: t('points_ranking') }, { value: 'tempo', text: t('time_ranking') },
-                    { value: 'sprinter', text: t('sprinter_ranking') }, { value: 'scalatore', text: t('climber_ranking') }
+                    { value: 'tempo', text: t('time_ranking') }, // Tempo first
+                    { value: 'punti', text: t('points_ranking') }, // Then Punti
+                    { value: 'sprinter', text: t('sprinter_ranking') }, // Then Sprinter
+                    { value: 'scalatore', text: t('climber_ranking') } // Then Scalatore
                 ]);
 
                 selectGaraRanking.value = currentStage;
