@@ -3,93 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classifiche Master Winter Tour 25/26</title>
+    <title>Classifiche Masters Winter Tour 2025/26</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="sidebar.css">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        zwift: {
-                            dark: '#111111',
-                            card: '#1e1e24',
-                            orange: '#fc6719',
-                            blue: '#00f0ff',
-                            text: '#f0f0f0',
-                            gray: '#888888'
-                        },
-                        // Colori per le classifiche
-                        race: {
-                            flat: '#10b981', // Green (usato per i punti totali)
-                            mountain: '#ef4444', // Red
-                            hilly: '#f59e0b', // Yellow
-                            time: '#00f0ff', // Blue (Zwift Blue)
-                        }
+                        zwift: { dark: '#111111', card: '#1e1e24', orange: '#fc6719', blue: '#00f0ff', text: '#f0f0f0', gray: '#888888' },
+                        race: { flat: '#10b981', mountain: '#ef4444', hilly: '#f59e0b', time: '#00f0ff', }
                     },
-                    fontFamily: {
-                        display: ['Teko', 'sans-serif'],
-                        body: ['Inter', 'sans-serif']
-                    }
+                    fontFamily: { display: ['Teko', 'sans-serif'], body: ['Inter', 'sans-serif'] }
                 }
             }
         }
     </script>
+
     <style>
-        body {
-            background-color: #111111;
-            color: #f0f0f0;
-            font-family: 'Inter', sans-serif;
-        }
-        h1, h2, h3, h4, .zwift-font {
-            font-family: 'Teko', sans-serif;
-            text-transform: uppercase;
-        }
-        /* Garantisce lo scroll orizzontale su mobile per le tabelle */
-        .table-responsive {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch; /* Per iOS */
+        /* Ensure main content is flex and takes full width on mobile, and shifts on desktop */
+        body { display: flex; min-height: 100vh; flex-direction: column; }
+
+        @media (min-width: 1024px) {
+            body { flex-direction: row; } /* Desktop layout with sidebar beside content */
+            body > nav { /* Target the direct child nav of body */
+                margin-left: 300px;
+                width: calc(100% - 300px); /* Ensure it doesn't overflow */
+            }
+            #main-content { margin-left: 300px; }
         }
     </style>
 </head>
-<body class="antialiased min-h-screen">
-    
+<body class="antialiased min-h-screen flex flex-col bg-zwift-dark font-body text-zwift-text">
+
     <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-3">
-            <h1 class="text-2xl font-bold tracking-wider zwift-font text-zwift-orange">CLASSIFICHE TOUR</h1>
-            <a href="home.html" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded text-sm transition flex items-center">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                HOME
-            </a>
-        </div>
-    </nav>
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
+                        <div class="flex space-x-3 items-center">
+                            <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
+                                <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
+                                <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+                
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 hidden"></div>
+    <div id="sidebar" class="fixed top-0 left-0 w-72 h-full bg-[#1a1d20] shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
+            <div class="flex items-center space-x-2">
+                <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
 
-        <h1 id="main-title" class="text-4xl md:text-5xl font-bold text-center border-b border-gray-700 pb-4 mb-8 text-zwift-orange zwift-font">
-            Classifiche Master Winter Tour 25/26
-        </h1>
-        
-        <div class="mb-8 flex justify-center">
-            <select id="gara-selector" class="bg-zwift-card text-white p-3 rounded-lg border border-gray-700">
-                <option value="cumulative">Classifica Generale</option>
-                <option value="gara1">Gara 1</option>
-                <option value="gara2">Gara 2</option>
-            </select>
+            </div>
         </div>
+        <div class="flex flex-col p-2 space-y-1 text-base font-semibold">
+            <div class="border-b border-gray-700 pb-2 mb-2">
+                <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigazione</p>
 
-        <div id="podium-container">
-            <!-- Dynamic podium content will be rendered here by ranking.js -->
-        </div>
-        
-        <div id="detailed-ranking-container">
-            <!-- Dynamic detailed ranking content will be rendered here by ranking.js -->
-        </div>
+                <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
+                <a href="regolamento.html" class="sidebar-link">Regolamento</a>
+                <a href="Leaders.html" class="sidebar-link">Leaders del Tour</a>
 
-        <div class="text-center text-xs text-gray-700 mt-10 border-t border-gray-900 pt-6">
-            <p>&copy; 2025 Master Winter Tour. Classifiche fornite da Team INOX.</p>
+
+                <a href="ranking.html" class="sidebar-link">Classifiche</a>
+            </div>
         </div>
     </div>
-    <script src="ranking.js"></script>
+                
+    <div id="main-content" class="flex-grow">
+        <section id="ranking" class="py-12 bg-zwift-dark">
+            <div class="container mx-auto px-4">
+                <div class="mb-8 border-b border-gray-700 pb-4">
+                    <h2 class="text-4xl font-bold text-white font-display">CLASSIFICHE TOUR</h2>
+                    <p class="text-gray-400">Seleziona una categoria e un tipo di classifica per visualizzare i risultati aggiornati.</p>
+                </div>
+                
+                <div class="flex space-x-4 mb-4 flex-wrap items-center bg-zwift-card p-4 rounded-lg border border-gray-700">
+                    <div class="flex items-center space-x-2">
+                        <label for="selectGaraRanking" class="text-gray-400 text-sm font-semibold">Gara:</label>
+                        <select id="selectGaraRanking" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
+                            <option value="cumulative">Generale (Cumulata)</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label for="selectCategory" class="text-gray-400 text-sm font-semibold">Categoria:</label>
+                        <select id="selectCategory" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"></select>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label for="selectType" class="text-gray-400 text-sm font-semibold">Classifica:</label>
+                        <select id="selectType" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"></select>
+                    </div>
+                </div>
+                <div id="podium-container-mwt" class="mb-12">
+                    <!-- Podio dinamico verrà renderizzato qui -->
+                </div>
+                <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] relative">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="bg-black py-8 border-t border-gray-800"><!-- footer content --></footer>
+    <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden"><!-- modal content --></div>
+
+
+    <script src="sidebar.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => { // Make DOMContentLoaded async
+            let cumulativeData = null; // Declare global for cumulative data
+
+            // Load cumulative results once on page load
+            try {
+                const response = await fetch('cumulative_results.json');
+                if (!response.ok) throw new Error(`File non trovato: cumulative_results.json`);
+                cumulativeData = await response.json();
+            } catch (error) {
+                console.error("Errore caricamento dati cumulativi:", error);
+                // Optionally display an error message
+            }
+            // Define jersey icons
+            const jerseyIcons = {
+                punti: '<img src="points.png" alt="Jersey Punti" class="w-12 h-12 mx-auto">',
+                tempo: '<img src="time.png" alt="Jersey Generale" class="w-12 h-12 mx-auto">',
+                sprinter: '<img src="sprint.png" alt="Jersey Sprinter" class="w-12 h-12 mx-auto">',
+                scalatore: '<img src="climb.png" alt="Jersey Scalatore" class="w-12 h-12 mx-auto">'
+            };
+
+            // Define age category mapping
+            const ageCategoryMap = {
+                'A': '0-29', 'B': '30-39', 'C': '40-49', 'D': '50-59', 'E': '60+'
+            };
+
+            let currentCategory = 'A';
+            let currentType = 'punti';
+            let currentStage = 'cumulative';
+
+            const secondsToHms = (d) => {
+                if (d === undefined || d === null || isNaN(d) || d === 0) return "--:--:--";
+                const h = Math.floor(d / 3600);
+                const m = Math.floor((d % 3600) / 60);
+                const s = Math.round(d % 60);
+                const pad = (num) => String(num).padStart(2, '0');
+                return `${pad(h)}:${pad(m)}:${pad(s)}`;
+            };
+
+
+
+
+
+            const renderRankingTable = (data, type, category, stage) => {
+                const isCumulative = (stage === 'cumulative');
+                let title, headers, scoreKey, unit;
+
+                const singleRaceKeys = { punti: 'punti_total', tempo: 'tempo_time', sprinter: 'sprinter_points', scalatore: 'climber_points' };
+                const cumulativeKeys = { punti: 'total', tempo: 'time', sprinter: 'pts_sprint', scalatore: 'pts_kom' };
+
+                if (type === 'punti') { title = `Punti`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti']; unit = ' Pts'; }
+                else if (type === 'tempo') { title = `Tempo`; headers = ['Pos', 'Atleta', 'Squadra', 'Tempo']; unit = ''; }
+                else if (type === 'sprinter') { title = `Punti Sprint`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti Sprint']; unit = ' Pts'; }
+                else if (type === 'scalatore') { title = `Punti Scalatore`; headers = ['Pos', 'Atleta', 'Squadra', 'Punti Scalata']; unit = ' Pts'; }
+                else { return `<p class="text-red-500">Tipo classifica non valido.</p>`; }
+
+                scoreKey = isCumulative ? cumulativeKeys[type] : singleRaceKeys[type];
+                title = isCumulative ? `${title} Generali` : `Gara ${stage} - ${title}`;
+
+                const sortedData = [...data].sort((a, b) => {
+                    const scoreA = a[scoreKey] || 0;
+                    const scoreB = b[scoreKey] || 0;
+                    if (type === 'tempo') { return (scoreA || Infinity) - (scoreB || Infinity); }
+                    return scoreB - scoreA;
+                });
+
+                const categoryDisplayName = ageCategoryMap[category] || category; // Get display name
+                let html = `<div class="overflow-x-scroll"><table class="min-w-full table-auto text-left"><thead><tr class="bg-black/50">
+                            ${headers.map(h => `<th class="px-4 py-2 border-b-2 border-zwift-orange">${h}</th>`).join('')}
+                            </tr></thead><tbody>`;
+
+                if (sortedData.length === 0) {
+                     html += `<tr><td colspan="${headers.length}" class="text-center py-8 text-gray-500">Nessun dato disponibile per questa selezione.</td></tr>`;
+                } else {
+                    sortedData.forEach((athlete, index) => {
+                        const rank = index + 1;
+                        let scoreDisplay = athlete[scoreKey] || 0;
+                        if (type === 'tempo') { scoreDisplay = secondsToHms(scoreDisplay); }
+                        else { scoreDisplay += unit; }
+                        let rowStyle = '', rankColor = 'text-white', medalIcon = '';
+
+                        if (rank === 1) {
+                            rowStyle = 'background-color: rgba(255, 215, 0, 0.2);';
+                            rankColor = 'text-yellow-400';
+                            medalIcon = '🥇 ';
+                        }
+                        else if (rank === 2) { rowStyle = 'background-color: rgba(192, 192, 192, 0.2);'; rankColor = 'text-gray-300'; medalIcon = '🥈 '; }
+                        else if (rank === 3) { rowStyle = 'background-color: rgba(205, 127, 50, 0.2);'; rankColor = 'text-amber-500'; medalIcon = '🥉 '; }
+
+                        const flagImg = athlete.flag ? `<img src="https://flagcdn.com/16x12/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline-block mr-2">` : '';
+
+                        html += `<tr class="hover:bg-black/30" style="${rowStyle}">
+                                    <td class="px-4 py-3 font-bold ${rankColor}">${medalIcon}${rank}</td>
+                                    <td class="px-4 py-3 font-semibold text-white">${flagImg}${athlete.name}</td>
+                                    <td class="px-4 py-3 text-gray-400">${athlete.tname || 'Individuale'}</td>
+                                    <td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td>
+                                 </tr>`;
+                    });
+                }
+                html += `</tbody></table></div>`;
+                return html;
+            };
+
+            const loadRanking = async (category, type, stage) => {
+                currentCategory = category;
+                currentType = type;
+                currentStage = stage;
+
+
+                document.getElementById('selectGaraRanking').value = stage;
+
+                const container = document.getElementById('ranking-container');
+                container.innerHTML = `<div class="text-gray-500 absolute inset-0 flex items-center justify-center">Caricamento classifica...</div>`;
+
+                try {
+                    const isCumulative = stage === 'cumulative';
+                    const dataUrl = isCumulative ? 'cumulative_results.json' : `gara_${stage}_results.json`;
+
+                    const response = await fetch(dataUrl);
+                    if (!response.ok) throw new Error(`File non trovato: ${dataUrl}`);
+
+                    const allRankings = await response.json();
+
+                    let dataToRender;
+                    if (isCumulative) {
+                        dataToRender = allRankings.results[category] || [];
+                    } else {
+                        // Augment individual race data with flag and tname from cumulativeData
+                        if (Array.isArray(allRankings)) {
+                            // Find corresponding cumulative data for augmentation
+                            const cumulativeCategoryData = cumulativeData && cumulativeData.results[category] ? cumulativeData.results[category] : [];
+                            dataToRender = allRankings.map(rider => {
+                                const cumulativeRider = cumulativeCategoryData.find(cr => cr.name === rider.name);
+                                return {
+                                    ...rider,
+                                    flag: cumulativeRider ? cumulativeRider.flag : null,
+                                    tname: cumulativeRider ? cumulativeRider.tname : null,
+                                    fin_points: cumulativeRider ? cumulativeRider.fin_points : null,
+                                    pts_fal: cumulativeRider ? cumulativeRider.pts_fal : null,
+                                    pts_fts: cumulativeRider ? cumulativeRider.pts_fts : null
+                                };
+                            });
+                            dataToRender = dataToRender.filter(rider => rider.category === category); // Ensure correct category
+                        } else if (typeof allRankings === 'object' && allRankings !== null) {
+                            const cumulativeCategoryData = cumulativeData && cumulativeData.results[category] ? cumulativeData.results[category] : [];
+                            dataToRender = (allRankings[category] && allRankings[category][type]) ? allRankings[category][type] : [];
+                            dataToRender = dataToRender.map(rider => {
+                                const cumulativeRider = cumulativeCategoryData.find(cr => cr.name === rider.name);
+                                return {
+                                    ...rider,
+                                    flag: cumulativeRider ? cumulativeRider.flag : null,
+                                    tname: cumulativeRider ? cumulativeRider.tname : null,
+                                    fin_points: cumulativeRider ? cumulativeRider.fin_points : null,
+                                    pts_fal: cumulativeRider ? cumulativeRider.pts_fal : null,
+                                    pts_fts: cumulativeRider ? cumulativeRider.pts_fts : null
+                                };
+                            });
+                        } else {
+                            throw new Error("Formato JSON della gara singola non riconosciuto.");
+                        }
+                    }
+
+                    container.innerHTML = renderRankingTable(dataToRender, type, category, stage);
+
+                } catch (error) {
+                    console.error("Errore caricamento classifica:", error);
+                    container.innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare la classifica. Assicurati che i file JSON per la gara selezionata siano presenti nella directory principale. (Dettaglio: ${error.message})</p>`;
+                }
+            };
+
+            const initRankingListeners = () => {
+                const selectGaraRanking = document.getElementById('selectGaraRanking');
+                const selectCategory = document.getElementById('selectCategory');
+                const selectType = document.getElementById('selectType');
+
+                // Populate Gara dropdown
+                const stageNames = Array.from({length: 18}, (_, i) => `Gara ${i + 1}`);
+                stageNames.forEach((name, index) => {
+                    selectGaraRanking.appendChild(new Option(name, index + 1));
+                });
+
+                // Populate Category dropdown
+                for (const key in ageCategoryMap) {
+                    selectCategory.appendChild(new Option(ageCategoryMap[key], key));
+                }
+
+                // Populate Type dropdown
+                const typeOptions = [
+                    { value: 'tempo', text: 'Tempo' },
+                    { value: 'punti', text: 'Punti Generali' },
+                    { value: 'sprinter', text: 'Punti Sprinter' },
+                    { value: 'scalatore', text: 'Punti Scalatore' }
+                ];
+                typeOptions.forEach(option => {
+                    selectType.appendChild(new Option(option.text, option.value));
+                });
+
+
+                // Add event listeners for dropdowns
+                selectGaraRanking.addEventListener('change', (e) => {
+                    currentStage = e.target.value;
+                    loadRanking(currentCategory, currentType, currentStage);
+                });
+
+                selectCategory.addEventListener('change', (e) => {
+                    currentCategory = e.target.value;
+                    loadRanking(currentCategory, currentType, currentStage);
+                });
+
+                selectType.addEventListener('change', (e) => {
+                    currentType = e.target.value;
+                    loadRanking(currentCategory, currentType, currentStage);
+                });
+            };
+
+            initRankingListeners();
+            loadRanking('A', 'punti', 'cumulative'); // Initial load
+        });
+    </script>
 </body>
 </html>

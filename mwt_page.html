@@ -39,7 +39,11 @@
 
         @media (min-width: 1024px) {
             body { flex-direction: row; } /* Desktop layout with sidebar beside content */
-            #main-content { margin-left: 300px; width: calc(100% - 300px); }
+            body > nav { /* Target the direct child nav of body */
+                margin-left: 300px;
+                width: calc(100% - 300px); /* Ensure it doesn't overflow */
+            }
+            #main-content { margin-left: 300px; }
         }
     </style>
 </head>
@@ -47,18 +51,12 @@
 
     <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">25/26</span></div>
-                        <div class="hidden lg:flex space-x-6 text-sm font-semibold">
-                            <a href="#dashboard" id="nav-dashboard" class="hover:text-zwift-orange transition">Dashboard</a>
-                            <a href="#leaders" id="nav-leaders" class="hover:text-zwift-orange transition">Leaders del Tour</a>
-                            <a href="#stages" id="nav-stages" class="hover:text-zwift-orange transition">Tappe</a>
-                            <a href="#analytics" id="nav-analytics" class="hover:text-zwift-orange transition">Analisi</a>
-                            <a href="#ranking" id="nav-ranking" class="hover:text-zwift-orange transition text-zwift-orange font-bold">Classifiche</a>
-                        </div>
+            <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
+
                         <div class="flex space-x-3 items-center">
-                            <a href="regolamento.html" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-1 px-4 rounded text-sm transition hidden sm:block"><i class="fas fa-scroll mr-1"></i> REGOLAMENTO</a>
-                            <a href="#ranking" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-1 px-4 rounded text-sm transition hidden sm:block">CLASSIFICHE</a>
-                            <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center mt-4 transition text-sm">ISCRIVITI ORA</a>
+
+
+
                             <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
                                 <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
                                 <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
@@ -72,18 +70,20 @@
         <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
             <div class="flex items-center space-x-2">
                 <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
-                <span class="text-2xl font-bold tracking-wider font-display text-zwift-orange">INOX</span>
+
             </div>
         </div>
         <div class="flex flex-col p-2 space-y-1 text-base font-semibold">
             <div class="border-b border-gray-700 pb-2 mb-2">
                 <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigazione</p>
-                <a href="home.html" class="sidebar-link">Home</a>
-                <a href="#dashboard" class="sidebar-link">Dashboard</a>
-                <a href="#leaders" class="sidebar-link">Leaders del Tour</a>
-                <a href="#stages" class="sidebar-link">Tappe</a>
-                <a href="#analytics" class="sidebar-link">Analisi</a>
-                <a href="#ranking" class="sidebar-link">Classifiche</a>
+
+                <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
+
+                <a href="regolamento.html" class="sidebar-link">Regolamento</a>
+                <a href="Leaders.html" class="sidebar-link">Leaders del Tour</a>
+
+
+                <a href="ranking.html" class="sidebar-link">Classifiche</a>
             </div>
         </div>
     </div>
@@ -108,140 +108,7 @@
             </div>
         </header>
     
-        <section id="leaders" class="py-12 bg-zwift-dark">
-            <div class="container mx-auto px-4">
-                <div class="mb-8 border-b border-gray-700 pb-4">
-                    <h2 class="text-4xl font-bold text-white font-display">LEADERS DEL TOUR</h2>
-                    <p class="text-gray-400">I leader attuali per ogni classifica.</p>
-                </div>
-                <div id="leaders-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-punti-jersey-A">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (0-29)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-punti-name-A">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-punti-team-A"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-tempo-jersey-A">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (0-29)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-tempo-name-A">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-tempo-team-A"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-sprinter-jersey-A">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (0-29)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-sprinter-name-A">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-sprinter-team-A"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-scalatore-jersey-A">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (0-29)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-scalatore-name-A">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-scalatore-team-A"></p>
-                                    </div>
-                    
-                                    <!-- Repeat for other age categories -->
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-punti-jersey-B">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (30-39)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-punti-name-B">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-punti-team-B"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-tempo-jersey-B">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (30-39)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-tempo-name-B">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-tempo-team-B"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-sprinter-jersey-B">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (30-39)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-sprinter-name-B">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-sprinter-team-B"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-scalatore-jersey-B">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (30-39)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-scalatore-name-B">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-scalatore-team-B"></p>
-                                    </div>
-                    
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-punti-jersey-C">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (40-49)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-punti-name-C">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-punti-team-C"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-tempo-jersey-C">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (40-49)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-tempo-name-C">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-tempo-team-C"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-sprinter-jersey-C">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (40-49)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-sprinter-name-C">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-sprinter-team-C"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-scalatore-jersey-C">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (40-49)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-scalatore-name-C">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-scalatore-team-C"></p>
-                                    </div>
-                    
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-punti-jersey-D">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (50-59)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-punti-name-D">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-punti-team-D"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-tempo-jersey-D">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (50-59)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-tempo-name-D">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-tempo-team-D"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-sprinter-jersey-D">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (50-59)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-sprinter-name-D">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-sprinter-team-D"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-scalatore-jersey-D">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (50-59)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-scalatore-name-D">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-scalatore-team-D"></p>
-                                    </div>
-                                    
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-punti-jersey-E">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (60+)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-punti-name-E">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-punti-team-E"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-tempo-jersey-E">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (60+)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-tempo-name-E">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-tempo-team-E"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-sprinter-jersey-E">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (60+)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-sprinter-name-E">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-sprinter-team-E"></p>
-                                    </div>
-                                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                        <div class="text-5xl mb-3" id="leader-scalatore-jersey-E">❓</div>
-                                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (60+)</h3>
-                                        <p class="text-white text-lg font-semibold" id="leader-scalatore-name-E">Caricamento...</p>
-                                        <p class="text-gray-400 text-sm" id="leader-scalatore-team-E"></p>
-                                    </div>                        </div>
-                    </div>
-                </section>
+
             
                 <section id="analytics" class="py-12 bg-zwift-dark">
                     <div class="container mx-auto px-4">
@@ -284,45 +151,7 @@
         </div>
     </section>
 
-    <section id="ranking" class="py-12 bg-zwift-dark">
-        <div class="container mx-auto px-4">
-            <div class="mb-8 border-b border-gray-700 pb-4">
-                <h2 class="text-4xl font-bold text-white font-display">CLASSIFICHE TOUR</h2>
-                <p class="text-gray-400">Seleziona una categoria e un tipo di classifica per visualizzare i risultati aggiornati.</p>
-            </div>
-            
-            <div class="flex space-x-4 mb-4 flex-wrap items-center bg-zwift-card p-4 rounded-lg border border-gray-700">
-                <div class="flex items-center space-x-2">
-                    <label for="selectGaraRanking" class="text-gray-400 text-sm font-semibold">Gara:</label>
-                    <select id="selectGaraRanking" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
-                        <option value="cumulative">Generale (Cumulata)</option>
-                    </select>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <label class="text-gray-400 text-sm font-semibold">Categoria:</label>
-                    <div class="flex space-x-1">
-                        <button data-category="A" class="category-btn bg-zwift-orange text-white font-bold py-2 px-4 rounded text-sm transition">0-29</button>
-                        <button data-category="B" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition">30-39</button>
-                        <button data-category="C" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition">40-49</button>
-                        <button data-category="D" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition">50-59</button>
-                        <button data-category="E" class="category-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition">60+</button>
-                    </div>
-                </div>
-            </div>
 
-            <div class="flex space-x-3 mb-8 flex-wrap border-t border-gray-700 pt-4">
-                <button data-type="punti" class="type-btn bg-zwift-orange text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Punti Generali</button>
-                <button data-type="tempo" class="type-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Tempo</button>
-                <button data-type="sprinter" class="type-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Punti Sprinter</button>
-                <button data-type="scalatore" class="type-btn bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition mb-2">Punti Scalatore</button>
-            </div>
-            <div id="podium-container-mwt" class="mb-12">
-                <!-- Podio dinamico verrà renderizzato qui -->
-            </div>
-            <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] relative">
-            </div>
-        </div>
-    </section>
     
     <footer class="bg-black py-8 border-t border-gray-800"><!-- footer content --></footer>
     <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden"><!-- modal content --></div>

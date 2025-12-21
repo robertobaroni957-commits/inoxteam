@@ -4,39 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regolamento - Inoxteam</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link rel="stylesheet" href="sidebar.css">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        zwift: {
-                            dark: '#111111',
-                            card: '#1e1e24',
-                            orange: '#fc6719',
-                            blue: '#00f0ff',
-                            text: '#f0f0f0',
-                            gray: '#888888'
-                        },
-                        race: {
-                            flat: '#10b981',
-                            mountain: '#ef4444',
-                            hilly: '#f59e0b',
-                            time: '#00f0ff',
-                        }
+                        zwift: { dark: '#111111', card: '#1e1e24', orange: '#fc6719', blue: '#00f0ff', text: '#f0f0f0', gray: '#888888' },
+                        race: { flat: '#10b981', mountain: '#ef4444', hilly: '#f59e0b', time: '#00f0ff', }
                     },
-                    fontFamily: {
-                        display: ['Teko', 'sans-serif'],
-                        body: ['Inter', 'sans-serif']
-                    }
+                    fontFamily: { display: ['Teko', 'sans-serif'], body: ['Inter', 'sans-serif'] }
                 }
             }
         }
     </script>
+
     <style>
+        /* Ensure main content is flex and takes full width on mobile, and shifts on desktop */
+        body { display: flex; min-height: 100vh; flex-direction: column; }
+
+        @media (min-width: 1024px) {
+            body { flex-direction: row; } /* Desktop layout with sidebar beside content */
+            body > nav { /* Target the direct child nav of body */
+                margin-left: 300px;
+                width: calc(100% - 300px); /* Ensure it doesn't overflow */
+            }
+            #main-content { margin-left: 300px; }
+        }
+
         /* General styles to integrate Rule.html content with existing theme */
         /* Body styles are handled by Tailwind classes on the body tag */
 
@@ -199,106 +201,50 @@
         }
     </style>
 </head>
-<body class="bg-zwift-dark text-zwift-text font-body antialiased min-h-screen flex flex-col">
+<body class="antialiased min-h-screen flex flex-col bg-zwift-dark font-body text-zwift-text">
 
-    <!-- Nav Bar (from mwt_page.html) -->
     <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold tracking-wider inox-font text-zwift-orange">
-                MASTER WINTER TOUR <span class="text-white text-lg font-light">25/26</span>
-            </div>
-            
-            <div class="hidden lg:flex space-x-6 text-sm font-semibold">
-                <a href="mwt_page.html#dashboard" class="hover:text-zwift-orange transition">Dashboard</a>
-                <a href="mwt_page.html#stages" class="hover:text-zwift-orange transition">Tappe</a>
-                <a href="mwt_page.html#analytics" class="hover:text-zwift-orange transition">Analisi</a>
-                <a href="mwt_page.html#ranking" class="hover:text-zwift-orange transition text-zwift-orange font-bold">Classifiche</a>
-            </div>
-            
-            <div class="flex space-x-3 items-center">
-                <!-- Regolamento Button -->
-                <a href="regolamento.html" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-1 px-4 rounded text-sm transition hidden sm:block">
-                    <i class="fas fa-scroll mr-1"></i> REGOLAMENTO
-                </a>
-                <a href="mwt_page.html#ranking" class="bg-zwift-blue hover:bg-cyan-500 text-black font-bold py-1 px-4 rounded text-sm transition hidden sm:block">
-                    CLASSIFICHE
-                </a>
-                <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-1 px-4 rounded text-sm transition">
-                    ISCRIVITI ORA
-                </a>
+            <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
+                        <div class="flex space-x-3 items-center">
+                            <!-- Language buttons top-right -->
+                            <div class="lang-toggle" aria-label="Language selection">
+                                <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
+                                <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
+                            </div>
+                            <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
+                                <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
+                                <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
                 
-                <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
-                    <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
-                    <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Sidebar (from mwt_page.html, adapted) -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 lg:hidden"></div>
-    <div id="sidebar" class="lg:hidden shadow-2xl">
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 hidden"></div>
+    <div id="sidebar" class="fixed top-0 left-0 w-72 h-full bg-[#1a1d20] shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
         <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
             <div class="flex items-center space-x-2">
                 <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
-                <span class="text-2xl font-bold tracking-wider inox-font text-inox-orange">INOX</span>
+
             </div>
         </div>
-        
         <div class="flex flex-col p-2 space-y-1 text-base font-semibold">
             <div class="border-b border-gray-700 pb-2 mb-2">
-                <p class="text-xs text-gray-500 uppercase px-3 py-1">Master Winter Tour</p>
-                <a href="mwt_page.html#dashboard" class="sidebar-link">Dashboard</a>
-                <a href="mwt_page.html#stages" class="sidebar-link">Tappe</a>
-                <a href="mwt_page.html#analytics" class="sidebar-link">Analisi</a>
-                <a href="mwt_page.html#ranking" class="sidebar-link">Classifiche</a>
+                <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigazione</p>
+                <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
                 <a href="regolamento.html" class="sidebar-link">Regolamento</a>
+                <a href="Leaders.html" class="sidebar-link">Leaders del Tour</a>
+                <a href="ranking.html" class="sidebar-link">Classifiche</a>
             </div>
-
-            <div class="border-b border-gray-700 pb-2 mb-2">
-                <p class="text-xs text-gray-500 uppercase px-3 py-1">Area Riservata</p>
-                <a href="index.html" class="sidebar-link">Login/Accesso</a>
-                <a href="registrazione.html" class="sidebar-link">Registrazione</a>
-            </div>
-
-            <div class="border-b border-gray-700 pb-2 mb-2">
-                <p class="text-xs text-gray-500 uppercase px-3 py-1">Team INOX</p>
-                <a href="chi_siamo.html" class="sidebar-link">Chi Siamo / Filosofia</a>
-                <a href="contatti.html" class="sidebar-link">Contatti</a>
-            </div>
-
-            <div class="border-b border-gray-700 pb-2 mb-2">
-                <p class="text-xs text-gray-500 uppercase px-3 py-1">Attività Team</p>
-                <a href="eventi.html" class="sidebar-link">Calendario Eventi</a>
-                <a href="mwt_page.html" class="sidebar-link">Master Winter Tour</a>
-                <a href="zrl_page.html" class="sidebar-link">ZRL Roster (API)</a>
-            </div>
-
-            <div class="pb-2 mb-2">
-                <p class="text-xs text-gray-500 uppercase px-3 py-1">Risorse</p>
-                <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="sidebar-link">ZwiftPower</a>
-                <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="sidebar-link">Discord INOX</a>
-                <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="sidebar-link">Gruppo Strava</a>
-                <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="sidebar-link">Club Zwift</a>
-            </div>
-
-            <a href="https://www.zwift.com/eu-it/events/tag/inoxwinter" target="_blank" class="bg-inox-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center mt-4 transition text-sm">
-                ISCRIVITI A ZWIFT EVENTS
-            </a>
         </div>
     </div>
-
-    <main class="flex-grow container mx-auto py-8 mt-4">
+                
+    <div id="main-content" class="flex-grow">
+        <main class="flex-grow container mx-auto py-8 mt-4">
         <div class="rule-content-wrapper">
             <!-- Header with language toggles -->
             <div class="rule-header" role="banner">
-                <p class="organizer" aria-hidden="false"><strong>Organizzato dal Team INOX</strong></p>
-
-                <!-- Language buttons top-right -->
-                <div class="lang-toggle" aria-label="Language selection">
-                    <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
-                    <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
-                </div>
+                <p class="organizer" aria-hidden="false"><strong>Organized by Team INOX</strong></p>
             </div>
 
             <!-- =========================
@@ -525,7 +471,7 @@
                     <li>Smart or interactive trainer required. If no data is transmitted, points will be voided.</li>
                     <li>Heart-rate monitor mandatory; malfunctions will be handled by the organisers.</li>
                     <li>Correct height and weight in Zwift profile; significant discrepancies may lead to disqualification.</li>
-                </ul>
+                    </ul>
 
                 <hr id="categorie-en" />
                 <h2>3. Categories</h2>
@@ -602,7 +548,7 @@
                 <h3>FIN – Finish Points</h3>
                 <table>
                     <thead>
-                        <tr><th>Place</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5th</th><th>6th</th><th>7th</th><th>8th</th><th>9th</th><th>10th</th><th>11th</th><th>12th</th><th>13th</th><th>14th</th><th>15th</th><th>16th</th><th>17th</th><th>18th</th><th>19th</th><th>20th</th></tr>
+                        <tr><th>Place</th><th>1st</th><th>2nd</th><th>3rd</th><th>4th</th><th>5°</th><th>6th</th><th>7th</th><th>8th</th><th>9th</th><th>10th</th><th>11th</th><th>12th</th><th>13th</th><th>14th</th><th>15th</th><th>16th</th><th>17th</th><th>18th</th><th>19th</th><th>20th</th></tr>
                     </thead>
                     <tbody>
                         <tr><td>Points</td><td>100</td><td>80</td><td>70</td><td>60</td><td>55</td><td>50</td><td>45</td><td>40</td><td>36</td><td>32</td><td>29</td><td>26</td><td>24</td><td>22</td><td>20</td><td>18</td><td>16</td><td>14</td><td>12</td><td>10</td></tr>
@@ -650,46 +596,13 @@
             </div>
         </div>
     </main>
+    </div>
 
-    <!-- Footer (from mwt_page.html) -->
-    <footer class="bg-black py-8 border-t border-gray-800">
-        <div class="container mx-auto px-4">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                
-                <div>
-                    <div class="text-zwift-orange text-2xl font-bold inox-font mb-4">MASTER WINTER TOUR</div>
-                    <p class="text-gray-500 text-sm mb-4">
-                        Segui le dirette streaming su Twitch e YouTube.<br>
-                        Usa l'hashtag <span class="text-white">#MasterWinterTour2025</span>
-                    </p>
-                    <div class="flex flex-col space-y-2 text-sm">
-                        <a href="https://support.zwift.com/en_us/race-events-faqs-BJX5w0m5W" target="_blank" class="text-gray-400 hover:text-white transition">Regolamento (FAQ Zwift)</a>
-                        <a href="ranking.html" target="_blank" class="text-gray-400 hover:text-white transition">Classifiche Generali (ZwiftPower)</a>
-                        <a href="https://www.zwift.com/eu-it/contact-us" target="_blank" class="text-gray-400 hover:text-white transition">Assistenza Zwift</a>
-                    </div>
-                </div>
+    <footer class="bg-black py-8 border-t border-gray-800"><!-- footer content --></footer>
+    <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden"><!-- modal content --></div>
 
-                <div>
-                    <div class="text-white text-xl font-bold inox-font mb-4 border-b border-zwift-orange pb-2 inline-block">ORGANIZZATO DA TEAM INOX</div>
-                    <div class="flex flex-col space-y-2 text-sm">
-                        <a href="mailto:info@teaminox.it" class="text-gray-400 hover:text-white transition">📧 info@teaminox.it</a>
-                        <a href="https://www.facebook.com/groups/inoxteam/" target="_blank" class="text-gray-400 hover:text-white transition">👥 Gruppo Facebook</a>
-                        <a href="https://www.zwift.com/eu/clubs/cef70cde-9149-43a2-b3ae-187643a44703/home" target="_blank" class="text-gray-400 hover:text-white transition">🚴‍♂️ Club Zwift</a>
-                        <a href="https://zwiftpower.com/team.php?id=16461" target="_blank" class="text-gray-400 hover:text-white transition">📊 Team su ZwiftPower</a>
-                        <a href="https://discord.gg/cpr3rBGaZy" target="_blank" class="text-gray-400 hover:text-white transition">💬 Canale Discord</a>
-                        <a href="https://strava.app.link/p2Oj6TaE3Gb" target="_blank" class="text-gray-400 hover:text-white transition">🏃 Gruppo STRAVA</a>
-                    </div>
-                </div>
-                
-                <div class="flex justify-center md:justify-end items-start h-full">
-                    <span class="text-8xl text-zwift-blue opacity-10 hidden md:block">🚴‍♂️</span>
-                </div>
-            </div>
 
-            <p class="text-gray-700 text-xs mt-8 border-t border-gray-900 pt-4 text-center">&copy; 2025 Master Winter Tour. Organizzato da Team INOX. | Piattaforma fornita da Zwift Inc.</p>
-        </div>
-    </footer>
-
+    <script src="sidebar.js"></script>
     <script>
         (function(){
             const btnIt = document.getElementById('btn-it');
@@ -739,7 +652,5 @@
             });
         })();
     </script>
-    <script src="sidebar.js"></script>
-
 </body>
 </html>

@@ -13,9 +13,8 @@
     if (!sidebar || !toggleButton) return;
 
     const openSidebar = () => {
-        sidebar.classList.remove('hidden', '-translate-x-full'); // Remove hidden and transform for opening
-        sidebar.classList.add('translate-x-0');
-        overlay.classList.remove('hidden', 'pointer-events-none'); // Remove hidden and disable clicks for overlay
+        sidebar.classList.add('is-open'); // Add 'is-open' class
+        overlay.classList.remove('hidden'); // Show overlay
         overlay.classList.add('opacity-50', 'pointer-events-auto'); 
         body.classList.add('no-scroll');
         menuIconOpen.classList.add('hidden');
@@ -23,21 +22,17 @@
     };
 
     const closeSidebar = () => {
-        sidebar.classList.remove('translate-x-0');
-        sidebar.classList.add('-translate-x-full');
+        sidebar.classList.remove('is-open'); // Remove 'is-open' class
         overlay.classList.remove('opacity-50', 'pointer-events-auto');
-        overlay.classList.add('hidden', 'pointer-events-none'); // Add hidden and disable clicks for overlay
+        overlay.classList.add('hidden'); // Hide overlay
         body.classList.remove('no-scroll');
         menuIconOpen.classList.remove('hidden');
         menuIconClose.classList.add('hidden');
-        // Add hidden class back after a short delay to allow transition to complete
-        setTimeout(() => {
-            sidebar.classList.add('hidden'); 
-        }, 300); // Match transition duration (0.28s)
+        // No need for setTimeout here for pointer-events: none, as it's handled by default sidebar style
     };
 
     toggleButton.addEventListener('click', () => {
-        if (sidebar.classList.contains('translate-x-0')) {
+        if (sidebar.classList.contains('is-open')) {
             closeSidebar();
         } else {
             openSidebar();

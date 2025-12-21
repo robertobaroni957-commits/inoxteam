@@ -141,6 +141,13 @@ h1, h2, h3, .inox-font {
     backdrop-filter: blur(8px);
 }
 
+
+/* Class to control open state for sidebar */
+#sidebar.is-open {
+    transform: translateX(0%) !important;
+    pointer-events: auto !important;
+}
+
 /* ============================
    DESKTOP (min-width: 1024px)
    ============================ */
@@ -162,7 +169,6 @@ h1, h2, h3, .inox-font {
     /* CONTENUTO CON MARGINE PER LA SIDEBAR */
     #main-content {
         margin-left: 300px;
-        width: calc(100% - 300px);
         padding-top: 20px;
     }
     
