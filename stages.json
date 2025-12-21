@@ -1,20 +1,220 @@
 [
-    { "id": 1, "date": "2025-12-12T19:20:00", "world": "Scotland - Champion's Sprint for sprinter ranking, Breakwawy Brae Rev and The Clyde Kicker for climber ranking", "route": "Outer Scotland (2 laps - 22.4 km - D+ 208 m)", "type": "Point Hilly", "routeLink": "https://zwiftinsider.com/route/outer-scotland/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247620", "segments": ["First Champion's Sprint solo FTS", "First Breakaway Brae reverse solo FTS", "First Clyde Kicker FAL & FTS", "Second Champion's Sprint FAL & FTS", "Second Breakaway Brae reverse solo FAL", "Second Clyde Kicker FAL & FTS", "Third Champion's Sprint FAL & FTS"] },
-    { "id": 2, "date": "2025-12-16T19:20:00", "world": "Makuri", "route": "Red Zone Repeats (1 lap - 19.6 km - D+ 87 m)", "type": "iTT", "routeLink": "https://zwiftinsider.com/route/red-zone-repeats/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247622", "segments": [] },
-    { "id": 3, "date": "2025-12-19T19:20:00", "world": "New York - Center Sprint and The Peristyle Sprint for sprinter ranking, Thi Hill KOM for climber ranking", "route": "Issendorf Express (3 laps - 21.7 km - D+ 159 m)", "type": "Luna Park", "routeLink": "https://zwiftinsider.com/route/issendorf-express/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247623", "segments": ["First Center Sprint solo FTS","First The Peristyle Sprint solo FTS","Second Center Sprint solo FTS","First The Hill KOM FAL & FTS","Third Center Sprint solo FAL","Second The Peristyle Sprint solo FTS","Fourth Center Sprint solo FTS","Second The Hill KOM FAL & FTS","Fifth Center Sprint solo FTS","Third The Peristyle Sprint solo FAL","Sixth Center Sprint solo FAL","Third The Hill KOM FAL & FTS"] },
-    { "id": 4, "date": "2025-12-23T19:20:00", "world": "Scotland - Sgurr Summit North and South for climber ranking", "route": "City and the Sgurr (3 laps - 20.4 km - D+ 372 m)", "type": "Point Mountain", "routeLink": "https://zwiftinsider.com/route/city-and-the-sgurr/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247624", "segments": ["Lead-in Sgurr Summit North FAL & FTS","First Sgurr Summit South solo FTS","Second Sgurr Summit North FAL & FTS","Second Sgurr Summit South solo FAL","Third Sgurr Summit North only FAL","Third Sgurr Summit South solo FTS","Third Sgurr Summit North only FTS"] },
-    { "id": 5, "date": "2025-12-27T19:20:00", "world": "Bologna", "route": "Time Trial Lap (8 km + D+ 263 m)", "type": "Chrono Scalata", "routeLink": "https://zwiftinsider.com/route/bologna-time-trial-lap/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247628", "segments": [] },
-    { "id": 6, "date": "2025-12-30T19:20:00", "world": "London - The Mall Sprint Reverse for sprinter ranking", "route": "Classique Reverse (3 laps - 23.8 km - D+ 134 m)", "type": "Point Flat", "routeLink": "https://zwiftinsider.com/route/classique-reverse/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247630", "segments": [] },
-    { "id": 7, "date": "2026-02-13T19:20:00", "world": "Makuri", "route": "Sprinter's Playground", "type": "Luna Park", "routeLink": "https://zwiftinsider.com/route/sprinters-playground/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247687", "segments": [] },
-    { "id": 8, "date": "2026-02-17T19:20:00", "world": "London", "route": "London Uprising", "type": "Point Mountain", "routeLink": "https://zwiftinsider.com/route/london-uprising/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247689", "segments": [] },
-    { "id": 9, "date": "2026-02-20T19:20:00", "world": "Watopia", "route": "Flat Out Fast", "type": "iTT", "routeLink": "https://zwiftinsider.com/route/flat-out-fast/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247692", "segments": [] },
-    { "id": 10, "date": "2026-02-24T19:20:00", "world": "France", "route": "Bon Voyage", "type": "Point Flat", "routeLink": "https://zwiftinsider.com/route/bon-voyage/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247696", "segments": [] },
-    { "id": 11, "date": "2026-02-27T19:20:00", "world": "Watopia", "route": "Mountain Mash", "type": "Chrono Scalata", "routeLink": "https://zwiftinsider.com/route/mountain-mash/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247700", "segments": [] },
-    { "id": 12, "date": "2026-03-04T19:20:00", "world": "Richmond", "route": "Cobbled Climbs Reverse", "type": "Point Hilly", "routeLink": "https://zwiftinsider.com/route/cobbled-climbs-reverse/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247701", "segments": [] },
-    { "id": 13, "date": "2026-03-07T19:20:00", "world": "London", "route": "London Flat", "type": "iTT", "routeLink": "https://zwiftinsider.com/route/london-flat/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247703", "segments": [] },
-    { "id": 14, "date": "2026-03-11T19:20:00", "world": "New York", "route": "Toefield Tormado", "type": "Luna Park", "routeLink": "https://zwiftinsider.com/route/toefield-tormado/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247705", "segments": [] },
-    { "id": 15, "date": "2026-03-14T19:20:00", "world": "Watopia", "route": "Power Punches", "type": "Point Mountain", "routeLink": "https://zwiftinsider.com/route/power-punches/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247707", "segments": [] },
-    { "id": 16, "date": "2026-03-18T19:20:00", "world": "Makuri", "route": "Electric Loop", "type": "Point Flat", "routeLink": "https://zwiftinsider.com/route/electric-loop/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247709", "segments": [] },
-    { "id": 17, "date": "2026-03-21T19:20:00", "world": "France", "route": "Ven-10", "type": "Chrono Scalata", "routeLink": "https://zwiftinsider.com/route/ven-10/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247710", "segments": [] },
-    { "id": 18, "date": "2026-03-25T19:20:00", "world": "Watopia", "route": "Jarvis Seaside Sprint", "type": "Point Hilly", "routeLink": "https://zwiftinsider.com/route/jarvis-seaside-sprint/", "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247712", "segments": [] }
+    { 
+        "id": 1, 
+        "date": "2025-12-12T19:20:00", 
+        "world": {
+            "it": "Scozia - Champion's Sprint per classifica sprinter, Breakwawy Brae Rev e The Clyde Kicker per classifica scalatore",
+            "en": "Scotland - Champion's Sprint for sprinter ranking, Breakaway Brae Rev and The Clyde Kicker for climber ranking"
+        },
+        "route": {
+            "it": "Outer Scotland (2 giri - 22.4 km - D+ 208 m)",
+            "en": "Outer Scotland (2 laps - 22.4 km - D+ 208 m)"
+        },
+        "type": {
+            "it": "Point Hilly",
+            "en": "Point Hilly"
+        },
+        "routeLink": "https://zwiftinsider.com/route/outer-scotland/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247620", 
+        "segments": [
+            { "it": "Primo Champion's Sprint solo FTS", "en": "First Champion's Sprint only FTS" },
+            { "it": "Primo Breakaway Brae reverse solo FTS", "en": "First Breakaway Brae reverse only FTS" },
+            { "it": "Primo Clyde Kicker FAL & FTS", "en": "First Clyde Kicker FAL & FTS" },
+            { "it": "Secondo Champion's Sprint FAL & FTS", "en": "Second Champion's Sprint FAL & FTS" },
+            { "it": "Secondo Breakaway Brae reverse solo FAL", "en": "Second Breakaway Brae reverse only FAL" },
+            { "it": "Secondo Clyde Kicker FAL & FTS", "en": "Second Clyde Kicker FAL & FTS" },
+            { "it": "Terzo Champion's Sprint FAL & FTS", "en": "Third Champion's Sprint FAL & FTS" }
+        ] 
+    },
+    { 
+        "id": 2, 
+        "date": "2025-12-16T19:20:00", 
+        "world": { "it": "Makuri", "en": "Makuri" }, 
+        "route": { "it": "Red Zone Repeats (1 giro - 19.6 km - D+ 87 m)", "en": "Red Zone Repeats (1 lap - 19.6 km - D+ 87 m)" }, 
+        "type": { "it": "iTT", "en": "iTT" }, 
+        "routeLink": "https://zwiftinsider.com/route/red-zone-repeats/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247622", 
+        "segments": [] 
+    },
+    { 
+        "id": 3, 
+        "date": "2025-12-19T19:20:00", 
+        "world": { "it": "New York - Center Sprint e The Peristyle Sprint per classifica sprinter, Thi Hill KOM per classifica scalatore", "en": "New York - Center Sprint and The Peristyle Sprint for sprinter ranking, The Hill KOM for climber ranking" }, 
+        "route": { "it": "Issendorf Express (3 giri - 21.7 km - D+ 159 m)", "en": "Issendorf Express (3 laps - 21.7 km - D+ 159 m)" }, 
+        "type": { "it": "Luna Park", "en": "Luna Park" }, 
+        "routeLink": "https://zwiftinsider.com/route/issendorf-express/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247623", 
+        "segments": [
+            { "it": "Primo Center Sprint solo FTS", "en": "First Center Sprint only FTS" },
+            { "it": "Primo The Peristyle Sprint solo FTS", "en": "First The Peristyle Sprint only FTS" },
+            { "it": "Secondo Center Sprint solo FTS", "en": "Second Center Sprint only FTS" },
+            { "it": "Primo The Hill KOM FAL & FTS", "en": "First The Hill KOM FAL & FTS" },
+            { "it": "Terzo Center Sprint solo FAL", "en": "Third Center Sprint only FAL" },
+            { "it": "Secondo The Peristyle Sprint solo FTS", "en": "Second The Peristyle Sprint only FTS" },
+            { "it": "Quarto Center Sprint solo FTS", "en": "Fourth Center Sprint only FTS" },
+            { "it": "Secondo The Hill KOM FAL & FTS", "en": "Second The Hill KOM FAL & FTS" },
+            { "it": "Quinto Center Sprint solo FTS", "en": "Fifth Center Sprint only FTS" },
+            { "it": "Terzo The Peristyle Sprint solo FAL", "en": "Third The Peristyle Sprint only FAL" },
+            { "it": "Sesto Center Sprint solo FAL", "en": "Sixth Center Sprint only FAL" },
+            { "it": "Terzo The Hill KOM FAL & FTS", "en": "Third The Hill KOM FAL & FTS" }
+        ] 
+    },
+    { 
+        "id": 4, 
+        "date": "2025-12-23T19:20:00", 
+        "world": { "it": "Scozia - Sgurr Summit Nord e Sud per classifica scalatore", "en": "Scotland - Sgurr Summit North and South for climber ranking" }, 
+        "route": { "it": "City and the Sgurr (3 giri - 20.4 km - D+ 372 m)", "en": "City and the Sgurr (3 laps - 20.4 km - D+ 372 m)" }, 
+        "type": { "it": "Point Mountain", "en": "Point Mountain" }, 
+        "routeLink": "https://zwiftinsider.com/route/city-and-the-sgurr/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247624", 
+        "segments": [
+            { "it": "Lead-in Sgurr Summit North FAL & FTS", "en": "Lead-in Sgurr Summit North FAL & FTS" },
+            { "it": "Primo Sgurr Summit South solo FTS", "en": "First Sgurr Summit South only FTS" },
+            { "it": "Secondo Sgurr Summit North FAL & FTS", "en": "Second Sgurr Summit North FAL & FTS" },
+            { "it": "Secondo Sgurr Summit South solo FAL", "en": "Second Sgurr Summit South only FAL" },
+            { "it": "Terzo Sgurr Summit North solo FAL", "en": "Third Sgurr Summit North only FAL" },
+            { "it": "Terzo Sgurr Summit South solo FTS", "en": "Third Sgurr Summit South only FTS" },
+            { "it": "Quarto Sgurr Summit North solo FTS", "en": "Fourth Sgurr Summit North only FTS" }
+        ] 
+    },
+    { 
+        "id": 5, 
+        "date": "2025-12-27T19:20:00", 
+        "world": { "it": "Bologna", "en": "Bologna" }, 
+        "route": { "it": "Time Trial Lap (8 km + D+ 263 m)", "en": "Time Trial Lap (8 km + D+ 263 m)" }, 
+        "type": { "it": "Chrono Scalata", "en": "Climbing TT" }, 
+        "routeLink": "https://zwiftinsider.com/route/bologna-time-trial-lap/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247628", 
+        "segments": [] 
+    },
+    { 
+        "id": 6, 
+        "date": "2025-12-30T19:20:00", 
+        "world": { "it": "Londra - The Mall Sprint Reverse per classifica sprinter", "en": "London - The Mall Sprint Reverse for sprinter ranking" }, 
+        "route": { "it": "Classique Reverse (3 giri - 23.8 km - D+ 134 m)", "en": "Classique Reverse (3 laps - 23.8 km - D+ 134 m)" }, 
+        "type": { "it": "Point Flat", "en": "Point Flat" }, 
+        "routeLink": "https://zwiftinsider.com/route/classique-reverse/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247630", 
+        "segments": [] 
+    },
+    { 
+        "id": 7, 
+        "date": "2026-02-13T19:20:00", 
+        "world": { "it": "Makuri", "en": "Makuri" }, 
+        "route": { "it": "Sprinter's Playground", "en": "Sprinter's Playground" }, 
+        "type": { "it": "Luna Park", "en": "Luna Park" }, 
+        "routeLink": "https://zwiftinsider.com/route/sprinters-playground/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247687", 
+        "segments": [] 
+    },
+    { 
+        "id": 8, 
+        "date": "2026-02-17T19:20:00", 
+        "world": { "it": "Londra", "en": "London" }, 
+        "route": { "it": "London Uprising", "en": "London Uprising" }, 
+        "type": { "it": "Point Mountain", "en": "Point Mountain" }, 
+        "routeLink": "https://zwiftinsider.com/route/london-uprising/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247689", 
+        "segments": [] 
+    },
+    { 
+        "id": 9, 
+        "date": "2026-02-20T19:20:00", 
+        "world": { "it": "Watopia", "en": "Watopia" }, 
+        "route": { "it": "Flat Out Fast", "en": "Flat Out Fast" }, 
+        "type": { "it": "iTT", "en": "iTT" }, 
+        "routeLink": "https://zwiftinsider.com/route/flat-out-fast/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247692", 
+        "segments": [] 
+    },
+    { 
+        "id": 10, 
+        "date": "2026-02-24T19:20:00", 
+        "world": { "it": "Francia", "en": "France" }, 
+        "route": { "it": "Bon Voyage", "en": "Bon Voyage" }, 
+        "type": { "it": "Point Flat", "en": "Point Flat" }, 
+        "routeLink": "https://zwiftinsider.com/route/bon-voyage/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247696", 
+        "segments": [] 
+    },
+    { 
+        "id": 11, 
+        "date": "2026-02-27T19:20:00", 
+        "world": { "it": "Watopia", "en": "Watopia" }, 
+        "route": { "it": "Mountain Mash", "en": "Mountain Mash" }, 
+        "type": { "it": "Chrono Scalata", "en": "Climbing TT" }, 
+        "routeLink": "https://zwiftinsider.com/route/mountain-mash/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247700", 
+        "segments": [] 
+    },
+    { 
+        "id": 12, 
+        "date": "2026-03-04T19:20:00", 
+        "world": { "it": "Richmond", "en": "Richmond" }, 
+        "route": { "it": "Cobbled Climbs Reverse", "en": "Cobbled Climbs Reverse" }, 
+        "type": { "it": "Point Hilly", "en": "Point Hilly" }, 
+        "routeLink": "https://zwiftinsider.com/route/cobbled-climbs-reverse/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247701", 
+        "segments": [] 
+    },
+    { 
+        "id": 13, 
+        "date": "2026-03-07T19:20:00", 
+        "world": { "it": "Londra", "en": "London" }, 
+        "route": { "it": "London Flat", "en": "London Flat" }, 
+        "type": { "it": "iTT", "en": "iTT" }, 
+        "routeLink": "https://zwiftinsider.com/route/london-flat/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247703", 
+        "segments": [] 
+    },
+    { 
+        "id": 14, 
+        "date": "2026-03-11T19:20:00", 
+        "world": { "it": "New York", "en": "New York" }, 
+        "route": { "it": "Toefield Tormado", "en": "Toefield Tormado" }, 
+        "type": { "it": "Luna Park", "en": "Luna Park" }, 
+        "routeLink": "https://zwiftinsider.com/route/toefield-tormado/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247705", 
+        "segments": [] 
+    },
+    { 
+        "id": 15, 
+        "date": "2026-03-14T19:20:00", 
+        "world": { "it": "Watopia", "en": "Watopia" }, 
+        "route": { "it": "Power Punches", "en": "Power Punches" }, 
+        "type": { "it": "Point Mountain", "en": "Point Mountain" }, 
+        "routeLink": "https://zwiftinsider.com/route/power-punches/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247707", 
+        "segments": [] 
+    },
+    { 
+        "id": 16, 
+        "date": "2026-03-18T19:20:00", 
+        "world": { "it": "Makuri", "en": "Makuri" }, 
+        "route": { "it": "Electric Loop", "en": "Electric Loop" }, 
+        "type": { "it": "Point Flat", "en": "Point Flat" }, 
+        "routeLink": "https://zwiftinsider.com/route/electric-loop/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247709", 
+        "segments": [] 
+    },
+    { 
+        "id": 17, 
+        "date": "2026-03-21T19:20:00", 
+        "world": { "it": "Francia", "en": "France" }, 
+        "route": { "it": "Ven-10", "en": "Ven-10" }, 
+        "type": { "it": "Chrono Scalata", "en": "Climbing TT" }, 
+        "routeLink": "https://zwiftinsider.com/route/ven-10/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247710", 
+        "segments": [] 
+    },
+    { 
+        "id": 18, 
+        "date": "2026-03-25T19:20:00", 
+        "world": { "it": "Watopia", "en": "Watopia" }, 
+        "route": { "it": "Jarvis Seaside Sprint", "en": "Jarvis Seaside Sprint" }, 
+        "type": { "it": "Point Hilly", "en": "Point Hilly" }, 
+        "routeLink": "https://zwiftinsider.com/route/jarvis-seaside-sprint/", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247712", 
+        "segments": [] 
+    }
 ]

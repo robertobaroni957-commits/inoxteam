@@ -45,6 +45,28 @@
             }
             #main-content { margin-left: 300px; }
         }
+
+        /* Styles for the language toggle header */
+        .lang-toggle {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .lang-btn {
+            border: none;
+            background: transparent;
+            font-size: 1.25rem; /* text-xl */
+            cursor: pointer;
+            padding: 0.375rem; /* p-1.5 */
+            border-radius: 0.375rem; /* rounded-md */
+            color: #d1d5db; /* gray-300 */
+        }
+        .lang-btn[aria-pressed="true"] {
+            outline: 2px solid rgba(0, 102, 34, 0.2); /* Accent green, transparent */
+            background: rgba(0, 102, 34, 0.1); /* Accent green, transparent */
+            color: #fc6719; /* zwift-orange to highlight active */
+        }
+        .lang-btn:focus { box-shadow: 0 0 0 3px rgba(252, 103, 25, 0.3); /* zwift-orange focus */ }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col bg-zwift-dark font-body text-zwift-text">
@@ -52,16 +74,17 @@
     <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
-
-                        <div class="flex space-x-3 items-center">
-
-
-
-                            <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
-                                <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
-                                <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
-                            </button>
-                        </div>
+            <div class="flex space-x-3 items-center">
+                <!-- Language buttons -->
+                <div class="lang-toggle" aria-label="Language selection">
+                    <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
+                    <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
+                </div>
+                <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
+                    <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
+                    <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
                     </div>
                 </nav>
                 
@@ -75,15 +98,20 @@
         </div>
         <div class="flex flex-col p-2 space-y-1 text-base font-semibold">
             <div class="border-b border-gray-700 pb-2 mb-2">
-                <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigazione</p>
-
-                <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
-
-                <a href="regolamento.html" class="sidebar-link">Regolamento</a>
-                <a href="Leaders.html" class="sidebar-link">Leaders del Tour</a>
-
-
-                <a href="ranking.html" class="sidebar-link">Classifiche</a>
+                <div class="lang-it">
+                    <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigazione</p>
+                    <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
+                    <a href="regolamento.html" class="sidebar-link">Regolamento</a>
+                    <a href="Leaders.html" class="sidebar-link">Leaders del Tour</a>
+                    <a href="ranking.html" class="sidebar-link">Classifiche</a>
+                </div>
+                <div class="lang-en" hidden>
+                    <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigation</p>
+                    <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
+                    <a href="regolamento.html" class="sidebar-link">Rules</a>
+                    <a href="Leaders.html" class="sidebar-link">Tour Leaders</a>
+                    <a href="ranking.html" class="sidebar-link">Rankings</a>
+                </div>
             </div>
         </div>
     </div>
@@ -92,19 +120,46 @@
         <!-- MAIN CONTENT -->
         <header id="dashboard" class="relative py-16 min-h-[50vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-zwift-card to-zwift-dark">
             <div class="container mx-auto px-4 text-center">
-                <h1 class="text-6xl md:text-8xl font-bold mb-4 leading-none text-white drop-shadow-lg font-display">
-                    DOMINA <span class="text-transparent bg-clip-text bg-gradient-to-r from-zwift-orange to-red-500">L'INVERNO</span>
-                </h1>
+                <div class="lang-it">
+                    <h1 class="text-6xl md:text-8xl font-bold mb-4 leading-none text-white drop-shadow-lg font-display">
+                        DOMINA <span class="text-transparent bg-clip-text bg-gradient-to-r from-zwift-orange to-red-500">L'INVERNO</span>
+                    </h1>
+                </div>
+                <div class="lang-en" hidden>
+                    <h1 class="text-6xl md:text-8xl font-bold mb-4 leading-none text-white drop-shadow-lg font-display">
+                        MASTER <span class="text-transparent bg-clip-text bg-gradient-to-r from-zwift-orange to-red-500">THE WINTER</span>
+                    </h1>
+                </div>
                 <p class="text-xl md:text-2xl text-zwift-gray mb-8 max-w-2xl mx-auto font-light drop-shadow-md">
                     18 Stages - 6 race mode - 4 Rankings Age based
                 </p>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10 text-zwift-blue">
-                    <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm"><span id="days" class="text-4xl font-bold font-display block">00</span><span class="text-xs text-gray-400 uppercase tracking-widest">Giorni</span></div>
-                    <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm"><span id="hours" class="text-4xl font-bold font-display block">00</span><span class="text-xs text-gray-400 uppercase tracking-widest">Ore</span></div>
-                    <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm"><span id="minutes" class="text-4xl font-bold font-display block">00</span><span class="text-xs text-gray-400 uppercase tracking-widest">Minuti</span></div>
-                    <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm"><span id="seconds" class="text-4xl font-bold font-display block">00</span><span class="text-xs text-gray-400 uppercase tracking-widest">Secondi</span></div>
+                    <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
+                        <span id="days" class="text-4xl font-bold font-display block">00</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest lang-it">Giorni</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest lang-en" hidden>Days</span>
+                    </div>
+                    <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
+                        <span id="hours" class="text-4xl font-bold font-display block">00</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest lang-it">Ore</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest lang-en" hidden>Hours</span>
+                    </div>
+                    <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
+                        <span id="minutes" class="text-4xl font-bold font-display block">00</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest lang-it">Minuti</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest lang-en" hidden>Minutes</span>
+                    </div>
+                    <div class="bg-zwift-card/80 p-4 rounded-lg border border-gray-700 backdrop-blur-sm">
+                        <span id="seconds" class="text-4xl font-bold font-display block">00</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest lang-it">Secondi</span>
+                        <span class="text-xs text-gray-400 uppercase tracking-widest lang-en" hidden>Seconds</span>
+                    </div>
                 </div>
-                <div id="next-race-info" class="text-zwift-orange font-bold text-lg mb-4 animate-pulse">PROSSIMA GARA: Caricamento...</div>
+                <div class="text-zwift-orange font-bold text-lg mb-4 animate-pulse">
+                    <span class="lang-it">PROSSIMA GARA:</span>
+                    <span class="lang-en" hidden>NEXT RACE:</span>
+                    <span id="next-race-info">Caricamento...</span>
+                </div>
             </div>
         </header>
     
@@ -113,24 +168,64 @@
                 <section id="analytics" class="py-12 bg-zwift-dark">
                     <div class="container mx-auto px-4">
                         <div class="mb-10 text-center md:text-left">
-                            <h2 class="text-4xl font-bold mb-2 font-display">ANALISI DEL TOUR</h2>
-                            <p class="text-gray-400">Studia il terreno. Prepara l'attrezzatura. Ecco cosa ti aspetta nelle 18 tappe.</p>
+                            <div class="lang-it">
+                                <h2 class="text-4xl font-bold mb-2 font-display">ANALISI DEL TOUR</h2>
+                                <p class="text-gray-400">Studia il terreno. Prepara l'attrezzatura. Ecco cosa ti aspetta nelle 18 tappe.</p>
+                            </div>
+                            <div class="lang-en" hidden>
+                                <h2 class="text-4xl font-bold mb-2 font-display">TOUR ANALYSIS</h2>
+                                <p class="text-gray-400">Study the course. Prepare your gear. Here's what awaits you in the 18 stages.</p>
+                            </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg">
-                                <h3 class="text-2xl text-zwift-blue mb-4 font-display">Tipologie di Gara</h3>
+                                <div class="lang-it">
+                                    <h3 class="text-2xl text-zwift-blue mb-4 font-display">Tipologie di Gara</h3>
+                                </div>
+                                <div class="lang-en" hidden>
+                                    <h3 class="text-2xl text-zwift-blue mb-4 font-display">Race Types</h3>
+                                </div>
                                 <div class="chart-container"><canvas id="raceTypeChart"></canvas></div>
-                                <p class="text-xs text-center text-gray-500 mt-4">Distribuzione delle specialità su 18 tappe.</p>
+                                <div class="lang-it">
+                                    <p class="text-xs text-center text-gray-500 mt-4">Distribuzione delle specialità su 18 tappe.</p>
+                                </div>
+                                <div class="lang-en" hidden>
+                                    <p class="text-xs text-center text-gray-500 mt-4">Distribution of specialties over 18 stages.</p>
+                                </div>
                             </div>
                             <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg flex flex-col justify-center">
-                                <h3 class="text-2xl text-zwift-orange mb-6 font-display">Statistiche Chiave</h3>
-                                <div class="grid grid-cols-2 gap-6">
-                                    <div class="text-center p-4 bg-black/30 rounded-lg"><div class="text-5xl font-bold text-white font-display">18</div><div class="text-sm text-gray-400 uppercase">Tappe Totali</div></div>
-                                    <div class="text-center p-4 bg-black/30 rounded-lg"><div class="text-5xl font-bold text-white font-display">6</div><div class="text-sm text-gray-400 uppercase">Settimane</div></div>
-                                    <div class="text-center p-4 bg-black/30 rounded-lg"><div class="text-5xl font-bold text-white font-display">8</div><div class="text-sm text-gray-400 uppercase">Mondi Zwift</div></div>
-                                    <div class="text-center p-4 bg-black/30 rounded-lg"><div class="text-5xl font-bold text-white font-display">5</div><div class="text-sm text-gray-400 uppercase">Tappe di Montagna</div></div>
+                                <div class="lang-it">
+                                    <h3 class="text-2xl text-zwift-orange mb-6 font-display">Statistiche Chiave</h3>
                                 </div>
-                                <div class="mt-6 p-4 border-l-4 border-zwift-blue bg-black/20"><p class="text-sm text-gray-300 italic">"Il tour è bilanciato per premiare l'atleta completo: esplosività per gli sprint, resistenza per le lunghe distanze e rapporto w/kg per le montagne."</p></div>
+                                <div class="lang-en" hidden>
+                                    <h3 class="text-2xl text-zwift-orange mb-6 font-display">Key Stats</h3>
+                                </div>
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div class="text-center p-4 bg-black/30 rounded-lg"><div class="text-5xl font-bold text-white font-display">18</div>
+                                        <div class="text-sm text-gray-400 uppercase lang-it">Tappe Totali</div>
+                                        <div class="text-sm text-gray-400 uppercase lang-en" hidden>Total Stages</div>
+                                    </div>
+                                    <div class="text-center p-4 bg-black/30 rounded-lg"><div class="text-5xl font-bold text-white font-display">6</div>
+                                        <div class="text-sm text-gray-400 uppercase lang-it">Settimane</div>
+                                        <div class="text-sm text-gray-400 uppercase lang-en" hidden>Weeks</div>
+                                    </div>
+                                    <div class="text-center p-4 bg-black/30 rounded-lg"><div class="text-5xl font-bold text-white font-display">8</div>
+                                        <div class="text-sm text-gray-400 uppercase lang-it">Mondi Zwift</div>
+                                        <div class="text-sm text-gray-400 uppercase lang-en" hidden>Zwift Worlds</div>
+                                    </div>
+                                    <div class="text-center p-4 bg-black/30 rounded-lg"><div class="text-5xl font-bold text-white font-display">5</div>
+                                        <div class="text-sm text-gray-400 uppercase lang-it">Tappe di Montagna</div>
+                                        <div class="text-sm text-gray-400 uppercase lang-en" hidden>Mountain Stages</div>
+                                    </div>
+                                </div>
+                                <div class="mt-6 p-4 border-l-4 border-zwift-blue bg-black/20">
+                                    <div class="lang-it">
+                                        <p class="text-sm text-gray-300 italic">"Il tour è bilanciato per premiare l'atleta completo: esplosività per gli sprint, resistenza per le lunghe distanze e rapporto w/kg per le montagne."</p>
+                                    </div>
+                                    <div class="lang-en" hidden>
+                                        <p class="text-sm text-gray-300 italic">"The tour is balanced to reward the complete athlete: explosiveness for sprints, endurance for long distances, and a w/kg ratio for the mountains."</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -139,12 +234,24 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-gray-700 pb-4">
                 <div>
-                    <h2 class="text-4xl font-bold text-white font-display">CALENDARIO TAPPE</h2>
-                    <p class="text-gray-400">Esplora e registrati. Clicca su una tappa per i dettagli del percorso (Zwift Insider).</p>
+                    <div class="lang-it">
+                        <h2 class="text-4xl font-bold text-white font-display">CALENDARIO TAPPE</h2>
+                        <p class="text-gray-400">Esplora e registrati. Clicca su una tappa per i dettagli del percorso (Zwift Insider).</p>
+                    </div>
+                    <div class="lang-en" hidden>
+                        <h2 class="text-4xl font-bold text-white font-display">STAGE CALENDAR</h2>
+                        <p class="text-gray-400">Explore and register. Click on a stage for route details (Zwift Insider).</p>
+                    </div>
                 </div>
                 <div class="flex space-x-2 mt-4 md:mt-0">
-                    <select id="worldFilter" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"><option value="all">Tutti i Mondi</option></select>
-                    <select id="typeFilter" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"><option value="all">Tutti i Tipi</option></select>
+                    <select id="worldFilter" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
+                        <option value="all" class="lang-it">Tutti i Mondi</option>
+                        <option value="all" class="lang-en" hidden>All Worlds</option>
+                    </select>
+                    <select id="typeFilter" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
+                        <option value="all" class="lang-it">Tutti i Tipi</option>
+                        <option value="all" class="lang-en" hidden>All Types</option>
+                    </select>
                 </div>
             </div>
             <div id="stage-list" class="grid grid-cols-1 gap-4"></div>
@@ -159,5 +266,53 @@
 
     <script src="sidebar.js"></script>
     <script src="mwt_page_logic.js"></script>
+
+    <script>
+        (function(){
+            const btnIt = document.getElementById('btn-it');
+            const btnEn = document.getElementById('btn-en');
+            const langItElements = document.querySelectorAll('.lang-it');
+            const langEnElements = document.querySelectorAll('.lang-en');
+
+            function setLanguage(lang, persist = true) {
+                const isItalian = lang === 'it';
+                
+                langItElements.forEach(el => el.hidden = !isItalian);
+                langEnElements.forEach(el => el.hidden = isItalian);
+
+                btnIt.setAttribute('aria-pressed', isItalian);
+                btnEn.setAttribute('aria-pressed', !isItalian);
+                
+                document.documentElement.lang = lang;
+
+                if (persist) {
+                    try { localStorage.setItem('mwt_lang', lang); } catch(e){}
+                }
+            }
+
+            // Initialize from localStorage or default to Italian
+            try {
+                const saved = localStorage.getItem('mwt_lang');
+                if (saved === 'en') {
+                    setLanguage('en', false);
+                } else {
+                    setLanguage('it', false);
+                }
+            } catch(e) {
+                setLanguage('it', false);
+            }
+
+            btnIt.addEventListener('click', () => setLanguage('it'));
+            btnEn.addEventListener('click', () => setLanguage('en'));
+
+            // Keyboard support: Left/Right to toggle
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                    const current = (localStorage.getItem('mwt_lang') || 'it') === 'en' ? 'en' : 'it';
+                    setLanguage(current === 'it' ? 'en' : 'it');
+                }
+            });
+        })();
+    </script>
 </body>
 </html>

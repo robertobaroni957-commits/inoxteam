@@ -2,58 +2,107 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    let tourStages = [];
 
+    // --- Localization ---
+    const getLang = () => localStorage.getItem('mwt_lang') || 'it';
+    
+    const translations = {
+        // Countdown
+        'next_race': { it: 'PROSSIMA GARA:', en: 'NEXT RACE:' },
+        'tour_starts_in': { it: 'INIZIO TOUR TRA:', en: 'TOUR STARTS IN:' },
+        'tour_ongoing_or_completed': { it: 'TOUR IN CORSO O COMPLETATO', en: 'TOUR ONGOING OR COMPLETED' },
+        'all_races_completed': { it: 'Tutte le gare sono state completate!', en: 'All races have been completed!' },
+        'loading': { it: 'Caricamento...', en: 'Loading...' },
+        // Filters
+        'no_stages_found': { it: 'Nessuna tappa trovata per i filtri selezionati.', en: 'No stages found for the selected filters.' },
+        // Stage Card
+        'stage': { it: 'Tappa', en: 'Stage' },
+        'route_details': { it: 'Dettagli Percorso', en: 'Route Details' },
+        'register': { it: 'Iscriviti', en: 'Register' },
+        // Modal
+        'relevant_segments': { it: 'Segmenti Rilevanti:', en: 'Relevant Segments:' },
+        'date': { it: 'Data', en: 'Date' },
+        'world': { it: 'Mondo', en: 'World' },
+        'type': { it: 'Tipo', en: 'Type' },
+    };
 
+    const t = (key) => {
+        const lang = getLang();
+        return translations[key] ? translations[key][lang] : key;
+    };
+    // --- End Localization ---
 
-    let tourStages = []; // Declare tourStages as a mutable variable
-
-    // Function to load tour stages
     const loadTourStages = async () => {
         try {
-            const response = await fetch('stages.json'); // Fetch from new JSON file
-            if (!response.ok) throw new Error(`File non trovato: stages.json`);
-            tourStages = await response.json(); // Assign fetched data to tourStages
-
-            // Now that tourStages is loaded, initialize dependent functions
+            const response = await fetch('stages.json');
+            if (!response.ok) throw new Error(`File not found: stages.json`);
+            tourStages = await response.json();
+            
             initCountdown();
             initChart();
             populateFilters();
             renderStages();
         } catch (error) {
-            console.error("Errore caricamento tappe del tour:", error);
-            // Optionally display an error message on the page
-            document.getElementById('stage-list').innerHTML = `<p class="text-red-500 text-lg p-10">Impossibile caricare le tappe del tour. (Dettaglio: ${error.message})</p>`;
+            console.error("Error loading tour stages:", error);
+            document.getElementById('stage-list').innerHTML = `<p class="text-red-500 text-lg p-10">Cannot load tour stages. (Detail: ${error.message})</p>`;
         }
     };
 
-    // Utility functions for stages
-    const formatDate = (dateString) => { const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }; return new Date(dateString).toLocaleDateString('it-IT', options); };
-    const getTypeIcon = (type) => { type = type.toLowerCase(); if (type.includes('flat')) return '⚡'; if (type.includes('mountain')) return '🏔️'; if (type.includes('hilly')) return '⛰️'; if (type.includes('luna park')) return '🔄'; if (type.includes('itt') || type.includes('chrono scalata')) return '⏱️'; return '🚴'; };
-    const getTypeColor = (type) => { type = type.toLowerCase(); if (type.includes('flat')) return 'text-race-flat'; if (type.includes('mountain')) return 'text-race-mountain'; if (type.includes('hilly')) return 'text-race-hilly'; return 'text-race-time'; };
+    const formatDate = (dateString) => {
+        const lang = getLang();
+        const options = { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' };
+        return new Date(dateString).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-GB', options);
+    };
 
-    // Function definitions for countdown, chart, filters, and stages
+    const getTypeIcon = (type) => { 
+        const type_en = type.en || type;
+        if (type_en.toLowerCase().includes('flat')) return '⚡'; 
+        if (type_en.toLowerCase().includes('mountain')) return '🏔️'; 
+        if (type_en.toLowerCase().includes('hilly')) return '⛰️'; 
+        if (type_en.toLowerCase().includes('luna park')) return '🔄'; 
+        if (type_en.toLowerCase().includes('itt') || type_en.toLowerCase().includes('climbing')) return '⏱️'; 
+        return '🚴'; 
+    };
+    
+    const getTypeColor = (type) => { 
+        const type_en = type.en || type;
+        if (type_en.toLowerCase().includes('flat')) return 'text-race-flat'; 
+        if (type_en.toLowerCase().includes('mountain')) return 'text-race-mountain'; 
+        if (type_en.toLowerCase().includes('hilly')) return 'text-race-hilly'; 
+        return 'text-race-time'; 
+    };
+    
+    const getTranslatedField = (field) => {
+        const lang = getLang();
+        return field[lang] || field.it || field;
+    }
+
+
     function initCountdown() {
+        // Set initial loading text
+        const nextRaceInfoSpan = document.getElementById('next-race-info');
+        if(nextRaceInfoSpan) {
+            nextRaceInfoSpan.innerText = t('loading');
+        }
+
         const countdownInterval = setInterval(() => {
             const now = new Date().getTime();
             const nextRace = tourStages.find(stage => new Date(stage.date).getTime() > now);
             let distance;
             let countdownText = '';
-            let mainMessage = '';
 
             if (nextRace) {
                 distance = new Date(nextRace.date).getTime() - now;
-                countdownText = `PROSSIMA GARA: ${formatDate(nextRace.date)} - ${nextRace.route} (${nextRace.world})`;
-                mainMessage = `PROSSIMA GARA:`;
+                countdownText = `${t('next_race')} ${formatDate(nextRace.date)} - ${getTranslatedField(nextRace.route)} (${getTranslatedField(nextRace.world)})`;
             } else {
-                const firstStageDate = new Date(tourStages[0].date).getTime();
+                const firstStageDate = tourStages.length > 0 ? new Date(tourStages[0].date).getTime() : 0;
                 if (now >= firstStageDate) {
-                     mainMessage = 'TOUR IN CORSO O COMPLETATO';
-                     countdownText = 'Tutte le gare sono state completate!';
+                     countdownText = t('all_races_completed');
                      distance = -1;
                 } else {
                     distance = firstStageDate - now;
-                    countdownText = `INIZIO TOUR TRA: ${formatDate(tourStages[0].date)} - ${tourStages[0].route} (${tourStages[0].world})`;
-                    mainMessage = `INIZIO TOUR TRA:`;
+                    countdownText = `${t('tour_starts_in')} ${formatDate(tourStages[0].date)} - ${getTranslatedField(tourStages[0].route)} (${getTranslatedField(tourStages[0].world)})`;
                 }
             }
 
@@ -63,7 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('hours').innerText = '00';
                 document.getElementById('minutes').innerText = '00';
                 document.getElementById('seconds').innerText = '00';
-                document.getElementById('next-race-info').innerText = mainMessage;
+                if(nextRaceInfoSpan) {
+                   const parentDiv = nextRaceInfoSpan.parentElement;
+                   // Clear children and set new text
+                   parentDiv.innerHTML = t('tour_ongoing_or_completed');
+                }
                 return;
             }
 
@@ -76,13 +129,24 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('hours').innerText = String(hours).padStart(2, '0');
             document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
             document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
-            document.getElementById('next-race-info').innerHTML = countdownText;
+            
+            // Reconstruct the countdown text holder if it was replaced
+            const parentDiv = document.querySelector('.text-zwift-orange.font-bold');
+            if (!document.getElementById('next-race-info')) {
+                parentDiv.innerHTML = `
+                    <span class="lang-it">${t('next_race')}</span>
+                    <span class="lang-en" hidden>${t('next_race')}</span>
+                    <span id="next-race-info"></span>
+                `;
+            }
+            document.getElementById('next-race-info').innerText = ` ${formatDate(nextRace.date)} - ${getTranslatedField(nextRace.route)} (${getTranslatedField(nextRace.world)})`;
 
         }, 1000);
     }
 
     function initChart() {
-        const raceTypes = tourStages.map(stage => stage.type);
+        const lang = getLang();
+        const raceTypes = tourStages.map(stage => getTranslatedField(stage.type));
         const typeCounts = raceTypes.reduce((acc, type) => {
             acc[type] = (acc[type] || 0) + 1;
             return acc;
@@ -136,10 +200,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function populateFilters() {
-        const worlds = [...new Set(tourStages.map(stage => stage.world))];
-        const types = [...new Set(tourStages.map(stage => stage.type))];
+        const lang = getLang();
+        const worlds = [...new Set(tourStages.map(stage => getTranslatedField(stage.world)))];
+        const types = [...new Set(tourStages.map(stage => getTranslatedField(stage.type)))];
 
         const worldFilter = document.getElementById('worldFilter');
+        // Clear existing options except the first one
+        while (worldFilter.options.length > 1) {
+            worldFilter.remove(1);
+        }
         worlds.forEach(world => {
             const option = document.createElement('option');
             option.value = world;
@@ -148,6 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const typeFilter = document.getElementById('typeFilter');
+        while (typeFilter.options.length > 1) {
+            typeFilter.remove(1);
+        }
         types.forEach(type => {
             const option = document.createElement('option');
             option.value = type;
@@ -161,19 +233,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderStages() {
         const stageList = document.getElementById('stage-list');
-        stageList.innerHTML = ''; // Clear previous stages
+        stageList.innerHTML = ''; 
 
-        const worldFilter = document.getElementById('worldFilter').value;
-        const typeFilter = document.getElementById('typeFilter').value;
+        const worldFilterValue = document.getElementById('worldFilter').value;
+        const typeFilterValue = document.getElementById('typeFilter').value;
+        const lang = getLang();
 
         const filteredStages = tourStages.filter(stage => {
-            const matchesWorld = (worldFilter === 'all' || stage.world === worldFilter);
-            const matchesType = (typeFilter === 'all' || stage.type === typeFilter);
+            const matchesWorld = (worldFilterValue === 'all' || getTranslatedField(stage.world) === worldFilterValue);
+            const matchesType = (typeFilterValue === 'all' || getTranslatedField(stage.type) === typeFilterValue);
             return matchesWorld && matchesType;
         });
 
         if (filteredStages.length === 0) {
-            stageList.innerHTML = `<p class="text-gray-400 text-center py-8">Nessuna tappa trovata per i filtri selezionati.</p>`;
+            stageList.innerHTML = `<p class="text-gray-400 text-center py-8">${t('no_stages_found')}</p>`;
             return;
         }
 
@@ -181,16 +254,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const stageCardHtml = `
                 <div class="bg-zwift-dark p-4 rounded-lg border border-gray-700 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer stage-card" data-stage-id="${stage.id}">
                     <div class="mb-3 md:mb-0">
-                        <h3 class="text-xl font-bold text-zwift-orange font-display">Tappa ${stage.id}: ${stage.route}</h3>
+                        <h3 class="text-xl font-bold text-zwift-orange font-display">${t('stage')} ${stage.id}: ${getTranslatedField(stage.route)}</h3>
                         <p class="text-gray-400 text-sm">${formatDate(stage.date)}</p>
-                        <p class="text-gray-300 text-sm">${stage.world} - <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${stage.type}</span></p>
+                        <p class="text-gray-300 text-sm">${getTranslatedField(stage.world)} - <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${getTranslatedField(stage.type)}</span></p>
                     </div>
                     <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                         <a href="${stage.routeLink}" target="_blank" class="bg-zwift-card hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm transition text-center flex items-center justify-center">
-                            <i class="fas fa-route mr-2"></i> Dettagli Percorso
+                            <i class="fas fa-route mr-2"></i> ${t('route_details')}
                         </a>
                         <a href="${stage.registerLink}" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-2 px-4 rounded text-sm transition text-center flex items-center justify-center">
-                            <i class="fas fa-clipboard-list mr-2"></i> Iscriviti
+                            <i class="fas fa-clipboard-list mr-2"></i> ${t('register')}
                         </a>
                     </div>
                 </div>
@@ -217,31 +290,34 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Stage not found for ID:', stageId);
             return;
         }
+        
+        const lang = getLang();
+        const segments = stage.segments.map(segment => getTranslatedField(segment));
 
-        const segmentsHtml = stage.segments && stage.segments.length > 0 ?
+        const segmentsHtml = segments && segments.length > 0 ?
             `<div class="mt-4">
-                <h4 class="text-xl font-bold text-zwift-blue font-display mb-2">Segmenti Rilevanti:</h4>
+                <h4 class="text-xl font-bold text-zwift-blue font-display mb-2">${t('relevant_segments')}</h4>
                 <ul class="list-disc list-inside text-gray-300 ml-4">
-                    ${stage.segments.map(segment => `<li>${segment}</li>`).join('')}
+                    ${segments.map(segment => `<li>${segment}</li>`).join('')}
                 </ul>
             </div>` : '';
 
         let modalContent = `
             <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg w-11/12 max-w-2xl relative">
                 <button class="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl" id="close-event-modal">&times;</button>
-                <h3 class="text-3xl font-bold text-zwift-orange font-display mb-4">Tappa ${stage.id}: ${stage.route}</h3>
-                <p class="text-gray-300 text-lg mb-2"><strong>Data:</strong> ${formatDate(stage.date)}</p>
-                <p class="text-gray-300 text-lg mb-2"><strong>Mondo:</strong> ${stage.world}</p>
-                <p class="text-gray-300 text-lg mb-4"><strong>Tipo:</strong> <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${stage.type}</span></p>
+                <h3 class="text-3xl font-bold text-zwift-orange font-display mb-4">${t('stage')} ${stage.id}: ${getTranslatedField(stage.route)}</h3>
+                <p class="text-gray-300 text-lg mb-2"><strong>${t('date')}:</strong> ${formatDate(stage.date)}</p>
+                <p class="text-gray-300 text-lg mb-2"><strong>${t('world')}:</strong> ${getTranslatedField(stage.world)}</p>
+                <p class="text-gray-300 text-lg mb-4"><strong>${t('type')}:</strong> <span class="${getTypeColor(stage.type)} font-semibold">${getTypeIcon(stage.type)} ${getTranslatedField(stage.type)}</span></p>
 
                 ${segmentsHtml}
 
                 <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 mt-4">
                     <a href="${stage.routeLink}" target="_blank" class="bg-zwift-dark hover:bg-gray-700 text-white font-bold py-3 px-4 rounded text-center transition flex items-center justify-center text-base">
-                        <i class="fas fa-route mr-2"></i> Dettagli Percorso
+                        <i class="fas fa-route mr-2"></i> ${t('route_details')}
                     </a>
                     <a href="${stage.registerLink}" target="_blank" class="bg-zwift-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded text-center transition flex items-center justify-center text-base">
-                        <i class="fas fa-clipboard-list mr-2"></i> Iscriviti
+                        <i class="fas fa-clipboard-list mr-2"></i> ${t('register')}
                     </a>
                 </div>
             </div>
@@ -260,7 +336,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('overflow-hidden');
     }
 
+    // Connect language buttons
+    const btnIt = document.getElementById('btn-it');
+    const btnEn = document.getElementById('btn-en');
 
+    const refreshDynamicContent = () => {
+        populateFilters();
+        renderStages();
+        initChart();
+    };
+
+    btnIt.addEventListener('click', refreshDynamicContent);
+    btnEn.addEventListener('click', refreshDynamicContent);
 
     loadTourStages();
 });
