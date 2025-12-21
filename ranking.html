@@ -265,29 +265,9 @@
                 document.getElementById('event-title').textContent = eventDetails.title || '';
                 document.getElementById('event-route').textContent = eventDetails.route ? `Percorso: ${eventDetails.route}` : '';
                 
-                let distanceElevation = '';
-                if (eventDetails.distance && eventDetails.distance !== 'Non trovato') {
-                    distanceElevation += `Distanza: ${eventDetails.distance}`;
-                }
-                if (eventDetails.elevation && eventDetails.elevation !== 'Non trovato') {
-                    if (distanceElevation) distanceElevation += ', ';
-                    distanceElevation += `Dislivello: ${eventDetails.elevation}`;
-                }
-                if (eventDetails.laps) {
-                    if (distanceElevation) distanceElevation += ', ';
-                    distanceElevation += `Giri: ${eventDetails.laps}`;
-                }
-                document.getElementById('event-distance-elevation').textContent = distanceElevation;
-
                 const startTime = eventDetails.start_time ? new Date(eventDetails.start_time).toLocaleString('it-IT') : '';
                 document.getElementById('event-start-time').textContent = startTime ? `Ora di inizio: ${startTime}` : '';
                 
-                const descriptionElement = document.getElementById('event-description');
-                if (eventDetails.description) {
-                    descriptionElement.innerHTML = eventDetails.description.replace(/\n/g, '<br>');
-                } else {
-                    descriptionElement.innerHTML = '';
-                }
             };
 
             const initRankingListeners = () => {
