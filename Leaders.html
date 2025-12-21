@@ -129,7 +129,7 @@
                 leadersContainer.innerHTML = `<div class="col-span-full text-gray-500 text-center py-8">${t('loading')}</div>`;
                 
                 const categories = ['A', 'B', 'C', 'D', 'E'];
-                const types = ['punti', 'tempo', 'sprinter', 'scalatore'];
+                const types = ['tempo', 'punti', 'sprinter', 'scalatore']; // Changed order
                 
                 try {
                     const response = await fetch('cumulative_results.json');
@@ -150,7 +150,12 @@
                                     : (currentScore > (best ? best[scoreKey] : -Infinity) ? current : best);
                             }, null);
 
-                            let typeText = t(type === 'tempo' ? 'general' : (type === 'punti' ? 'points' : type));
+                            let typeText; // Adjusted typeText assignment
+                            if (type === 'tempo') typeText = t('general');
+                            else if (type === 'punti') typeText = t('points');
+                            else if (type === 'sprinter') typeText = t('sprinter');
+                            else if (type === 'scalatore') typeText = t('climber');
+                            
                             const flagImg = leader?.flag ? `<img src="https://flagcdn.com/16x12/${leader.flag.toLowerCase()}.png" alt="${leader.flag}" class="inline-block mr-2">` : '';
                             
                             leadersContainer.innerHTML += `
