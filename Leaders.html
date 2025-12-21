@@ -27,39 +27,18 @@
     </script>
 
     <style>
-        /* Ensure main content is flex and takes full width on mobile, and shifts on desktop */
         body { display: flex; min-height: 100vh; flex-direction: column; }
-
         @media (min-width: 1024px) {
-            body { flex-direction: row; } /* Desktop layout with sidebar beside content */
-            body > nav { /* Target the direct child nav of body */
-                margin-left: 300px;
-                width: calc(100% - 300px); /* Ensure it doesn't overflow */
-            }
+            body { flex-direction: row; }
+            body > nav { margin-left: 300px; width: calc(100% - 300px); }
             #main-content { margin-left: 300px; }
         }
-
-        /* Styles for the language toggle header */
-        .lang-toggle {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        .lang-btn {
-            border: none;
-            background: transparent;
-            font-size: 1.25rem; /* text-xl */
-            cursor: pointer;
-            padding: 0.375rem; /* p-1.5 */
-            border-radius: 0.375rem; /* rounded-md */
-            color: #d1d5db; /* gray-300 */
-        }
-        .lang-btn[aria-pressed="true"] {
-            outline: 2px solid rgba(0, 102, 34, 0.2); /* Accent green, transparent */
-            background: rgba(0, 102, 34, 0.1); /* Accent green, transparent */
-            color: #fc6719; /* zwift-orange to highlight active */
-        }
-        .lang-btn:focus { box-shadow: 0 0 0 3px rgba(252, 103, 25, 0.3); /* zwift-orange focus */ }
+        .lang-toggle { display: flex; gap: 0.5rem; align-items: center; }
+        .lang-btn { border: none; background: transparent; font-size: 1.25rem; cursor: pointer; padding: 0.375rem; border-radius: 0.375rem; color: #d1d5db; }
+        .lang-btn[aria-pressed="true"] { outline: 2px solid rgba(0, 102, 34, 0.2); background: rgba(0, 102, 34, 0.1); color: #fc6719; }
+        .lang-btn:focus { box-shadow: 0 0 0 3px rgba(252, 103, 25, 0.3); }
+        .lang-it, .lang-en { display: block; }
+        .lang-en[hidden], .lang-it[hidden] { display: none; }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col bg-zwift-dark font-body text-zwift-text">
@@ -67,44 +46,38 @@
     <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
-                        <div class="flex space-x-3 items-center">
-                            <!-- Language buttons top-right -->
-                            <div class="lang-toggle" aria-label="Language selection">
-                                <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
-                                <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
-                            </div>
-                            <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
-                                <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
-                                <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
-                            </button>
-                        </div>
-                    </div>
-                </nav>
+            <div class="flex space-x-3 items-center">
+                <div class="lang-toggle" aria-label="Language selection">
+                    <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
+                    <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
+                </div>
+                <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
+                    <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
+                    <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+        </div>
+    </nav>
                 
     <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 hidden"></div>
     <div id="sidebar" class="fixed top-0 left-0 w-72 h-full bg-[#1a1d20] shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
         <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
             <div class="flex items-center space-x-2">
                 <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
-
             </div>
         </div>
         <div class="flex flex-col p-2 space-y-1 text-base font-semibold">
             <div class="border-b border-gray-700 pb-2 mb-2">
-                <div class="lang-it">
-                    <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigazione</p>
-                    <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
-                    <a href="regolamento.html" class="sidebar-link">Regolamento</a>
-                    <a href="Leaders.html" class="sidebar-link">Leaders del Tour</a>
-                    <a href="ranking.html" class="sidebar-link">Classifiche</a>
-                </div>
-                <div class="lang-en" hidden>
-                    <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigation</p>
-                    <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
-                    <a href="regolamento.html" class="sidebar-link">Rules</a>
-                    <a href="Leaders.html" class="sidebar-link">Tour Leaders</a>
-                    <a href="ranking.html" class="sidebar-link">Rankings</a>
-                </div>
+                <p class="text-xs text-gray-500 uppercase px-3 py-1 lang-it">Navigazione</p>
+                <p class="text-xs text-gray-500 uppercase px-3 py-1 lang-en" hidden>Navigation</p>
+                <a href="mwt_page.html" class="sidebar-link lang-it">Masters Winter Tour</a>
+                <a href="mwt_page.html" class="sidebar-link lang-en" hidden>Masters Winter Tour</a>
+                <a href="regolamento.html" class="sidebar-link lang-it">Regolamento</a>
+                <a href="regolamento.html" class="sidebar-link lang-en" hidden>Rules</a>
+                <a href="Leaders.html" class="sidebar-link lang-it">Leaders del Tour</a>
+                <a href="Leaders.html" class="sidebar-link lang-en" hidden>Tour Leaders</a>
+                <a href="ranking.html" class="sidebar-link lang-it">Classifiche</a>
+                <a href="ranking.html" class="sidebar-link lang-en" hidden>Rankings</a>
             </div>
         </div>
     </div>
@@ -113,286 +86,104 @@
         <section id="leaders" class="py-12 bg-zwift-dark">
             <div class="container mx-auto px-4">
                 <div class="mb-8 border-b border-gray-700 pb-4">
-                    <div class="lang-it">
-                        <h2 class="text-4xl font-bold text-white font-display">LEADERS DEL TOUR</h2>
-                        <p class="text-gray-400">I leader attuali per ogni classifica.</p>
-                    </div>
-                    <div class="lang-en" hidden>
-                        <h2 class="text-4xl font-bold text-white font-display">TOUR LEADERS</h2>
-                        <p class="text-gray-400">Current leaders for each ranking.</p>
-                    </div>
+                    <h2 class="text-4xl font-bold text-white font-display lang-it">LEADERS DEL TOUR</h2>
+                    <p class="text-gray-400 lang-it">I leader attuali per ogni classifica.</p>
+                    <h2 class="text-4xl font-bold text-white font-display lang-en" hidden>TOUR LEADERS</h2>
+                    <p class="text-gray-400 lang-en" hidden>Current leaders for each ranking.</p>
                 </div>
                 <div id="leaders-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (0-29)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (0-29)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (0-29)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (0-29)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (30-39)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (30-39)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (30-39)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (30-39)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (40-49)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (40-49)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (40-49)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (40-49)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (50-59)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (50-59)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (50-59)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (50-59)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Punti (60+)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Generale (60+)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Sprinter (60+)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
-                    <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                        <div class="text-5xl mb-3">❓</div>
-                        <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">Scalatore (60+)</h3>
-                        <p class="text-white text-lg font-semibold">Caricamento...</p>
-                        <p class="text-gray-400 text-sm"></p>
-                    </div>
+                    <!-- Dynamic content will be injected here -->
                 </div>
             </div>
         </section>
     </div>
 
     <footer class="bg-black py-8 border-t border-gray-800"><!-- footer content --></footer>
-    <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden"><!-- modal content --></div>
-
-
+    
     <script src="sidebar.js"></script>
     <script>
-        // Define jersey icons globally for access within renderLeadersSection
-        const jerseyIcons = {
-            punti: '<img src="points.png" alt="Jersey Punti" class="w-12 h-12 mx-auto">',
-            tempo: '<img src="time.png" alt="Jersey Generale" class="w-12 h-12 mx-auto">',
-            sprinter: '<img src="sprint.png" alt="Jersey Sprinter" class="w-12 h-12 mx-auto">',
-            scalatore: '<img src="climb.png" alt="Jersey Scalatore" class="w-12 h-12 mx-auto">'
-        };
+        document.addEventListener('DOMContentLoaded', () => {
+            const getLang = () => localStorage.getItem('mwt_lang') || 'it';
 
-        const ageCategoryMap = {
-            'A': '0-29', 'B': '30-39', 'C': '40-49', 'D': '50-59', 'E': '60+'
-        };
+            const translations = {
+                'loading': { it: 'Caricamento...', en: 'Loading...' }, 'not_available': { it: 'N/A', en: 'N/A' },
+                'individual': { it: 'Individuale', en: 'Individual' }, 'points': { it: 'Punti', en: 'Points' },
+                'general': { it: 'Generale', en: 'General' }, 'sprinter': { it: 'Sprinter', en: 'Sprinter' },
+                'climber': { it: 'Scalatore', en: 'Climber' }, 'error_loading_leaders': { it: 'Impossibile caricare i leaders.', en: 'Could not load leaders.' },
+                'file_not_found': { it: 'File non trovato:', en: 'File not found:' }
+            };
 
-        const getLang = () => localStorage.getItem('mwt_lang') || 'it';
+            const t = (key) => (translations[key]?.[getLang()] || translations[key]?.it) || key;
 
-        const translations = {
-            // Leaders specific
-            'leaders_title': { it: 'LEADERS DEL TOUR', en: 'TOUR LEADERS' },
-            'leaders_description': { it: 'I leader attuali per ogni classifica.', en: 'Current leaders for each ranking.' },
-            'loading': { it: 'Caricamento...', en: 'Loading...' },
-            'not_available': { it: 'N/A', en: 'N/A' },
-            'individual': { it: 'Individuale', en: 'Individual' },
-            'points': { it: 'Punti', en: 'Points' },
-            'general': { it: 'Generale', en: 'General' },
-            'sprinter': { it: 'Sprinter', en: 'Sprinter' },
-            'climber': { it: 'Scalatore', en: 'Climber' },
-            'error_loading_leaders': { it: 'Impossibile caricare i leaders.', en: 'Could not load leaders.' },
-            'file_not_found': { it: 'File non trovato:', en: 'File not found:' },
-        };
+            const jerseyIcons = {
+                punti: '<img src="points.png" alt="Jersey Punti" class="w-12 h-12 mx-auto">',
+                tempo: '<img src="time.png" alt="Jersey Generale" class="w-12 h-12 mx-auto">',
+                sprinter: '<img src="sprint.png" alt="Jersey Sprinter" class="w-12 h-12 mx-auto">',
+                scalatore: '<img src="climb.png" alt="Jersey Scalatore" class="w-12 h-12 mx-auto">'
+            };
 
-        const t = (key) => {
-            const lang = getLang();
-            return translations[key] ? translations[key][lang] : key;
-        };
+            const ageCategoryMap = { 'A': '0-29', 'B': '30-39', 'C': '40-49', 'D': '50-59', 'E': '60+' };
 
-        const renderLeadersSection = async () => {
-            document.getElementById('leaders-container').innerHTML = `
-                <div class="col-span-full text-gray-500 text-center py-8">
-                    ${t('loading')}
-                </div>
-            `;
-            // Update static elements with translations
-            document.querySelector('#leaders h2').innerText = t('leaders_title');
-            document.querySelector('#leaders p').innerText = t('leaders_description');
+            const renderLeadersSection = async () => {
+                const leadersContainer = document.getElementById('leaders-container');
+                leadersContainer.innerHTML = `<div class="col-span-full text-gray-500 text-center py-8">${t('loading')}</div>`;
+                
+                const categories = ['A', 'B', 'C', 'D', 'E'];
+                const types = ['punti', 'tempo', 'sprinter', 'scalatore'];
+                
+                try {
+                    const response = await fetch('cumulative_results.json');
+                    if (!response.ok) throw new Error(`${t('file_not_found')} cumulative_results.json`);
+                    const allRankings = await response.json();
+                    
+                    leadersContainer.innerHTML = ''; // Clear loading state
 
+                    for (const categoryCode of categories) {
+                        for (const type of types) {
+                            const categoryRankings = allRankings.results[categoryCode] || [];
+                            const scoreKey = (type === 'tempo') ? 'time' : ((type === 'sprinter') ? 'pts_sprint' : ((type === 'scalatore') ? 'pts_kom' : 'total'));
+                            
+                            const leader = categoryRankings.reduce((best, current) => {
+                                const currentScore = current[scoreKey] || 0;
+                                return (type === 'tempo') 
+                                    ? (currentScore > 0 && currentScore < (best ? best[scoreKey] : Infinity) ? current : best) 
+                                    : (currentScore > (best ? best[scoreKey] : -Infinity) ? current : best);
+                            }, null);
 
-            const categories = ['A', 'B', 'C', 'D', 'E'];
-            const types = ['punti', 'tempo', 'sprinter', 'scalatore'];
-            const dataUrl = 'cumulative_results.json';
-
-            try {
-                const response = await fetch(dataUrl);
-                if (!response.ok) throw new Error(`${t('file_not_found')} ${dataUrl}`);
-                const allRankings = await response.json();
-
-                document.getElementById('leaders-container').innerHTML = ''; // Clear loading state
-
-                for (const categoryCode of categories) {
-                    for (const type of types) {
-                        const categoryRankings = allRankings.results[categoryCode] || [];
-                        const scoreKey = (type === 'tempo') ? 'time' : ((type === 'sprinter') ? 'pts_sprint' : ((type === 'scalatore') ? 'pts_kom' : 'total'));
-
-                        const leader = categoryRankings.reduce((best, current) => {
-                            const currentScore = current[scoreKey] || 0;
-                            if (type === 'tempo') {
-                                return (currentScore < (best ? best[scoreKey] : Infinity)) ? current : best;
-                            } else {
-                                return (currentScore > (best ? best[scoreKey] : -Infinity)) ? current : best;
-                            }
-                        }, null);
-
-                        let typeText;
-                        if (type === 'punti') typeText = t('points');
-                        else if (type === 'tempo') typeText = t('general');
-                        else if (type === 'sprinter') typeText = t('sprinter');
-                        else if (type === 'scalatore') typeText = t('climber');
-
-                        let leaderHtml = `
-                            <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
-                                <div class="text-5xl mb-3">${leader ? jerseyIcons[type] : '❓'}</div>
-                                <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">${typeText} (${ageCategoryMap[categoryCode]})</h3>
-                                <p class="text-white text-lg font-semibold">${leader ? (leader.flag ? `<img src="https://flagcdn.com/16x12/${leader.flag.toLowerCase()}.png" alt="${leader.flag}" class="inline-block mr-2">` : '') + leader.name : t('not_available')}</p>
-                                <p class="text-gray-400 text-sm">${leader ? leader.tname || t('individual') : ''}</p>
-                            </div>
-                        `;
-                        document.getElementById('leaders-container').innerHTML += leaderHtml;
+                            let typeText = t(type === 'tempo' ? 'general' : (type === 'punti' ? 'points' : type));
+                            const flagImg = leader?.flag ? `<img src="https://flagcdn.com/16x12/${leader.flag.toLowerCase()}.png" alt="${leader.flag}" class="inline-block mr-2">` : '';
+                            
+                            leadersContainer.innerHTML += `
+                                <div class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg text-center">
+                                    <div class="text-5xl mb-3">${leader ? jerseyIcons[type] : '❓'}</div>
+                                    <h3 class="text-xl font-bold text-zwift-orange mb-1 font-display">${typeText} (${ageCategoryMap[categoryCode]})</h3>
+                                    <p class="text-white text-lg font-semibold">${leader ? flagImg + leader.name : t('not_available')}</p>
+                                    <p class="text-gray-400 text-sm">${leader ? leader.tname || t('individual') : ''}</p>
+                                </div>`;
+                        }
                     }
+                } catch (error) {
+                    console.error("Error loading leaders:", error);
+                    leadersContainer.innerHTML = `<p class="text-red-500 text-lg p-10 col-span-full">${t('error_loading_leaders')} (${error.message})</p>`;
                 }
+            };
 
-            } catch (error) {
-                console.error("Error loading leaders:", error);
-                document.getElementById('leaders-container').innerHTML = `<p class="text-red-500 text-lg p-10 col-span-full">${t('error_loading_leaders')} (Detail: ${error.message})</p>`;
-            }
-        };
-        
-        document.addEventListener('DOMContentLoaded', renderLeadersSection);
-
-        // Generic language switching script
-        (function(){
-            const btnIt = document.getElementById('btn-it');
-            const btnEn = document.getElementById('btn-en');
-
-            function setLanguage(lang, persist = true){
-                const isItalian = lang === 'it';
-                
-                btnIt.setAttribute('aria-pressed', isItalian);
-                btnEn.setAttribute('aria-pressed', !isItalian);
-                
+            const setLanguage = (lang) => {
+                localStorage.setItem('mwt_lang', lang);
                 document.documentElement.lang = lang;
-
-                if (persist) {
-                    try { localStorage.setItem('mwt_lang', lang); } catch(e){}
-                }
-                
-                // Trigger a reload of dynamic content
+                document.querySelectorAll('.lang-it, .lang-en').forEach(el => {
+                    el.hidden = !el.classList.contains(`lang-${lang}`);
+                });
+                document.getElementById('btn-it').setAttribute('aria-pressed', lang === 'it');
+                document.getElementById('btn-en').setAttribute('aria-pressed', lang !== 'it');
                 renderLeadersSection();
-            }
+            };
 
-            try{
-                const saved = localStorage.getItem('mwt_lang');
-                if(saved === 'en') setLanguage('en', false);
-                else setLanguage('it', false);
-            } catch(e){
-                setLanguage('it', false);
-            }
+            document.getElementById('btn-it').addEventListener('click', () => setLanguage('it'));
+            document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
 
-            btnIt.addEventListener('click', ()=> setLanguage('it'));
-            btnEn.addEventListener('click', ()=> setLanguage('en'));
-
-            document.addEventListener('keydown', (e)=>{
-                if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
-                    const current = (localStorage.getItem('mwt_lang') || 'it') === 'en' ? 'en' : 'it';
-                    setLanguage(current === 'it' ? 'en' : 'it');
-                }
-            });
-        })();
+            setLanguage(getLang()); // Initial setup
+        });
     </script>
 </body>
 </html>
