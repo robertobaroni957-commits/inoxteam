@@ -288,6 +288,9 @@
                 if (persist) {
                     try { localStorage.setItem('mwt_lang', lang); } catch(e){}
                 }
+
+                // Dispatch a custom event to notify other scripts of the change
+                document.dispatchEvent(new CustomEvent('languageChanged'));
             }
 
             // Initialize from localStorage or default to Italian

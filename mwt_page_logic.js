@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
             tourStages = await response.json();
             
             initCountdown();
-            initChart();
             populateFilters();
             renderStages();
+            initChart(); // Moved here to ensure it runs after data is loaded
         } catch (error) {
             console.error("Error loading tour stages:", error);
             document.getElementById('stage-list').innerHTML = `<p class="text-red-500 text-lg p-10">Cannot load tour stages. (Detail: ${error.message})</p>`;
@@ -94,15 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (nextRace) {
                 distance = new Date(nextRace.date).getTime() - now;
-                countdownText = `${t('next_race')} ${formatDate(nextRace.date)} - ${getTranslatedField(nextRace.route)} (${getTranslatedField(nextRace.world)})`;
+                countdownText = `${t('next_race')} ${getTranslatedField(nextRace.route)} (${getTranslatedField(nextRace.world)})`;
             } else {
-                const firstStageDate = tourStages.length > 0 ? new Date(tourStages[0].date).getTime() : 0;
-                if (now >= firstStageDate) {
-                     countdownText = t('all_races_completed');
-                     distance = -1;
+                const firstStage = tourStages[0];
+                if (firstStage && new Date(firstStage.date).getTime() > now) {
+                    distance = new Date(firstStage.date).getTime() - now;
+                    countdownText = `${t('tour_starts_in')} ${formatDate(firstStage.date)}`;
                 } else {
-                    distance = firstStageDate - now;
-                    countdownText = `${t('tour_starts_in')} ${formatDate(tourStages[0].date)} - ${getTranslatedField(tourStages[0].route)} (${getTranslatedField(tourStages[0].world)})`;
+                    countdownText = t('all_races_completed');
+                    distance = -1; // Indicates completion
                 }
             }
 
@@ -112,10 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('hours').innerText = '00';
                 document.getElementById('minutes').innerText = '00';
                 document.getElementById('seconds').innerText = '00';
-                if(nextRaceInfoSpan) {
-                   const parentDiv = nextRaceInfoSpan.parentElement;
-                   // Clear children and set new text
-                   parentDiv.innerHTML = t('tour_ongoing_or_completed');
+                if (nextRaceInfoSpan) {
+                    nextRaceInfoSpan.innerText = t('tour_ongoing_or_completed');
                 }
                 return;
             }
@@ -130,17 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
             document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
             
-            // Reconstruct the countdown text holder if it was replaced
-            const parentDiv = document.querySelector('.text-zwift-orange.font-bold');
-            if (!document.getElementById('next-race-info')) {
-                parentDiv.innerHTML = `
-                    <span class="lang-it">${t('next_race')}</span>
-                    <span class="lang-en" hidden>${t('next_race')}</span>
-                    <span id="next-race-info"></span>
-                `;
+            if(nextRaceInfoSpan) {
+                nextRaceInfoSpan.innerText = countdownText;
             }
-            document.getElementById('next-race-info').innerText = ` ${formatDate(nextRace.date)} - ${getTranslatedField(nextRace.route)} (${getTranslatedField(nextRace.world)})`;
-
+            
         }, 1000);
     }
 
@@ -336,18 +327,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.remove('overflow-hidden');
     }
 
-    // Connect language buttons
-    const btnIt = document.getElementById('btn-it');
-    const btnEn = document.getElementById('btn-en');
-
     const refreshDynamicContent = () => {
+        if (!tourStages.length) return; // Don't run if stages aren't loaded
         populateFilters();
         renderStages();
-        initChart();
+        initChart(); // Re-initialize chart with new language
     };
-
-    btnIt.addEventListener('click', refreshDynamicContent);
-    btnEn.addEventListener('click', refreshDynamicContent);
+    
+    // Listen for language changes from the main script
+    document.addEventListener('languageChanged', refreshDynamicContent);
 
     loadTourStages();
 });
