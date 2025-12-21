@@ -75,11 +75,10 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
             <div class="flex space-x-3 items-center">
-                <!-- Language buttons -->
-                <div class="lang-toggle" aria-label="Language selection">
-                    <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
-                    <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
-                </div>
+                <!-- Language toggle button -->
+                <button id="lang-toggle-btn" class="lang-btn" aria-label="Change language">
+                    <span id="lang-icon">🇮🇹</span>
+                </button>
                 <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
                     <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
                     <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
@@ -269,8 +268,8 @@
 
     <script>
         (function(){
-            const btnIt = document.getElementById('btn-it');
-            const btnEn = document.getElementById('btn-en');
+            const langToggleBtn = document.getElementById('lang-toggle-btn');
+            const langIcon = document.getElementById('lang-icon');
             const langItElements = document.querySelectorAll('.lang-it');
             const langEnElements = document.querySelectorAll('.lang-en');
 
@@ -279,9 +278,10 @@
                 
                 langItElements.forEach(el => el.hidden = !isItalian);
                 langEnElements.forEach(el => el.hidden = isItalian);
-
-                btnIt.setAttribute('aria-pressed', isItalian);
-                btnEn.setAttribute('aria-pressed', !isItalian);
+                
+                if (langIcon) {
+                    langIcon.textContent = isItalian ? '🇮🇹' : '🇬🇧';
+                }
                 
                 document.documentElement.lang = lang;
 
@@ -292,26 +292,19 @@
 
             // Initialize from localStorage or default to Italian
             try {
-                const saved = localStorage.getItem('mwt_lang');
-                if (saved === 'en') {
-                    setLanguage('en', false);
-                } else {
-                    setLanguage('it', false);
-                }
+                const saved = localStorage.getItem('mwt_lang') || 'it';
+                setLanguage(saved, false);
             } catch(e) {
                 setLanguage('it', false);
             }
 
-            btnIt.addEventListener('click', () => setLanguage('it'));
-            btnEn.addEventListener('click', () => setLanguage('en'));
-
-            // Keyboard support: Left/Right to toggle
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-                    const current = (localStorage.getItem('mwt_lang') || 'it') === 'en' ? 'en' : 'it';
-                    setLanguage(current === 'it' ? 'en' : 'it');
-                }
-            });
+            if (langToggleBtn) {
+                langToggleBtn.addEventListener('click', () => {
+                    const currentLang = localStorage.getItem('mwt_lang') || 'it';
+                    const newLang = currentLang === 'it' ? 'en' : 'it';
+                    setLanguage(newLang);
+                });
+            }
         })();
     </script>
 </body>

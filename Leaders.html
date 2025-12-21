@@ -47,10 +47,10 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
             <div class="flex space-x-3 items-center">
-                <div class="lang-toggle" aria-label="Language selection">
-                    <button class="lang-btn" id="btn-it" aria-pressed="true" title="Italiano" aria-label="Italiano">🇮🇹</button>
-                    <button class="lang-btn" id="btn-en" aria-pressed="false" title="English" aria-label="English">🇬🇧</button>
-                </div>
+                <!-- Language toggle button -->
+                <button id="lang-toggle-btn" class="lang-btn" aria-label="Change language">
+                    <span id="lang-icon">🇮🇹</span>
+                </button>
                 <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
                     <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
                     <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
@@ -179,13 +179,23 @@
                 document.querySelectorAll('.lang-it, .lang-en').forEach(el => {
                     el.hidden = !el.classList.contains(`lang-${lang}`);
                 });
-                document.getElementById('btn-it').setAttribute('aria-pressed', lang === 'it');
-                document.getElementById('btn-en').setAttribute('aria-pressed', lang !== 'it');
+
+                const langIcon = document.getElementById('lang-icon');
+                if (langIcon) {
+                    langIcon.textContent = lang === 'it' ? '🇮🇹' : '🇬🇧';
+                }
+
                 renderLeadersSection();
             };
-
-            document.getElementById('btn-it').addEventListener('click', () => setLanguage('it'));
-            document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
+            
+            const langToggleBtn = document.getElementById('lang-toggle-btn');
+            if (langToggleBtn) {
+                langToggleBtn.addEventListener('click', () => {
+                    const currentLang = getLang();
+                    const newLang = currentLang === 'it' ? 'en' : 'it';
+                    setLanguage(newLang);
+                });
+            }
 
             setLanguage(getLang()); // Initial setup
         });
