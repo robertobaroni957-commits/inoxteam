@@ -83,7 +83,7 @@
         "world": { "it": "Bologna", "en": "Bologna" }, 
         "route": { "it": "Time Trial Lap (8 km + D+ 263 m)", "en": "Time Trial Lap (8 km + D+ 263 m)" }, 
         "type": { "it": "Chrono Scalata", "en": "Climbing TT" }, 
-        "routeLink": "https://zwiftinsider.com/route/bologna-time-trial-lap/", 
+        "routeLink": "https://zwiftinsider.com/route/time-trial-lap/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247628", 
         "segments": [] 
     },
@@ -95,7 +95,12 @@
         "type": { "it": "Point Flat", "en": "Point Flat" }, 
         "routeLink": "https://zwiftinsider.com/route/classique-reverse/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247630", 
-        "segments": [] 
+        "segments": [
+            { "it": "Primo The MAll Sprint Reverse FTS", "en": "First The MAll Sprint Reverse FTS" },
+            { "it": "Primo The MAll Sprint Reverse FAL", "en": "First The MAll Sprint Reverse FAL" },
+            { "it": "Primo The MAll Sprint Reverse FAL & FTS", "en": "First The MAll Sprint Reverse FAL & FTS" },
+            { "it": "Primo The MAll Sprint Reverse FTS", "en": "First The MAll Sprint Reverse FTS" }
+        ] 
     },
     { 
         "id": 7, 
