@@ -149,15 +149,6 @@
     <footer class="bg-black py-8 border-t border-gray-800"><!-- footer content --></footer>
     <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden"><!-- modal content --></div>
 
-    <!-- Rider Details Popup -->
-    <div id="rider-popup" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
-        <div id="rider-popup-content" class="bg-zwift-card rounded-lg shadow-xl border border-gray-700 w-full max-w-lg p-6 relative m-4">
-            <button id="rider-popup-close" class="absolute top-3 right-3 text-gray-500 hover:text-white text-2xl">&times;</button>
-            <h3 id="rider-popup-name" class="text-2xl font-bold text-zwift-orange font-display mb-4"></h3>
-            <div id="rider-popup-details" class="text-sm"></div>
-        </div>
-    </div>
-
 
     <script src="sidebar.js"></script>
     <script>
@@ -176,11 +167,7 @@
                 'race_prefix': { it: 'Gara', en: 'Race' }, 'general_suffix': { it: 'Generali', en: 'General' },
                 'cumulative_general': { it: 'Generale (Cumulata)', en: 'General (Cumulative)' }, 'time_ranking': { it: 'Tempo', en: 'Time' },
                 'points_ranking': { it: 'Punti', en: 'Points' }, 'sprinter_ranking': { it: 'Punti Sprinter', en: 'Sprinter Points' },
-                'climber_ranking': { it: 'Punti Scalatore', en: 'Climber Points' },
-                'race': { it: 'Gara', en: 'Race' }, 'stage': { it: 'Tappa', en: 'Stage' }, 'rider_time': { it: 'Tempo Atleta', en: 'Rider Time' },
-                'loading_details': { it: 'Caricamento dettagli...', en: 'Loading details...' },
-                'no_participation': { it: 'Non ha partecipato', en: 'Did not participate' },
-                'last_place_time_in_category': { it: 'Tempo dell\'ultimo classificato di categoria', en: 'Last-place time in category' }
+                'climber_ranking': { it: 'Punti Scalatore', en: 'Climber Points' }
             };
 
             const t = (key) => {
@@ -226,8 +213,7 @@
                         const rank = index + 1, scoreDisplay = type === 'tempo' ? secondsToHms(athlete[scoreKey]) : `${athlete[scoreKey] || 0} Pts`;
                         const medals = ['🥇', '🥈', '🥉'], medalIcon = rank <= 3 ? medals[rank - 1] : '';
                         const flagImg = athlete.flag ? `<img src="https://flagcdn.com/16x12/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline-block mr-2">` : '';
-                        const cursorClass = type === 'tempo' && isCumulative ? 'cursor-pointer' : '';
-                        html += `<tr class="hover:bg-black/30 ${cursorClass}" data-rider-name="${athlete.name}"><td class="px-4 py-3 font-bold">${medalIcon}${rank}</td><td class="px-4 py-3 font-semibold text-white">${flagImg}${athlete.name}</td><td class="px-4 py-3 text-gray-400">${athlete.tname || t('individual')}</td><td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td></tr>`;
+                        html += `<tr class="hover:bg-black/30"><td class="px-4 py-3 font-bold">${medalIcon}${rank}</td><td class="px-4 py-3 font-semibold text-white">${flagImg}${athlete.name}</td><td class="px-4 py-3 text-gray-400">${athlete.tname || t('individual')}</td><td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td></tr>`;
                     });
                 }
                 html += `</tbody></table></div>`;
@@ -251,92 +237,21 @@
 
                     if (isCumulative) {
                         dataToRender = jsonData.results[category] || [];
-                        renderEventDetails(null);
+                        renderEventDetails(null); // Nasconde i dettagli dell'evento
                     } else {
                         const eventDetails = jsonData.event_details;
                         const raceResults = jsonData.race_results;
-                        renderEventDetails(eventDetails);
+                        renderEventDetails(eventDetails); // Mostra i dettagli dell'evento
+
+                        // Filtra i risultati della gara per la categoria selezionata
                         dataToRender = raceResults.filter(rider => rider.category === category);
                     }
                     container.innerHTML = renderRankingTable(dataToRender, type, stage);
                 } catch (error) {
                     console.error(t('error_loading_ranking'), error);
                     container.innerHTML = `<p class="text-red-500 text-lg p-10">${t('error_loading_ranking')} (${error.message})</p>`;
-                    renderEventDetails(null);
+                    renderEventDetails(null); // Nasconde i dettagli dell'evento in caso di errore
                 }
-            };
-            
-            const showRiderDetailsPopup = async (riderName) => {
-                const popup = document.getElementById('rider-popup');
-                const popupName = document.getElementById('rider-popup-name');
-                const popupDetails = document.getElementById('rider-popup-details');
-
-                popupName.textContent = riderName;
-                popupDetails.innerHTML = `<div class="text-gray-400">${t('loading_details')}</div>`;
-                popup.classList.remove('hidden');
-
-                const numGare = 18; // Assuming up to 18 races
-                const promises = [];
-                for (let i = 1; i <= numGare; i++) {
-                    promises.push(fetch(`gara_${i}_results.json`).catch(() => null));
-                }
-
-                const responses = await Promise.all(promises);
-                const raceData = await Promise.all(responses.map(res => res ? res.json().catch(() => null) : null));
-
-                let detailsHtml = '<table class="w-full text-left"><thead><tr class="border-b border-gray-600"><th class="py-2 pr-4">' + t('stage') + '</th><th class="py-2">' + t('rider_time') + '</th></tr></thead><tbody>';
-
-                raceData.forEach((data, index) => {
-                    if (data && data.race_results) {
-                        const stageNum = index + 1;
-                        const riderResult = data.race_results.find(r => r.name === riderName);
-                        let timeHtml;
-
-                        if (riderResult && riderResult.tempo_time > 0) {
-                            timeHtml = secondsToHms(riderResult.tempo_time);
-                        } else {
-                            const categoryResults = data.race_results.filter(r => r.category === currentCategory);
-                            const validTimes = categoryResults.map(r => r.tempo_time).filter(t => t && t > 0);
-
-                            if (validTimes.length > 0) {
-                                const lastPlaceTime = Math.max(...validTimes);
-                                const titleText = t('last_place_time_in_category');
-                                timeHtml = `<i class="text-gray-500" title="${titleText}">${secondsToHms(lastPlaceTime)}</i>`;
-                            } else {
-                                timeHtml = `<span class="text-gray-500">${t('no_participation')}</span>`;
-                            }
-                        }
-                        
-                        const stageTitle = data.event_details.title || `${t('race')} ${stageNum}`;
-                        detailsHtml += `<tr class="border-b border-gray-800"><td class="py-2 pr-4">${stageTitle}</td><td class="font-mono text-right">${timeHtml}</td></tr>`;
-                    }
-                });
-
-                detailsHtml += '</tbody></table>';
-                popupDetails.innerHTML = detailsHtml;
-            };
-
-            const initPopupListeners = () => {
-                const rankingContainer = document.getElementById('ranking-container');
-                const popup = document.getElementById('rider-popup');
-                const closeBtn = document.getElementById('rider-popup-close');
-
-                rankingContainer.addEventListener('click', (e) => {
-                    if (currentType === 'tempo' && currentStage === 'cumulative') {
-                        const row = e.target.closest('tr');
-                        if (row && row.dataset.riderName) {
-                            showRiderDetailsPopup(row.dataset.riderName);
-                        }
-                    }
-                });
-
-                const closePopup = () => popup.classList.add('hidden');
-                closeBtn.addEventListener('click', closePopup);
-                popup.addEventListener('click', (e) => {
-                    if (e.target.id === 'rider-popup') {
-                        closePopup();
-                    }
-                });
             };
 
             const renderEventDetails = (eventDetails) => {
@@ -352,6 +267,7 @@
                 
                 const startTime = eventDetails.start_time ? new Date(eventDetails.start_time).toLocaleString('it-IT') : '';
                 document.getElementById('event-start-time').textContent = startTime ? `Ora di inizio: ${startTime}` : '';
+                
             };
 
             const initRankingListeners = () => {
@@ -360,17 +276,17 @@
                 const selectType = document.getElementById('selectType');
 
                 const populateSelect = (select, options) => {
-                    select.innerHTML = '';
+                    select.innerHTML = ''; // Clear existing options
                     options.forEach(opt => select.appendChild(new Option(opt.text, opt.value)));
                 };
                 
                 populateSelect(selectGaraRanking, [{text: t('cumulative_general'), value: 'cumulative'}, ...Array.from({length: 18}, (_, i) => ({ text: `${t('race_prefix')} ${i + 1}`, value: i + 1 }))]);
                 populateSelect(selectCategory, Object.keys(ageCategoryMap).map(key => ({ text: ageCategoryMap[key], value: key })));
                 populateSelect(selectType, [
-                    { value: 'tempo', text: t('time_ranking') },
-                    { value: 'punti', text: t('points_ranking') },
-                    { value: 'sprinter', text: t('sprinter_ranking') },
-                    { value: 'scalatore', text: t('climber_ranking') }
+                    { value: 'tempo', text: t('time_ranking') }, // Tempo first
+                    { value: 'punti', text: t('points_ranking') }, // Then Punti
+                    { value: 'sprinter', text: t('sprinter_ranking') }, // Then Sprinter
+                    { value: 'scalatore', text: t('climber_ranking') } // Then Scalatore
                 ]);
 
                 selectGaraRanking.value = currentStage;
@@ -406,7 +322,8 @@
                 });
             }
             
-            initPopupListeners(); // Initialize popup listeners
             setLanguage(getLang()); // Initial setup
         });
     </script>
+</body>
+</html>
