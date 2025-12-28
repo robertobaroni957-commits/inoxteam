@@ -82,7 +82,7 @@
         "date": "2025-12-27T19:20:00", 
         "world": { "it": "Bologna", "en": "Bologna" }, 
         "route": { "it": "Time Trial Lap (8 km + D+ 263 m)", "en": "Time Trial Lap (8 km + D+ 263 m)" }, 
-        "type": { "it": "Chrono Scalata", "en": "Climbing TT" }, 
+        "type": { "it": "Cronoscalata", "en": "Climbing TT" }, 
         "routeLink": "https://zwiftinsider.com/route/time-trial-lap/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247628", 
         "segments": [] 
@@ -96,10 +96,10 @@
         "routeLink": "https://zwiftinsider.com/route/classique-reverse/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247630", 
         "segments": [
-            { "it": "Primo The MAll Sprint Reverse FTS", "en": "First The MAll Sprint Reverse FTS" },
-            { "it": "Primo The MAll Sprint Reverse FAL", "en": "First The MAll Sprint Reverse FAL" },
-            { "it": "Primo The MAll Sprint Reverse FAL & FTS", "en": "First The MAll Sprint Reverse FAL & FTS" },
-            { "it": "Primo The MAll Sprint Reverse FTS", "en": "First The MAll Sprint Reverse FTS" }
+            { "it": "Primo The Mall Sprint Reverse FTS", "en": "First The Mall Sprint Reverse FTS" },
+            { "it": "Secondo The Mall Sprint Reverse FAL", "en": "Second The Mall Sprint Reverse FAL" },
+            { "it": "Terzo The Mall Sprint Reverse FAL & FTS", "en": "Third The Mall Sprint Reverse FAL & FTS" },
+            { "it": "Quarto The Mall Sprint Reverse FTS", "en": "Fourth The Mall Sprint Reverse FTS" }
         ] 
     },
     { 
@@ -147,7 +147,7 @@
         "date": "2026-02-27T19:20:00", 
         "world": { "it": "Watopia", "en": "Watopia" }, 
         "route": { "it": "Mountain Mash", "en": "Mountain Mash" }, 
-        "type": { "it": "Chrono Scalata", "en": "Climbing TT" }, 
+        "type": { "it": "Cronoscalata", "en": "Climbing TT" }, 
         "routeLink": "https://zwiftinsider.com/route/mountain-mash/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247700", 
         "segments": [] 
@@ -207,7 +207,7 @@
         "date": "2026-03-21T19:20:00", 
         "world": { "it": "Francia", "en": "France" }, 
         "route": { "it": "Ven-10", "en": "Ven-10" }, 
-        "type": { "it": "Chrono Scalata", "en": "Climbing TT" }, 
+        "type": { "it": "Cronoscalata", "en": "Climbing TT" }, 
         "routeLink": "https://zwiftinsider.com/route/ven-10/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247710", 
         "segments": [] 
