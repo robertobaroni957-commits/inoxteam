@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifiche Masters Winter Tour 2025/26</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body { display: flex; min-height: 100vh; flex-direction: column; font-family: 'Inter', sans-serif; background-color: #111111; color: #f0f0f0; }
+        @media (min-width: 1024px) {
+            body { flex-direction: row; }
+            main { margin-left: 300px; }
+            nav { margin-left: 300px; width: calc(100% - 300px); }
+        }
+        .bg-zwift-dark { background-color: #111111; }
+        .bg-zwift-card { background-color: #1e1e24; }
+        .text-zwift-orange { color: #fc6719; }
+        .font-display { font-family: 'Teko', sans-serif; }
+        .cursor-pointer { cursor: pointer; }
+
+        .lang-toggle { display: flex; gap: 0.5rem; align-items: center; }
+        .lang-btn { border: none; background: transparent; font-size: 1.25rem; cursor: pointer; padding: 0.375rem; border-radius: 0.375rem; color: #d1d5db; }
+        .lang-btn[aria-pressed="true"] { outline: 2px solid rgba(0, 102, 34, 0.2); background: rgba(0, 102, 34, 0.1); color: #fc6719; }
+        .lang-btn:focus { box-shadow: 0 0 0 3px rgba(252, 103, 25, 0.3); }
+
+        .sidebar-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #d1d5db;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            border-radius: 0.5rem;
+            margin: 0.25rem 0;
+        }
+
+        .sidebar-link:hover {
+            background-color: #2d3748; /* Darker gray for hover */
+            color: #fff;
+        }
+
+        #sidebar.transform {
+            transform: translateX(0%);
+        }
+
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Responsive styles for sidebar */
+        @media (max-width: 1023px) {
+            #sidebar {
+                transform: translateX(-100%); /* Hidden by default on mobile */
+            }
+            #sidebar.open {
+                transform: translateX(0%); /* Show when open */
+            }
+            #sidebar-overlay.open {
+                display: block; /* Show overlay when open */
+            }
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col bg-zwift-dark font-body text-zwift-text">
+
+    <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTER WINTER TOUR <span class="text-white text-lg font-light">2025/26</span></div>
+            <div class="flex space-x-3 items-center">
+                <button id="lang-toggle-btn" class="lang-btn" aria-label="Change language"><span id="lang-icon">🇮🇹</span></button>
+                <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
+                    <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
+                    <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+                
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 hidden"></div>
+    <div id="sidebar" class="fixed top-0 left-0 w-72 h-full bg-[#1a1d20] shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]"><div class="flex items-center space-x-2"><img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX"></div></div>
+        <div class="flex flex-col p-2 space-y-1 text-base font-semibold"><div class="border-b border-gray-700 pb-2 mb-2"><p class="text-xs text-gray-500 uppercase px-3 py-1">Navigazione</p><a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a><a href="regolamento.html" class="sidebar-link">Regolamento</a><a href="Leaders.html" class="sidebar-link">Leaders del Tour</a><a href="ranking.html" class="sidebar-link">Classifiche</a></div></div>
+    </div>
+                
+    <main id="main-content" class="flex-grow">
+        <section id="ranking" class="py-12 bg-zwift-dark">
+            <div class="container mx-auto px-4">
+                <div class="mb-8 border-b border-gray-700 pb-4">
+                    <h2 class="text-4xl font-bold text-white font-display lang-it">CLASSIFICHE TOUR</h2><p class="text-gray-400 lang-it">Seleziona una gara, la classifica e un gruppo di età per visualizzare i risultati aggiornati.</p>
+                    <h2 class="text-4xl font-bold text-white font-display lang-en" hidden>TOUR RANKINGS</h2><p class="text-gray-400 lang-en" hidden>Select a race, ranking, and age group to view updated results.</p>
+                </div>
+                
+                <div class="flex space-x-4 mb-4 flex-wrap items-center bg-zwift-card p-4 rounded-lg border border-gray-700">
+                    <div class="flex items-center space-x-2"><label for="selectGaraRanking" class="text-gray-400 text-sm font-semibold lang-it">Gara:</label><label for="selectGaraRanking" class="text-gray-400 text-sm font-semibold lang-en" hidden>Race:</label><select id="selectGaraRanking" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"></select></div>
+                    <div class="flex items-center space-x-2"><label for="selectCategory" class="text-gray-400 text-sm font-semibold lang-it">Categoria:</label><label for="selectCategory" class="text-gray-400 text-sm font-semibold lang-en" hidden>Category:</label><select id="selectCategory" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"></select></div>
+                    <div class="flex items-center space-x-2"><label for="selectType" class="text-gray-400 text-sm font-semibold lang-it">Classifica:</label><label for="selectType" class="text-gray-400 text-sm font-semibold lang-en" hidden>Ranking:</label><select id="selectType" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"></select></div>
+                </div>
+                <div id="event-details-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg mb-8" style="display: none;"></div>
+                <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] relative"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black py-8 border-t border-gray-800"></footer>
+    <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden p-4"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const getLang = () => localStorage.getItem('mwt_lang') || 'it';
+            const translations = {
+                'loading_ranking': { it: 'Caricamento classifica...', en: 'Loading ranking...' }, 'file_not_found': { it: 'File non trovato', en: 'File not found' },
+                'no_data_available': { it: 'Nessun dato disponibile', en: 'No data available' }, 'individual': { it: 'Individuale', en: 'Individual' },
+                'error_loading_ranking': { it: 'Errore caricamento classifica', en: 'Error loading ranking' }, 'pos': { it: 'Pos', en: 'Pos' }, 'athlete': { it: 'Atleta', en: 'Athlete' },
+                'team': { it: 'Squadra', en: 'Team' }, 'points': { it: 'Punti', en: 'Points' }, 'time': { it: 'Tempo', en: 'Time' },
+                'sprint_points': { it: 'Punti Sprinter', en: 'Sprint Points' }, 'climber_points': { it: 'Punti Scalatore', en: 'Climber Points' },
+                'cumulative_general': { it: 'Classifica Generale', en: 'General Classification' }, 'time_ranking': { it: 'Tempo', en: 'Time' },
+                'points_ranking': { it: 'Punti', en: 'Points' }, 'sprinter_ranking': { it: 'Punti Sprinter', en: 'Sprinter Points' },
+                'climber_ranking': { it: 'Punti Scalatore', en: 'Climber Points' }, 'race': { it: 'Gara', en: 'Race' },
+                'rider_time': { it: 'Tempo Corridore', en: 'Rider Time'}, 'rider_points': { it: 'Punti Guadagnati', en: 'Points Earned' },
+                'penalty_applied': { it: '(Penalità)', en: '(Penalty)'}, 'time_breakdown_for': { it: 'Dettaglio Tempi per', en: 'Time Breakdown for' },
+                'points_breakdown_for': { it: 'Dettaglio Punti per', en: 'Points Breakdown for' },
+                'fin': { it: 'FIN', en: 'FIN' }, 'fal': { it: 'FAL', en: 'FAL' }, 'fts': { it: 'FTS', en: 'FTS' }, 'total': { it: 'Totale', en: 'Total' }
+            };
+            const t = (key) => translations[key]?.[getLang()] || key;
+
+            const raceDataCache = new Map();
+            let allRacesList = [];
+            let appConfig = {};
+            let lastRenderedData = [];
+            const ageCategoryMap = { 'A': '0-29', 'B': '30-39', 'C': '40-49', 'D': '50-59', 'E': '60+' };
+            const POINTS_TABLE = [25, 21, 17, 14, 11, 8, 6, 4, 2, 1];
+            const POINTS_FIN = [100,80,70,60,55,50,45,40,36,32,29,26,24,22,20,18,16,14,12,10];
+            let currentCategory = 'A', currentType = 'tempo', currentStage = 'cumulative';
+
+            const secondsToHms = (d) => {
+                if (d === undefined || d === null || isNaN(d) || d === 0 || d === Infinity) return "--:--:--";
+                const h = Math.floor(d / 3600), m = Math.floor(d % 3600 / 60), s = Math.round(d % 60);
+                return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            };
+
+            const fetchJson = async (url) => {
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) { console.warn(`Failed to fetch ${url}, returning null.`); return null; }
+                    return response.json();
+                } catch (error) { console.error(`Fetch error for ${url}:`, error); return null; }
+            };
+
+            const showRiderDetailPopup = (zwid) => {
+                const rider = lastRenderedData.find(r => r.zwid === zwid);
+                if (!rider) return;
+                const modal = document.getElementById('event-modal');
+                let content = '', breakdown, title, pointsLabel;
+                if (rider.time_breakdown) {
+                    breakdown = rider.time_breakdown; title = t('time_breakdown_for'); pointsLabel = t('rider_time');
+                } else if (rider.points_breakdown) {
+                    breakdown = rider.points_breakdown; title = t('points_breakdown_for'); pointsLabel = t('rider_points');
+                } else { return; }
+                modal.innerHTML = `<div class="bg-zwift-card rounded-xl p-6 border border-gray-800 shadow-lg max-w-2xl w-full mx-4"><div class="flex justify-between items-center mb-4"><h3 class="text-2xl font-bold text-white font-display">${title} ${rider.name}</h3><button id="modal-close-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button></div><div class="overflow-y-auto max-h-96"><table class="min-w-full table-auto text-left"><thead><tr class="bg-black/50"><th class="px-4 py-2 border-b-2 border-zwift-orange">${t('race')}</th><th class="px-4 py-2 border-b-2 border-zwift-orange">${pointsLabel}</th></tr></thead><tbody>${breakdown.map(item => `
+                    <tr class="hover:bg-black/30"><td class="px-4 py-3 text-gray-300">${item.raceTitle}</td><td class="px-4 py-3 font-bold text-zwift-orange">${item.time !== undefined ? secondsToHms(item.time) + (item.isPenalty && item.time > 0 ? ` <span class="text-xs text-red-500 font-normal">${t('penalty_applied')}</span>` : '') : ''}${item.points !== undefined ? `${item.points} Pts` : ''}</td></tr>`).join('')}</tbody></table></div></div>`;
+                modal.classList.remove('hidden');
+                document.getElementById('modal-close-btn').addEventListener('click', () => modal.classList.add('hidden'));
+            };
+
+            const initModal = () => {
+                document.getElementById('event-modal').addEventListener('click', (e) => { if (e.target === e.currentTarget) e.currentTarget.classList.add('hidden'); });
+            };
+
+            const calculatePoints = (segmentData, raceRules, categories) => {
+                const sprintFtsPts = new Map(categories.map(c => [c, new Map()])); const sprintFalPts = new Map(categories.map(c => [c, new Map()]));
+                const climberFtsPts = new Map(categories.map(c => [c, new Map()])); const climberFalPts = new Map(categories.map(c => [c, new Map()]));
+                if (!raceRules?.segment_rules) return { sprintFtsPts, sprintFalPts, climberFtsPts, climberFalPts };
+
+                const addPoints = (rider, points, classification, category, type) => {
+                    if (!rider?.zwid) return;
+                    let pointsMap;
+                    if (classification === 'sprinter' && type === 'fts') pointsMap = sprintFtsPts.get(category);
+                    else if (classification === 'sprinter' && type === 'fal') pointsMap = sprintFalPts.get(category);
+                    else if (classification === 'climber' && type === 'fts') pointsMap = climberFtsPts.get(category);
+                    else if (classification === 'climber' && type === 'fal') pointsMap = climberFalPts.get(category);
+                    if (pointsMap) pointsMap.set(rider.zwid, (pointsMap.get(rider.zwid) || 0) + points);
+                };
+
+                categories.forEach((cat, index) => {
+                    const [falData, ftsData] = [segmentData[index * 2], segmentData[index * 2 + 1]];
+                    [{ data: falData, type: 'fal' }, { data: ftsData, type: 'fts' }].forEach(source => {
+                        if (!source.data?.data) return;
+                        source.data.data.forEach(segment => {
+                            const rule = raceRules.segment_rules.find(r => r.segment_name === segment.name)?.lap_rules?.[segment.lap];
+                            if (rule && rule.classification !== 'none' && (rule.source === source.type || rule.source === 'both')) {
+                                for (let i = 0; i < 10; i++) {
+                                    if (segment[`rider_${i + 1}`]) addPoints(segment[`rider_${i + 1}`], POINTS_TABLE[i], rule.classification, cat, source.type);
+                                }
+                            }
+                        });
+                    });
+                });
+                return { sprintFtsPts, sprintFalPts, climberFtsPts, climberFalPts };
+            };
+
+            const fetchAndProcessRaceData = async (stageId) => {
+                if (raceDataCache.has(stageId)) return raceDataCache.get(stageId);
+                const basePath = `gare/${stageId}/`, categories = Object.keys(ageCategoryMap);
+                const urls = [`${basePath}event_details.json`, `${basePath}fin.json`, ...categories.flatMap(c => [`${basePath}fal_${c}.json`, `${basePath}fts_${c}.json`])];
+                const [eventDetails, finData, ...segmentData] = await Promise.all(urls.map(fetchJson));
+
+                if (!eventDetails || !finData) throw new Error(`Dati base per la gara ${stageId} non trovati.`);
+                
+                const raceRules = appConfig.race_configurations?.[stageId];
+                const { sprintFtsPts, sprintFalPts, climberFtsPts, climberFalPts } = calculatePoints(segmentData, raceRules, categories);
+                
+                const finPointsByCategory = new Map();
+                categories.forEach(cat => {
+                    const categoryRiders = finData.data.filter(r => r.category === cat).sort((a,b) => (a.time_gun || Infinity) - (b.time_gun || Infinity));
+                    const finPoints = new Map();
+                    categoryRiders.slice(0, 20).forEach((rider, index) => { finPoints.set(rider.zwid, POINTS_FIN[index]); });
+                    finPointsByCategory.set(cat, finPoints);
+                });
+
+                const processedResults = finData.data.map(rider => {
+                    const cat = rider.category;
+                    const sprinter_points = (sprintFtsPts.get(cat)?.get(rider.zwid) || 0) + (sprintFalPts.get(cat)?.get(rider.zwid) || 0);
+                    const climber_points = (climberFtsPts.get(cat)?.get(rider.zwid) || 0) + (climberFalPts.get(cat)?.get(rider.zwid) || 0);
+                    const fts_points = (sprintFtsPts.get(cat)?.get(rider.zwid) || 0) + (climberFtsPts.get(cat)?.get(rider.zwid) || 0);
+                    const fal_points = (sprintFalPts.get(cat)?.get(rider.zwid) || 0) + (climberFalPts.get(cat)?.get(rider.zwid) || 0);
+                    const fin_points = finPointsByCategory.get(cat)?.get(rider.zwid) || 0;
+                    return {
+                        name: rider.name, zwid: rider.zwid, category: cat, tname: rider.tname || t('individual'), flag: rider.flag,
+                        tempo_time: (rider.time_gun > 0) ? rider.time_gun : Infinity,
+                        sprinter_points, climber_points, fts_points, fal_points, fin_points,
+                        punti_total: fts_points + fal_points + fin_points
+                    };
+                });
+
+                raceDataCache.set(stageId, { event_details: eventDetails, race_results: processedResults });
+                return raceDataCache.get(stageId);
+            };
+
+            const calculateCumulativeTime = (allRacesData, category) => {
+                const penaltyTimes = new Map(allRacesData.map(race => [
+                    race.event_details.event_id, 
+                    race.race_results.filter(r => r.category === category).reduce((max, r) => (r.tempo_time < Infinity && r.tempo_time > max) ? r.tempo_time : max, 0)
+                ]));
+                const masterRiders = new Map();
+                allRacesData.forEach(race => {
+                    race.race_results.filter(r => r.category === category).forEach(rider => {
+                        if (!masterRiders.has(rider.zwid)) masterRiders.set(rider.zwid, { ...rider, tempo_time: 0, race_times: {} });
+                        masterRiders.get(rider.zwid).race_times[race.event_details.event_id] = rider.tempo_time;
+                    });
+                });
+                masterRiders.forEach(rider => {
+                    let totalTime = 0, hasParticipated = false;
+                    rider.time_breakdown = allRacesData.map(race => {
+                        const raceId = race.event_details.event_id;
+                        const timeInRace = rider.race_times[raceId];
+                        let isPenalty = false, timeForRace;
+                        if (timeInRace !== undefined && timeInRace < Infinity) {
+                            timeForRace = timeInRace; hasParticipated = true;
+                        } else {
+                            timeForRace = penaltyTimes.get(raceId) || 0; isPenalty = true;
+                        }
+                        totalTime += timeForRace;
+                        return { raceTitle: race.event_details.title, time: timeForRace, isPenalty };
+                    });
+                    rider.tempo_time = hasParticipated ? totalTime : Infinity;
+                });
+                return Array.from(masterRiders.values()).filter(r => r.tempo_time < Infinity);
+            };
+
+            const calculateCumulativePoints = (allRacesData, category, pointType) => {
+                const masterRiders = new Map();
+                allRacesData.forEach(race => {
+                    race.race_results.filter(r => r.category === category).forEach(rider => {
+                        if (!masterRiders.has(rider.zwid)) {
+                             masterRiders.set(rider.zwid, { zwid: rider.zwid, name: rider.name, tname: rider.tname, flag: rider.flag, category: rider.category, [pointType]: 0, points_breakdown: [] });
+                        }
+                        const currentRider = masterRiders.get(rider.zwid);
+                        const racePoints = rider[pointType] || 0;
+                        if(racePoints > 0) {
+                            currentRider.points_breakdown.push({ raceTitle: race.event_details.title, points: racePoints });
+                        }
+                        currentRider[pointType] += racePoints;
+                    });
+                });
+                return Array.from(masterRiders.values());
+            };
+
+            const renderRankingTable = (data, type, stage) => {
+                if (!Array.isArray(data)) { console.error("Data is not an array for renderRankingTable", data); data = []; }
+                lastRenderedData = data;
+                const isClickable = stage === 'cumulative' && (type === 'tempo' || type === 'sprinter' || type === 'climber' || type === 'punti');
+                const scoreKey = { punti: 'punti_total', tempo: 'tempo_time', sprinter: 'sprinter_points', climber: 'climber_points' }[type];
+                
+                let headers;
+                if (type === 'punti' && stage !== 'cumulative') {
+                    headers = [t('pos'), t('athlete'), t('fin'), t('fal'), t('fts'), t('total')];
+                } else {
+                    const headerMap = {
+                        punti: [t('pos'), t('athlete'), t('team'), t('points')], tempo: [t('pos'), t('athlete'), t('team'), t('time')],
+                        sprinter: [t('pos'), t('athlete'), t('team'), t('sprint_points')], climber: [t('pos'), t('athlete'), t('team'), t('climber_points')]
+                    };
+                    headers = headerMap[type] || [];
+                }
+                
+                const sortedData = [...data].sort((a, b) => type === 'tempo' ? (a[scoreKey] ?? Infinity) - (b[scoreKey] ?? Infinity) : (b[scoreKey] ?? 0) - (a[scoreKey] ?? 0));
+
+                let tableBody = '';
+                if (type === 'punti' && stage !== 'cumulative') {
+                    tableBody = sortedData.map((athlete, index) => {
+                        const flagImg = athlete.flag ? `<img src="https://flagcdn.com/16x12/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline-block mr-2">` : '';
+                        return `<tr class="hover:bg-black/30"><td class="px-4 py-3 font-bold">${index + 1}</td><td class="px-4 py-3 font-semibold text-white">${flagImg}${athlete.name}</td>
+                                <td class="px-4 py-3 text-gray-400">${athlete.fin_points || 0}</td><td class="px-4 py-3 text-gray-400">${athlete.fal_points || 0}</td>
+                                <td class="px-4 py-3 text-gray-400">${athlete.fts_points || 0}</td><td class="px-4 py-3 font-bold text-zwift-orange">${athlete.punti_total || 0} Pts</td></tr>`;
+                    }).join('');
+                } else {
+                    tableBody = sortedData.map((athlete, index) => {
+                        const flagImg = athlete.flag ? `<img src="https://flagcdn.com/16x12/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline-block mr-2">` : '';
+                        return `<tr class="hover:bg-black/30 ${isClickable ? 'cursor-pointer' : ''}" ${isClickable ? `data-zwid="${athlete.zwid}"` : ''}>
+                                <td class="px-4 py-3 font-bold">${index < 3 ? ['🥇','🥈','🥉'][index] : index + 1}</td><td class="px-4 py-3 font-semibold text-white">${flagImg}${athlete.name}</td>
+                                <td class="px-4 py-3 text-gray-400">${athlete.tname}</td><td class="px-4 py-3 font-bold text-zwift-orange">${type === 'tempo' ? secondsToHms(athlete[scoreKey]) : `${athlete[scoreKey] || 0} Pts`}</td></tr>`;
+                    }).join('');
+                }
+
+                const container = document.getElementById('ranking-container');
+                container.innerHTML = `<div class="overflow-x-scroll"><table class="min-w-full table-auto text-left"><thead><tr class="bg-black/50">${headers.map(h => `<th class="px-4 py-2 border-b-2 border-zwift-orange">${h}</th>`).join('')}</tr></thead>
+                        <tbody>${tableBody.length ? tableBody : `<tr><td colspan="${headers.length}" class="text-center py-8 text-gray-500">${t('no_data_available')}</td></tr>`}</tbody>
+                    </table></div>`;
+
+                if (isClickable) {
+                    container.querySelectorAll('tr[data-zwid]').forEach(row => {
+                        row.addEventListener('click', () => {
+                            showRiderDetailPopup(parseInt(row.dataset.zwid, 10));
+                        });
+                    });
+                }
+            };
+
+            const renderEventDetails = (details) => {
+                const container = document.getElementById('event-details-container');
+                container.style.display = details ? 'block' : 'none';
+                if (details) {
+                    container.innerHTML = `<h3 class="text-2xl font-bold text-white font-display mb-2">${details.title || ''}</h3><p class="text-gray-400 text-sm">${details.route ? `Percorso: ${details.route}` : ''}</p>`;
+                }
+            };
+
+            const loadRanking = async (category, type, stage) => {
+                currentCategory = category; currentType = type; currentStage = stage;
+                document.getElementById('ranking-container').innerHTML = `<div class="text-gray-500 absolute inset-0 flex items-center justify-center">${t('loading_ranking')}</div>`;
+                try {
+                    renderEventDetails(null);
+                    if (stage === 'cumulative') {
+                        const allRacesData = await Promise.all(allRacesList.map(race => fetchAndProcessRaceData(race.id)));
+                        let cumulativeResults = [];
+                        if (type === 'tempo') {
+                            cumulativeResults = calculateCumulativeTime(allRacesData, category);
+                        } else if (type === 'sprinter' || type === 'climber') {
+                            cumulativeResults = calculateCumulativePoints(allRacesData, category, `${type}_points`);
+                        } else if (type === 'punti') {
+                            cumulativeResults = calculateCumulativePoints(allRacesData, category, 'punti_total');
+                        }
+                        renderRankingTable(cumulativeResults, type, stage);
+                    } else {
+                        const data = await fetchAndProcessRaceData(stage);
+                        renderRankingTable(data.race_results.filter(r => r.category === category), type, stage);
+                        renderEventDetails(data.event_details);
+                    }
+                } catch (error) {
+                    console.error(`${t('error_loading_ranking')}: ${error.message}`, error);
+                    document.getElementById('ranking-container').innerHTML = `<p class="text-red-500 text-lg p-10">${t('error_loading_ranking')}: ${error.message}</p>`;
+                }
+            };
+            
+            const init = async () => {
+                initModal();
+                const selectGaraRanking = document.getElementById('selectGaraRanking');
+                const selectCategory = document.getElementById('selectCategory');
+                const selectType = document.getElementById('selectType');
+
+                try {
+                    const [races, config] = await Promise.all([fetchJson('/api/races'), fetchJson('/api/config')]);
+                    allRacesList = races || [];
+                    appConfig = config || {};
+                } catch (e) { console.error("Failed to fetch initial data:", e); }
+                
+                const raceOptions = [{ text: t('cumulative_general'), value: 'cumulative' }, ...allRacesList.map(r => ({ text: r.title, value: r.id }))];
+                const categoryOptions = Object.keys(ageCategoryMap).map(key => ({ text: ageCategoryMap[key], value: key }));
+                const typeOptions = [
+                    { value: 'punti', text: t('points_ranking') }, { value: 'tempo', text: t('time_ranking') }, 
+                    { value: 'sprinter', text: t('sprinter_ranking') }, { value: 'climber', text: t('climber_ranking') }
+                ];
+                const populateSelect = (select, options) => { select.innerHTML = options.map(o => `<option value="${o.value}">${o.text}</option>`).join(''); };
+                
+                populateSelect(selectGaraRanking, raceOptions);
+                populateSelect(selectCategory, categoryOptions);
+                populateSelect(selectType, typeOptions);
+                
+                if(allRacesList.length > 0) currentStage = 'cumulative';
+                selectGaraRanking.value = currentStage;
+                selectCategory.value = currentCategory;
+                selectType.value = currentType;
+
+                selectGaraRanking.onchange = (e) => loadRanking(currentCategory, currentType, e.target.value);
+                selectCategory.onchange = (e) => loadRanking(e.target.value, currentType, currentStage);
+                selectType.onchange = (e) => loadRanking(currentCategory, e.target.value, currentStage);
+
+                document.getElementById('lang-toggle-btn').addEventListener('click', () => {
+                    localStorage.setItem('mwt_lang', getLang() === 'it' ? 'en' : 'it');
+                    window.location.reload();
+                });
+                
+                document.documentElement.lang = getLang();
+                document.querySelectorAll('.lang-it').forEach(el => el.hidden = getLang() !== 'it');
+                document.querySelectorAll('.lang-en').forEach(el => el.hidden = getLang() === 'it');
+                document.getElementById('lang-icon').textContent = getLang() === 'it' ? '🇮🇹' : '🇬🇧';
+                
+                await loadRanking(currentCategory, currentType, currentStage);
+            };
+
+            await init();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+{
+  "race_configurations": {
+    "5247620": {
+      "segment_rules": [
+        {
+          "segment_name": "Champion's Sprint",
+          "lap_rules": {
+            "1": {
+              "classification": "sprinter",
+              "source": "fts"
+            },
+            "2": {
+              "classification": "sprinter",
+              "source": "both"
+            },
+            "3": {
+              "classification": "sprinter",
+              "source": "both"
+            }
+          }
+        },
+        {
+          "segment_name": "The Clyde Kicker",
+          "lap_rules": {
+            "1": {
+              "classification": "climber",
+              "source": "both"
+            },
+            "2": {
+              "classification": "climber",
+              "source": "both"
+            }
+          }
+        },
+        {
+          "segment_name": "Breakaway Brae Reverse",
+          "lap_rules": {
+            "1": {
+              "classification": "climber",
+              "source": "fts"
+            },
+            "2": {
+              "classification": "climber",
+              "source": "fal"
+            }
+          }
+        }
+      ]
+    },
+    "5247623": {
+      "segment_rules": [
+        {
+          "segment_name": "Center Sprint",
+          "lap_rules": {
+            "1": {
+              "classification": "sprinter",
+              "source": "fts"
+            },
+            "2": {
+              "classification": "sprinter",
+              "source": "fts"
+            },
+            "3": {
+              "classification": "sprinter",
+              "source": "fal"
+            },
+            "4": {
+              "classification": "sprinter",
+              "source": "fts"
+            },
+            "5": {
+              "classification": "sprinter",
+              "source": "fts"
+            },
+            "6": {
+              "classification": "sprinter",
+              "source": "fal"
+            }
+          }
+        },
+        {
+          "segment_name": "Peristyle Sprint Reverse",
+          "lap_rules": {
+            "1": {
+              "classification": "sprinter",
+              "source": "fts"
+            },
+            "2": {
+              "classification": "sprinter",
+              "source": "fts"
+            },
+            "3": {
+              "classification": "sprinter",
+              "source": "fal"
+            }
+          }
+        },
+        {
+          "segment_name": "The Hill KOM",
+          "lap_rules": {
+            "1": {
+              "classification": "climber",
+              "source": "both"
+            },
+            "2": {
+              "classification": "climber",
+              "source": "both"
+            },
+            "3": {
+              "classification": "climber",
+              "source": "both"
+            }
+          }
+        }
+      ]
+    },
+    "5247624": {
+      "segment_rules": [
+        {
+          "segment_name": "Sgurr Summit North",
+          "lap_rules": {
+            "1": {
+              "classification": "climber",
+              "source": "both"
+            },
+            "2": {
+              "classification": "climber",
+              "source": "both"
+            },
+            "3": {
+              "classification": "climber",
+              "source": "fal"
+            },
+            "4": {
+              "classification": "climber",
+              "source": "fts"
+            }
+          }
+        },
+        {
+          "segment_name": "Sgurr Summit South",
+          "lap_rules": {
+            "1": {
+              "classification": "climber",
+              "source": "fts"
+            },
+            "2": {
+              "classification": "climber",
+              "source": "fal"
+            },
+            "3": {
+              "classification": "climber",
+              "source": "fts"
+            }
+          }
+        }       
+      ]
+    },
+    "5247630": {
+      "segment_rules": [
+        {
+          "segment_name": "Sgurr Summit North",
+          "lap_rules": {
+            "1": {
+              "classification": "sprinter",
+              "source": "fts"
+            },
+            "2": {
+              "classification": "sprinter",
+              "source": "fal"
+            },
+            "3": {
+              "classification": "sprinter",
+              "source": "both"
+            },
+            "4": {
+              "classification": "sprinter",
+              "source": "fts"
+            }
+          }
+        }       
+      ]
+    }
+  }
+}
