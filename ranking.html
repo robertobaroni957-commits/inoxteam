@@ -212,7 +212,15 @@
                 const scoreKey = isCumulative ? scoreKeys[type].c : scoreKeys[type].s;
                 const tableHeaders = headers[type] || [];
                 
-                const sortedData = [...data].sort((a, b) => {
+                let filteredData = [...data];
+                if (type === 'tempo') {
+                    // Filter for 'tempo' ranking: only include riders with a valid time > 0
+                    filteredData = filteredData.filter(athlete => 
+                        athlete[scoreKey] !== undefined && athlete[scoreKey] !== null && athlete[scoreKey] > 0
+                    );
+                }
+                
+                const sortedData = filteredData.sort((a, b) => {
                     const scoreA = a[scoreKey] || (type === 'tempo' ? Infinity : 0);
                     const scoreB = b[scoreKey] || (type === 'tempo' ? Infinity : 0);
                     return type === 'tempo' ? scoreA - scoreB : scoreB - scoreA;
