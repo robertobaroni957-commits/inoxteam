@@ -210,10 +210,21 @@
             let currentCategory = 'A', currentType = 'punti', currentStage = 'cumulative';
 
             const secondsToHms = (d) => {
-                if (d === undefined || d === null || isNaN(d) || d === 0) return "--:--:--";
-                const h = Math.floor(d / 3600), m = Math.floor((d % 3600) / 60), s = Math.round(d % 60);
+                if (d === undefined || d === null || isNaN(d) || d === 0) return "--:--:--.---";
+                const h = Math.floor(d / 3600);
+                const m = Math.floor((d % 3600) / 60);
+                const seconds = d - (h * 3600) - (m * 60);
+                const s = Math.floor(seconds);
+                const ms = Math.round((seconds - s) * 1000);
+
                 const pad = (num) => String(num).padStart(2, '0');
-                return `${pad(h)}:${pad(m)}:${pad(s)}`;
+                const padMs = (num) => String(num).padStart(3, '0');
+
+                if (ms === 1000) { // Gestisce l'arrotondamento a 1000ms
+                    return secondsToHms(d + 0.0005); // Ricalcola con un piccolo offset per evitare 59.999
+                }
+
+                return `${pad(h)}:${pad(m)}:${pad(s)}.${padMs(ms)}`;
             };
 
             const renderRankingTable = (data, type, stage) => {
