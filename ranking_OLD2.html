@@ -130,7 +130,14 @@
                         <select id="selectType" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"></select>
                     </div>
                 </div>
-                <div id="podium-container-mwt" class="mb-12">
+                <div id="event-details-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg mb-8" style="display: none;">
+                <h3 class="text-2xl font-bold text-white font-display mb-2" id="event-title"></h3>
+                <p class="text-gray-400 text-sm" id="event-route"></p>
+                <p class="text-gray-400 text-sm" id="event-distance-elevation"></p>
+                <p class="text-gray-400 text-sm" id="event-start-time"></p>
+                <div id="event-description" class="text-gray-500 text-xs mt-4"></div>
+            </div>
+            <div id="podium-container-mwt" class="mb-12">
                     <!-- Podio dinamico verrà renderizzato qui -->
                 </div>
                 <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] relative">
@@ -139,21 +146,17 @@
         </section>
     </div>
 
-    <!-- Rider Time Breakdown Modal -->
-    <div id="time-breakdown-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden">
-        <div class="bg-zwift-card rounded-lg shadow-xl p-6 w-full max-w-md mx-4 border border-gray-700">
-            <div class="flex justify-between items-center border-b border-gray-700 pb-3 mb-4">
-                <h3 id="modal-rider-name" class="text-2xl font-bold text-white font-display">Dettaglio Tempi</h3>
-                <button id="modal-close-btn" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-            </div>
-            <div id="modal-content-body">
-                <!-- Dynamic content will be injected here -->
-            </div>
-        </div>
-    </div>
-
     <footer class="bg-black py-8 border-t border-gray-800"><!-- footer content --></footer>
     <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden"><!-- modal content --></div>
+
+    <!-- Rider Details Popup -->
+    <div id="rider-popup" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div id="rider-popup-content" class="bg-zwift-card rounded-lg shadow-xl border border-gray-700 w-full max-w-lg p-6 relative m-4">
+            <button id="rider-popup-close" class="absolute top-3 right-3 text-gray-500 hover:text-white text-2xl">&times;</button>
+            <h3 id="rider-popup-name" class="text-2xl font-bold text-zwift-orange font-display mb-4"></h3>
+            <div id="rider-popup-details" class="text-sm"></div>
+        </div>
+    </div>
 
 
     <script src="sidebar.js"></script>
@@ -169,12 +172,15 @@
                 'ensure_json_files': { it: 'Assicurati che i file JSON siano presenti.', en: 'Ensure JSON files are present.' },
                 'unrecognized_json_format': { it: 'Formato JSON non riconosciuto.', en: 'Unrecognized JSON format.' },
                 'pos': { it: 'Pos', en: 'Pos' }, 'athlete': { it: 'Atleta', en: 'Athlete' }, 'team': { it: 'Squadra', en: 'Team' }, 'points': { it: 'Punti', en: 'Points' },
-                'time': { it: 'Tempo', en: 'Time' }, 'sprint_points': { it: 'Punti Sprint', en: 'Sprint Points' }, 'climb_points': { it: 'Punti Scalatore', en: 'Climber Points' },
+                'time': { it: 'Tempo', en: 'Time' }, 'sprint_points': { it: 'Punti Sprint', en: 'Sprint Points' }, 'climb_points': { it: 'Punti Scalata', en: 'Climb Points' },
                 'race_prefix': { it: 'Gara', en: 'Race' }, 'general_suffix': { it: 'Generali', en: 'General' },
-                'cumulative_general': { it: 'Classifica Generale', en: 'General Ranking' }, 'time_ranking': { it: 'Tempo', en: 'Time' },
+                'cumulative_general': { it: 'Generale (Cumulata)', en: 'General (Cumulative)' }, 'time_ranking': { it: 'Tempo', en: 'Time' },
                 'points_ranking': { it: 'Punti', en: 'Points' }, 'sprinter_ranking': { it: 'Punti Sprinter', en: 'Sprinter Points' },
                 'climber_ranking': { it: 'Punti Scalatore', en: 'Climber Points' },
-                'fin_points': { it: 'Punti FIN', en: 'FIN Points' }
+                'race': { it: 'Gara', en: 'Race' }, 'stage': { it: 'Tappa', en: 'Stage' }, 'rider_time': { it: 'Tempo Atleta', en: 'Rider Time' },
+                'loading_details': { it: 'Caricamento dettagli...', en: 'Loading details...' },
+                'no_participation': { it: 'Non ha partecipato', en: 'Did not participate' },
+                'last_place_time_in_category': { it: 'Tempo dell\'ultimo classificato di categoria', en: 'Last-place time in category' }
             };
 
             const t = (key) => {
@@ -189,23 +195,6 @@
                 cumulativeData = await response.json();
             } catch (error) { console.error(t('error_loading_cumulative_data'), error); }
 
-            // Modal elements
-            const modal = document.getElementById('time-breakdown-modal');
-            const modalCloseBtn = document.getElementById('modal-close-btn');
-            const modalRiderName = document.getElementById('modal-rider-name');
-            const modalContentBody = document.getElementById('modal-content-body');
-            const rankingContainer = document.getElementById('ranking-container');
-
-            const showModal = () => modal.classList.remove('hidden');
-            const hideModal = () => modal.classList.add('hidden');
-
-            modalCloseBtn.addEventListener('click', hideModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    hideModal();
-                }
-            });
-
             const ageCategoryMap = { 'A': '0-29', 'B': '30-39', 'C': '40-49', 'D': '50-59', 'E': '60+' };
             let currentCategory = 'A', currentType = 'punti', currentStage = 'cumulative';
 
@@ -218,17 +207,23 @@
 
             const renderRankingTable = (data, type, stage) => {
                 const isCumulative = stage === 'cumulative';
-                const isTimeRanking = type === 'tempo';
-                const scoreKeys = { punti: {c: 'total', s: 'total'}, tempo: {c: 'time', s: 'tempo_time'}, sprinter: {c: 'pts_sprint', s: 'pts_sprint'}, scalatore: {c: 'pts_kom', s: 'pts_kom'} };
-                const headers = { punti: [t('pos'), t('athlete'), t('team'), t('sprint_points'), t('climb_points'), t('fin_points'), t('points')], tempo: [t('pos'), t('athlete'), t('team'), t('time')], sprinter: [t('pos'), t('athlete'), t('team'), t('sprint_points')], scalatore: [t('pos'), t('athlete'), t('team'), t('climb_points')] };
+                const scoreKeys = { punti: {c: 'total', s: 'punti_total'}, tempo: {c: 'time', s: 'tempo_time'}, sprinter: {c: 'pts_sprint', s: 'sprinter_points'}, scalatore: {c: 'pts_kom', s: 'climber_points'} };
+                const headers = { punti: [t('pos'), t('athlete'), t('team'), t('points')], tempo: [t('pos'), t('athlete'), t('team'), t('time')], sprinter: [t('pos'), t('athlete'), t('team'), t('sprint_points')], scalatore: [t('pos'), t('athlete'), t('team'), t('climb_points')] };
                 const scoreKey = isCumulative ? scoreKeys[type].c : scoreKeys[type].s;
                 const tableHeaders = headers[type] || [];
                 
-                const sortedData = [...data].sort((a, b) => {
-                    const scoreA = a[scoreKey] || (isTimeRanking ? Infinity : 0);
-                    const scoreB = b[scoreKey] || (isTimeRanking ? Infinity : 0);
-                    // Corrected sort for points - descending
-                    return isTimeRanking ? scoreA - scoreB : scoreB - scoreA; 
+                let filteredData = [...data];
+                if (type === 'tempo') {
+                    // Filter for 'tempo' ranking: only include riders with a valid time > 0
+                    filteredData = filteredData.filter(athlete => 
+                        athlete[scoreKey] !== undefined && athlete[scoreKey] !== null && athlete[scoreKey] > 0
+                    );
+                }
+                
+                const sortedData = filteredData.sort((a, b) => {
+                    const scoreA = a[scoreKey] || (type === 'tempo' ? Infinity : 0);
+                    const scoreB = b[scoreKey] || (type === 'tempo' ? Infinity : 0);
+                    return type === 'tempo' ? scoreA - scoreB : scoreB - scoreA;
                 });
 
                 let html = `<div class="overflow-x-scroll"><table class="min-w-full table-auto text-left"><thead><tr class="bg-black/50">${tableHeaders.map(h => `<th class="px-4 py-2 border-b-2 border-zwift-orange">${h}</th>`).join('')}</tr></thead><tbody>`;
@@ -236,116 +231,27 @@
                     html += `<tr><td colspan="${tableHeaders.length}" class="text-center py-8 text-gray-500">${t('no_data_available')}</td></tr>`;
                 } else {
                     sortedData.forEach((athlete, index) => {
-                        const rank = index + 1;
+                        const rank = index + 1, scoreDisplay = type === 'tempo' ? secondsToHms(athlete[scoreKey]) : `${athlete[scoreKey] || 0} Pts`;
                         const medals = ['🥇', '🥈', '🥉'], medalIcon = rank <= 3 ? medals[rank - 1] : '';
                         const flagImg = athlete.flag ? `<img src="https://flagcdn.com/16x12/${athlete.flag.toLowerCase()}.png" alt="${athlete.flag}" class="inline-block mr-2">` : '';
-                        
-                        const isClickable = isCumulative && isTimeRanking;
-                        const rowClass = isClickable ? 'clickable-row hover:bg-zwift-orange/20 cursor-pointer' : 'hover:bg-black/30';
-                        const rowTitle = isClickable ? 'Clicca per vedere il dettaglio dei tempi' : '';
-
-                        html += `<tr class="${rowClass}" title="${rowTitle}" data-zwid="${athlete.zwid}" data-category="${currentCategory}">
-                                    <td class="px-4 py-3 font-bold">${medalIcon}${rank}</td>
-                                    <td class="px-4 py-3 font-semibold text-white">${flagImg}${athlete.name}</td>
-                                    <td class="px-4 py-3 text-gray-400">${athlete.tname || t('individual')}</td>`;
-                        
-                        if (type === 'punti') {
-                            html += `<td class="px-4 py-3 text-zwift-orange">${athlete.pts_sprint || 0}</td>
-                                     <td class="px-4 py-3 text-zwift-orange">${athlete.pts_kom || 0}</td>
-                                     <td class="px-4 py-3 text-zwift-orange">${athlete.fin || 0}</td> <!-- FIN Points -->
-                                     <td class="px-4 py-3 font-bold text-zwift-orange">${athlete[scoreKey] || 0} Pts</td>`;
-                        } else if (isTimeRanking) {
-                             html += `<td class="px-4 py-3 font-bold text-zwift-orange">${secondsToHms(athlete[scoreKey])}</td>`;
-                        } else {
-                             html += `<td class="px-4 py-3 font-bold text-zwift-orange">${athlete[scoreKey] || 0} Pts</td>`;
-                        }
-                                 html += `</tr>`;
+                        const cursorClass = type === 'tempo' && isCumulative ? 'cursor-pointer' : '';
+                        html += `<tr class="hover:bg-black/30 ${cursorClass}" data-rider-zwid="${athlete.zwid}" data-rider-name="${athlete.name}"><td class="px-4 py-3 font-bold">${medalIcon}${rank}</td><td class="px-4 py-3 font-semibold text-white">${flagImg}${athlete.name}</td><td class="px-4 py-3 text-gray-400">${athlete.tname || t('individual')}</td><td class="px-4 py-3 font-bold text-zwift-orange">${scoreDisplay}</td></tr>`;
                     });
                 }
                 html += `</tbody></table></div>`;
                 return html;
             };
 
-            const showTimeBreakdownPopup = async (zwid, category) => {
-                const rider = (cumulativeData.results[category] || []).find(r => r.zwid == zwid);
-                if (!rider) return;
-
-                modalRiderName.textContent = rider.name;
-                modalContentBody.innerHTML = `<p class="text-center text-gray-400">${t('loading_ranking')}...</p>`;
-                showModal();
-
-                try {
-                    // 1. Get the list of all available race result files
-                    const rankingsResponse = await fetch('/api/available_rankings');
-                    if (!rankingsResponse.ok) throw new Error("Could not fetch available rankings.");
-                    const availableRaces = await rankingsResponse.json();
-                    
-                    // 2. Fetch all race result files' content
-                    const raceDataPromises = availableRaces.map(race => fetch(race.file).then(res => res.json()));
-                    const allRaceResults = await Promise.all(raceDataPromises);
-
-                    // 3. Process and display the breakdown
-                    let breakdownHtml = '<ul class="space-y-3">';
-                    const penaltyTimes = cumulativeData.max_times_per_race || [];
-
-                    // Loop up to the number of processed races
-                    for (let i = 0; i < cumulativeData.races_processed; i++) {
-                        const raceResultData = allRaceResults[i]; // ASSUMPTION: order is consistent
-                        const raceTitle = raceResultData?.event_details?.title || `${t('race_prefix')} ${i + 1}`;
-                        
-                        let riderTime = 0;
-                        let isPenalty = true;
-
-                        if (raceResultData && raceResultData.race_results) {
-                            const foundRider = raceResultData.race_results.find(r => r.zwid == zwid && r.category === category);
-                            if (foundRider && foundRider.tempo_time > 0) {
-                                riderTime = foundRider.tempo_time;
-                                isPenalty = false;
-                            }
-                        }
-
-                        if (isPenalty) {
-                            const penaltyRace = penaltyTimes[i];
-                            riderTime = (penaltyRace && penaltyRace[category]) ? penaltyRace[category] : 0;
-                        }
-
-                        breakdownHtml += `
-                            <li class="flex justify-between items-center text-sm p-2 rounded ${isPenalty ? 'bg-red-900/40' : 'bg-green-900/30'}">
-                                <span class="text-gray-300">${raceTitle}</span>
-                                <div>
-                                    <span class="font-bold text-white">${secondsToHms(riderTime)}</span>
-                                    ${isPenalty ? `<span class="ml-2 text-xs text-red-400 font-semibold uppercase">Penalità</span>` : ''}
-                                </div>
-                            </li>
-                        `;
-                    }
-
-                    breakdownHtml += '</ul>';
-                    modalContentBody.innerHTML = breakdownHtml;
-
-                } catch (error) {
-                    console.error("Error fetching time breakdown:", error);
-                    modalContentBody.innerHTML = `<p class="text-red-500">${error.message}</p>`;
-                }
-            };
-
-            rankingContainer.addEventListener('click', (e) => {
-                const row = e.target.closest('.clickable-row');
-                if (row) {
-                    const zwid = row.dataset.zwid;
-                    const category = row.dataset.category;
-                    showTimeBreakdownPopup(zwid, category);
-                }
-            });
-
             const loadRanking = async (category, type, stage) => {
                 currentCategory = category; currentType = type; currentStage = stage;
                 const container = document.getElementById('ranking-container');
+                const eventDetailsContainer = document.getElementById('event-details-container');
                 container.innerHTML = `<div class="text-gray-500 absolute inset-0 flex items-center justify-center">${t('loading_ranking')}</div>`;
+                eventDetailsContainer.style.display = 'none'; // Nasconde i dettagli dell'evento di default
 
                 try {
                     const isCumulative = stage === 'cumulative';
-                    const dataUrl = isCumulative ? 'cumulative_results.json' : stage;
+                    const dataUrl = isCumulative ? 'cumulative_results.json' : `gara_${stage}_results.json`;
                     const response = await fetch(dataUrl);
                     if (!response.ok) throw new Error(`${t('file_not_found')} ${dataUrl}`);
                     const jsonData = await response.json();
@@ -353,68 +259,138 @@
 
                     if (isCumulative) {
                         dataToRender = jsonData.results[category] || [];
+                        renderEventDetails(null);
                     } else {
+                        const eventDetails = jsonData.event_details;
                         const raceResults = jsonData.race_results;
-                        raceResults.forEach(rider => {
-                            if (rider.sprinter_points !== undefined) rider.pts_sprint = rider.sprinter_points;
-                            if (rider.climber_points !== undefined) rider.pts_kom = rider.climber_points;
-                        });
+                        renderEventDetails(eventDetails);
                         dataToRender = raceResults.filter(rider => rider.category === category);
                     }
                     container.innerHTML = renderRankingTable(dataToRender, type, stage);
                 } catch (error) {
                     console.error(t('error_loading_ranking'), error);
                     container.innerHTML = `<p class="text-red-500 text-lg p-10">${t('error_loading_ranking')} (${error.message})</p>`;
+                    renderEventDetails(null);
                 }
             };
             
-            const selectGaraRanking = document.getElementById('selectGaraRanking');
-            const selectCategory = document.getElementById('selectCategory');
-            const selectType = document.getElementById('selectType');
+            const showRiderDetailsPopup = async (riderZwid, riderName) => {
+                const popup = document.getElementById('rider-popup');
+                const popupName = document.getElementById('rider-popup-name');
+                const popupDetails = document.getElementById('rider-popup-details');
 
-            const populateSelect = (select, options) => {
-                select.innerHTML = '';
-                options.forEach(opt => select.appendChild(new Option(opt.text, opt.value)));
-            };
+                popupName.textContent = riderName;
+                popupDetails.innerHTML = `<div class="text-gray-400">${t('loading_details')}</div>`;
+                popup.classList.remove('hidden');
 
-            const populateRaceDropdown = async () => {
-                const raceOptions = [{ text: t('cumulative_general'), value: 'cumulative' }];
-                try {
-                    const response = await fetch('/api/available_rankings');
-                    if (!response.ok) throw new Error('Could not fetch available rankings');
-                    const availableRaces = await response.json();
-                    
-                    availableRaces.sort((a, b) => a.title.localeCompare(b.title));
-
-                    availableRaces.forEach(race => {
-                        raceOptions.push({ text: race.title, value: race.file });
-                    });
-                } catch (error) {
-                    console.error("Error populating race dropdown:", error);
+                const numGare = 18; // Assuming up to 18 races
+                const promises = [];
+                for (let i = 1; i <= numGare; i++) {
+                    promises.push(fetch(`gara_${i}_results.json`).catch(() => null));
                 }
-                populateSelect(selectGaraRanking, raceOptions);
+
+                const responses = await Promise.all(promises);
+                const raceData = await Promise.all(responses.map(res => res ? res.json().catch(() => null) : null));
+
+                let detailsHtml = '<table class="w-full text-left"><thead><tr class="border-b border-gray-600"><th class="py-2 pr-4">' + t('stage') + '</th><th class="py-2">' + t('rider_time') + '</th></tr></thead><tbody>';
+
+                raceData.forEach((data, index) => {
+                    if (data && data.race_results) {
+                        const stageNum = index + 1;
+                        const riderResult = data.race_results.find(r => r.zwid == riderZwid);
+                        let timeHtml;
+
+                        if (riderResult && riderResult.tempo_time > 0) {
+                            timeHtml = secondsToHms(riderResult.tempo_time);
+                        } else {
+                            const categoryResults = data.race_results.filter(r => r.category === currentCategory);
+                            const validTimes = categoryResults.map(r => r.tempo_time).filter(t => t && t > 0);
+
+                            if (validTimes.length > 0) {
+                                const lastPlaceTime = Math.max(...validTimes);
+                                const titleText = t('last_place_time_in_category');
+                                timeHtml = `<i class="text-gray-500" title="${titleText}">${secondsToHms(lastPlaceTime)}</i>`;
+                            } else {
+                                timeHtml = `<span class="text-gray-500">${t('no_participation')}</span>`;
+                            }
+                        }
+                        
+                        const stageTitle = data.event_details.title || `${t('race')} ${stageNum}`;
+                        detailsHtml += `<tr class="border-b border-gray-800"><td class="py-2 pr-4">${stageTitle}</td><td class="font-mono text-right">${timeHtml}</td></tr>`;
+                    }
+                });
+
+                detailsHtml += '</tbody></table>';
+                popupDetails.innerHTML = detailsHtml;
             };
 
-            await populateRaceDropdown();
+            const initPopupListeners = () => {
+                const rankingContainer = document.getElementById('ranking-container');
+                const popup = document.getElementById('rider-popup');
+                const closeBtn = document.getElementById('rider-popup-close');
 
-            populateSelect(selectCategory, Object.keys(ageCategoryMap).map(key => ({ text: ageCategoryMap[key], value: key })));
-            populateSelect(selectType, [
-                { value: 'tempo', text: t('time_ranking') },
-                { value: 'punti', text: t('points_ranking') },
-                { value: 'sprinter', text: t('sprinter_ranking') },
-                { value: 'scalatore', text: t('climber_ranking') }
-            ]);
+                rankingContainer.addEventListener('click', (e) => {
+                    if (currentType === 'tempo' && currentStage === 'cumulative') {
+                        const row = e.target.closest('tr');
+                        if (row && row.dataset.riderZwid) {
+                            showRiderDetailsPopup(row.dataset.riderZwid, row.dataset.riderName);
+                        }
+                    }
+                });
 
-            selectGaraRanking.value = currentStage;
-            selectCategory.value = currentCategory;
-            selectType.value = currentType;
+                const closePopup = () => popup.classList.add('hidden');
+                closeBtn.addEventListener('click', closePopup);
+                popup.addEventListener('click', (e) => {
+                    if (e.target.id === 'rider-popup') {
+                        closePopup();
+                    }
+                });
+            };
 
-            selectGaraRanking.onchange = (e) => loadRanking(currentCategory, currentType, e.target.value);
-            selectCategory.onchange = (e) => loadRanking(e.target.value, currentType, currentStage);
-            selectType.onchange = (e) => loadRanking(currentCategory, e.target.value, currentStage);
+            const renderEventDetails = (eventDetails) => {
+                const eventDetailsContainer = document.getElementById('event-details-container');
+                if (!eventDetails) {
+                    eventDetailsContainer.style.display = 'none';
+                    return;
+                }
+                eventDetailsContainer.style.display = 'block';
 
+                document.getElementById('event-title').textContent = eventDetails.title || '';
+                document.getElementById('event-route').textContent = eventDetails.route ? `Percorso: ${eventDetails.route}` : '';
+                
+                const startTime = eventDetails.start_time ? new Date(eventDetails.start_time).toLocaleString('it-IT') : '';
+                document.getElementById('event-start-time').textContent = startTime ? `Ora di inizio: ${startTime}` : '';
+            };
 
-            const setLanguage = async (lang) => {
+            const initRankingListeners = () => {
+                const selectGaraRanking = document.getElementById('selectGaraRanking');
+                const selectCategory = document.getElementById('selectCategory');
+                const selectType = document.getElementById('selectType');
+
+                const populateSelect = (select, options) => {
+                    select.innerHTML = '';
+                    options.forEach(opt => select.appendChild(new Option(opt.text, opt.value)));
+                };
+                
+                populateSelect(selectGaraRanking, [{text: t('cumulative_general'), value: 'cumulative'}, ...Array.from({length: 18}, (_, i) => ({ text: `${t('race_prefix')} ${i + 1}`, value: i + 1 }))]);
+                populateSelect(selectCategory, Object.keys(ageCategoryMap).map(key => ({ text: ageCategoryMap[key], value: key })));
+                populateSelect(selectType, [
+                    { value: 'tempo', text: t('time_ranking') },
+                    { value: 'punti', text: t('points_ranking') },
+                    { value: 'sprinter', text: t('sprinter_ranking') },
+                    { value: 'scalatore', text: t('climber_ranking') }
+                ]);
+
+                selectGaraRanking.value = currentStage;
+                selectCategory.value = currentCategory;
+                selectType.value = currentType;
+                
+                selectGaraRanking.onchange = (e) => loadRanking(currentCategory, currentType, e.target.value);
+                selectCategory.onchange = (e) => loadRanking(e.target.value, currentType, currentStage);
+                selectType.onchange = (e) => loadRanking(currentCategory, e.target.value, currentStage);
+            };
+
+            const setLanguage = (lang) => {
                 localStorage.setItem('mwt_lang', lang);
                 document.documentElement.lang = lang;
                 document.querySelectorAll('.lang-it').forEach(el => el.hidden = lang !== 'it');
@@ -425,20 +401,20 @@
                     langIcon.textContent = lang === 'it' ? '🇮🇹' : '🇬🇧';
                 }
 
-                // No need to await initRankingListeners here as it's already part of DOMContentLoaded
-                await loadRanking(currentCategory, currentType, currentStage);
+                initRankingListeners();
+                loadRanking(currentCategory, currentType, currentStage);
             };
             
             const langToggleBtn = document.getElementById('lang-toggle-btn');
             if (langToggleBtn) {
                 langToggleBtn.addEventListener('click', () => {
-                    const newLang = getLang() === 'it' ? 'en' : 'it';
+                    const currentLang = getLang();
+                    const newLang = currentLang === 'it' ? 'en' : 'it';
                     setLanguage(newLang);
                 });
             }
             
-            await setLanguage(getLang());
+            initPopupListeners(); // Initialize popup listeners
+            setLanguage(getLang()); // Initial setup
         });
     </script>
-</body>
-</html>
