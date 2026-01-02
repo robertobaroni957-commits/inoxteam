@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classifiche Masters Trilogy League 2026</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="sidebar.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zwift: { dark: '#111111', card: '#1e1e24', orange: '#fc6719', blue: '#00f0ff', text: '#f0f0f0', gray: '#888888' },
+                        race: { flat: '#10b981', mountain: '#ef4444', hilly: '#f59e0b', time: '#00f0ff', }
+                    },
+                    fontFamily: { display: ['Teko', 'sans-serif'], body: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ensure main content is flex and takes full width on mobile, and shifts on desktop */
+        body { display: flex; min-height: 100vh; flex-direction: column; }
+
+        @media (min-width: 1024px) {
+            body { flex-direction: row; } /* Desktop layout with sidebar beside content */
+            body > nav { /* Target the direct child nav of body */
+                margin-left: 300px;
+                width: calc(100% - 300px); /* Ensure it doesn't overflow */
+            }
+            #main-content { margin-left: 300px; }
+        }
+        .lang-toggle {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .lang-btn {
+            border: none;
+            background: transparent;
+            font-size: 1.25rem; /* text-xl */
+            cursor: pointer;
+            padding: 0.375rem; /* p-1.5 */
+            border-radius: 0.375rem; /* rounded-md */
+            color: #d1d5db; /* gray-300 */
+        }
+        .lang-btn[aria-pressed="true"] {
+            outline: 2px solid rgba(0, 102, 34, 0.2); /* Accent green, transparent */
+            background: rgba(0, 102, 34, 0.1); /* Accent green, transparent */
+            color: #fc6719; /* zwift-orange to highlight active */
+        }
+        .lang-btn:focus { box-shadow: 0 0 0 3px rgba(252, 103, 25, 0.3); /* zwift-orange focus */ }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col bg-zwift-dark font-body text-zwift-text">
+
+    <nav class="bg-zwift-card border-b border-gray-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold tracking-wider font-display text-zwift-orange">MASTERS TRILOGY LEAGUE <span class="text-white text-lg font-light">2026</span></div>
+                        <div class="flex space-x-3 items-center">
+                            <!-- Language toggle button -->
+                            <button id="lang-toggle-btn" class="lang-btn" aria-label="Change language">
+                                <span id="lang-icon">🇮🇹</span>
+                            </button>
+                            <button id="menu-toggle" class="text-white text-2xl lg:hidden focus:outline-none ml-3">
+                                <span id="menu-icon-open"><i class="fas fa-bars"></i></span>
+                                <span id="menu-icon-close" class="hidden"><i class="fas fa-times"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                </nav>
+                
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black z-40 transition-opacity duration-300 hidden"></div>
+    <div id="sidebar" class="fixed top-0 left-0 w-72 h-full bg-[#1a1d20] shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-4 border-b border-gray-700 sticky top-0 bg-[#1a1d20]">
+            <div class="flex items-center space-x-2">
+                <img src="https://www.teaminox.it/wp-content/uploads/2023/11/cropped-INOX-semplice-colore-lineare.png" class="h-8" alt="Logo INOX">
+
+            </div>
+        </div>
+        <div class="flex flex-col p-2 space-y-1 text-base font-semibold">
+            <div class="border-b border-gray-700 pb-2 mb-2">
+                <p class="text-xs text-gray-500 uppercase px-3 py-1">Navigazione</p>
+
+                <a href="mwt_page.html" class="sidebar-link">Masters Winter Tour</a>
+                <a href="regolamento.html" class="sidebar-link">Regolamento</a>
+                <a href="Leaders.html" class="sidebar-link">Leaders del Tour</a>
+
+
+                <a href="ranking.html" class="sidebar-link">Classifiche</a>
+            </div>
+        </div>
+    </div>
+                
+    <div id="main-content" class="flex-grow">
+        <section id="ranking" class="py-12 bg-zwift-dark">
+            <div class="container mx-auto px-4">
+                <div class="mb-8 border-b border-gray-700 pb-4">
+                    <h2 class="text-4xl font-bold text-white font-display lang-it">CLASSIFICHE TOUR</h2>
+                    <p class="text-gray-400 lang-it">Seleziona una gara, la classifica e un grupo di età per visualizzare i risultati aggiornati.</p>
+                    <h2 class="text-4xl font-bold text-white font-display lang-en" hidden>TOUR RANKINGS</h2>
+                    <p class="text-gray-400 lang-en" hidden>Select a race, ranking, and age group to view updated results.</p>
+                </div>
+                
+                <div class="flex space-x-4 mb-4 flex-wrap items-center bg-zwift-card p-4 rounded-lg border border-gray-700">
+                    <div class="flex items-center space-x-2">
+                        <label for="selectGaraRanking" class="text-gray-400 text-sm font-semibold lang-it">Gara:</label>
+                        <label for="selectGaraRanking" class="text-gray-400 text-sm font-semibold lang-en" hidden>Race:</label>
+                        <select id="selectGaraRanking" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange">
+                            <option value="cumulative" class="lang-it">Generale (Cumulata)</option>
+                            <option value="cumulative" class="lang-en" hidden>General (Cumulative)</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label for="selectCategory" class="text-gray-400 text-sm font-semibold lang-it">Categoria:</label>
+                        <label for="selectCategory" class="text-gray-400 text-sm font-semibold lang-en" hidden>Category:</label>
+                        <select id="selectCategory" class="bg-zwift-dark text-white border border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-zwift-orange"></select>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <p class="text-gray-400 text-sm font-semibold lang-it">Classifica: <span class="text-white">Tempo</span></p>
+                        <p class="text-gray-400 text-sm font-semibold lang-en" hidden>Ranking: <span class="text-white">Time</span></p>
+                    </div>
+                </div>
+                <div id="event-details-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg mb-8" style="display: none;">
+                <h3 class="text-2xl font-bold text-white font-display mb-2" id="event-title"></h3>
+                <p class="text-gray-400 text-sm" id="event-route"></p>
+                <p class="text-gray-400 text-sm" id="event-distance-elevation"></p>
+                <p class="text-gray-400 text-sm" id="event-start-time"></p>
+                <div id="event-description" class="text-gray-500 text-xs mt-4"></div>
+            </div>
+            <div id="podium-container-mwt" class="mb-12">
+                </div>
+                <div id="ranking-container" class="bg-zwift-card p-6 rounded-xl border border-gray-800 shadow-lg min-h-[300px] relative">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="bg-black py-8 border-t border-gray-800"><!-- footer content --></footer>
+    <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 hidden"><!-- modal content --></div>
+
+
+    <script src="sidebar.js"></script>
+    <script src="ranking.js"></script>
+</body>
+</html>
