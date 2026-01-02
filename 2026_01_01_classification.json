@@ -1,0 +1,353 @@
+[
+  {
+    "name": "Gerard Solla (CAT) ",
+    "tname": "SISU Racing",
+    "category": "A",
+    "times": {
+      "1_3": 683.299,
+      "2_3": 794.291,
+      "3_3": 930.42
+    }
+  },
+  {
+    "name": "Willie Smit Burgos-BH ",
+    "tname": "SSS",
+    "category": "A",
+    "times": {
+      "1_3": 683.886
+    }
+  },
+  {
+    "name": "Simon D&#039;Haene",
+    "tname": "BZR eCycling Club",
+    "category": "A",
+    "times": {
+      "1_3": 721.133,
+      "2_3": 945.86,
+      "3_3": 995.929
+    }
+  },
+  {
+    "name": "Sandro Gies",
+    "tname": "",
+    "category": "B",
+    "times": {
+      "1_3": 747.11,
+      "2_3": 956.18
+    }
+  },
+  {
+    "name": "Paul  Mersey Tri",
+    "tname": "",
+    "category": "B",
+    "times": {
+      "1_3": 759.864
+    }
+  },
+  {
+    "name": "Jack Walker",
+    "tname": "",
+    "category": "B",
+    "times": {
+      "1_3": 953.628
+    }
+  },
+  {
+    "name": "&#33539;&#20255;&#128760;",
+    "tname": "",
+    "category": "C",
+    "times": {
+      "1_3": 673.477
+    }
+  },
+  {
+    "name": "Christopher Keogh [eSRT]",
+    "tname": "eSRT",
+    "category": "C",
+    "times": {
+      "1_3": 673.52,
+      "2_3": 791.617,
+      "3_3": 927.561
+    }
+  },
+  {
+    "name": "Andy Sheret (OVB)",
+    "tname": "DIRT",
+    "category": "C",
+    "times": {
+      "1_3": 674.034,
+      "2_3": 792.75
+    }
+  },
+  {
+    "name": "Stadler M.",
+    "tname": "DIRT",
+    "category": "C",
+    "times": {
+      "1_3": 682.613,
+      "2_3": 863.826,
+      "3_3": 1087.172
+    }
+  },
+  {
+    "name": "Itai Katzhandel",
+    "tname": "4STAR ",
+    "category": "C",
+    "times": {
+      "1_3": 686.378,
+      "2_3": 836.424,
+      "3_3": 931.534
+    }
+  },
+  {
+    "name": "WM &#128012; **WPJR** &#128010;",
+    "tname": "WPJR - WhyPracticeJustRace",
+    "category": "D",
+    "times": {
+      "1_3": 685.987,
+      "2_3": 862.731
+    }
+  },
+  {
+    "name": "Kobayashi Ryzup",
+    "tname": "",
+    "category": "D",
+    "times": {
+      "1_3": 696.755
+    }
+  },
+  {
+    "name": "Rookie Rook",
+    "tname": "",
+    "category": "D",
+    "times": {
+      "1_3": 709.339,
+      "2_3": 903.464,
+      "3_3": 1004.682
+    }
+  },
+  {
+    "name": "Gregory Whitehead [A-PEX VELO]",
+    "tname": "A-P-V",
+    "category": "E",
+    "times": {
+      "1_3": 678.816,
+      "2_3": 806.592,
+      "3_3": 929.055
+    }
+  },
+  {
+    "name": "Cristian Collesei [INOX]",
+    "tname": "INOX",
+    "category": "E",
+    "times": {
+      "1_3": 679.382,
+      "2_3": 809.519,
+      "3_3": 928.85
+    }
+  },
+  {
+    "name": "Terence Temlett",
+    "tname": "DIRT",
+    "category": "E",
+    "times": {
+      "1_3": 751.67,
+      "2_3": 954.597
+    }
+  },
+  {
+    "name": "Claes Gr&ouml;nberg",
+    "tname": "",
+    "category": "E",
+    "times": {
+      "1_3": 759.612
+    }
+  },
+  {
+    "name": "Christian  Bergamini  9579 (ITA)",
+    "tname": "Team Italy",
+    "category": "E",
+    "times": {
+      "1_3": 853.3
+    }
+  },
+  {
+    "name": "Deo AH [ZLDR/ZER]",
+    "tname": "EZ",
+    "category": "E",
+    "times": {
+      "1_3": 945.83,
+      "2_3": 1073.797,
+      "3_3": 1302.618
+    }
+  },
+  {
+    "name": "Daniel McQuillen",
+    "tname": "",
+    "category": "F",
+    "times": {
+      "1_3": 691.488,
+      "2_3": 876.534,
+      "3_3": 994.872
+    }
+  },
+  {
+    "name": "Lorenzo Brunello",
+    "tname": "Team Italy",
+    "category": "F",
+    "times": {
+      "1_3": 896.399,
+      "2_3": 1064.812,
+      "3_3": 1211.121
+    }
+  },
+  {
+    "name": " Patrick@Wolfie#EVO ",
+    "tname": "EVOLUTION ",
+    "category": "G",
+    "times": {
+      "1_3": 714.012,
+      "2_3": 874.119,
+      "3_3": 1004.895
+    }
+  },
+  {
+    "name": "Per Christensen (DZR)",
+    "tname": "DZR",
+    "category": "H",
+    "times": {
+      "1_3": 709.438,
+      "2_3": 850.276,
+      "3_3": 1004.303
+    }
+  },
+  {
+    "name": "Hiro Uno",
+    "tname": "",
+    "category": "H",
+    "times": {
+      "1_3": 720.299,
+      "2_3": 927.016,
+      "3_3": 1100.971
+    }
+  },
+  {
+    "name": "Michel LAURENT",
+    "tname": "",
+    "category": "H",
+    "times": {
+      "1_3": 756.792,
+      "2_3": 956.117,
+      "3_3": 1167.16
+    }
+  },
+  {
+    "name": "Seryy Tomsk",
+    "tname": "Seryy Tomsk",
+    "category": "H",
+    "times": {
+      "1_3": 765.379,
+      "2_3": 955.736
+    }
+  },
+  {
+    "name": "Paul Mailliet",
+    "tname": "RO SANARY",
+    "category": "I",
+    "times": {
+      "1_3": 843.735
+    }
+  },
+  {
+    "name": "Mike Lucinsky INOX",
+    "tname": "INOX",
+    "category": "J",
+    "times": {
+      "1_3": 770.769,
+      "2_3": 956.363,
+      "3_3": 1170.385
+    }
+  },
+  {
+    "name": "Bernd Bergmann RVST",
+    "tname": "ZRG",
+    "category": "J",
+    "times": {
+      "1_3": 881.439,
+      "2_3": 1058.763,
+      "3_3": 1188.524
+    }
+  },
+  {
+    "name": "Peter Lorenz",
+    "tname": "",
+    "category": "C",
+    "times": {
+      "2_3": 1141.431
+    }
+  },
+  {
+    "name": "Benny De Greef",
+    "tname": "",
+    "category": "D",
+    "times": {
+      "2_3": 906.269
+    }
+  },
+  {
+    "name": "Donato Bruno-Bicistore( ITA )",
+    "tname": "",
+    "category": "G",
+    "times": {
+      "2_3": 919.565
+    }
+  },
+  {
+    "name": "Harry Homan",
+    "tname": "TeamNL",
+    "category": "G",
+    "times": {
+      "2_3": 1050.287
+    }
+  },
+  {
+    "name": "Dan  Cutting (BL13)",
+    "tname": "BL13",
+    "category": "D",
+    "times": {
+      "3_3": 1005.279
+    }
+  },
+  {
+    "name": "Vicky Neal",
+    "tname": "",
+    "category": "G",
+    "times": {
+      "3_3": 1091.414
+    }
+  },
+  {
+    "name": "LORENA GIURISSA (ITA) ",
+    "tname": "",
+    "category": "G",
+    "times": {
+      "3_3": 1237.051
+    }
+  },
+  {
+    "name": "Luc De Moor",
+    "tname": "",
+    "category": "I",
+    "times": {
+      "3_3": 1233.2
+    }
+  },
+  {
+    "name": "Stanley G",
+    "tname": "",
+    "category": "J",
+    "times": {
+      "3_3": 1461.877
+    }
+  }
+]
