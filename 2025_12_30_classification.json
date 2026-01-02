@@ -1,0 +1,569 @@
+[
+  {
+    "name": "Teddy Svenneskog ",
+    "tname": "OUT",
+    "category": "A",
+    "times": {
+      "1_3": 645.357,
+      "2_3": 777.214
+    }
+  },
+  {
+    "name": "Matt Hold [A-PEX VELO]",
+    "tname": "A-P-V",
+    "category": "B",
+    "times": {
+      "1_3": 633.731,
+      "2_3": 775.219,
+      "3_3": 883.97
+    }
+  },
+  {
+    "name": "David De Mattos",
+    "tname": "ZSUNR",
+    "category": "B",
+    "times": {
+      "1_3": 648.771,
+      "2_3": 813.05,
+      "3_3": 992.503
+    }
+  },
+  {
+    "name": "Thibaut VALL&Eacute;E",
+    "tname": "Team AHDR",
+    "category": "B",
+    "times": {
+      "1_3": 657.4,
+      "2_3": 858.404,
+      "3_3": 1007.115
+    }
+  },
+  {
+    "name": "Ashley Smith",
+    "tname": "",
+    "category": "B",
+    "times": {
+      "1_3": 709.75,
+      "2_3": 859.206,
+      "3_3": 1043.078
+    }
+  },
+  {
+    "name": "Alastair Buchan [A-PEX VELO]",
+    "tname": "A-P-V",
+    "category": "C",
+    "times": {
+      "1_3": 637.211,
+      "2_3": 777.182,
+      "3_3": 884.284
+    }
+  },
+  {
+    "name": "Nicolas iachini [ITA10]",
+    "tname": "Team Italy",
+    "category": "C",
+    "times": {
+      "1_3": 637.794,
+      "2_3": 778.262,
+      "3_3": 884.94
+    }
+  },
+  {
+    "name": "Thunder Hawk Soaring ",
+    "tname": "DIRT",
+    "category": "C",
+    "times": {
+      "1_3": 662.919
+    }
+  },
+  {
+    "name": "Meg Volz",
+    "tname": "",
+    "category": "C",
+    "times": {
+      "1_3": 966.977,
+      "3_3": 1228.558
+    }
+  },
+  {
+    "name": "C &eacute;dric  [bikes]",
+    "tname": "BIKES &#11088;&#65039;",
+    "category": "D",
+    "times": {
+      "1_3": 636.358
+    }
+  },
+  {
+    "name": "Gregory Whitehead [A-PEX VELO]",
+    "tname": "A-P-V",
+    "category": "D",
+    "times": {
+      "1_3": 644.586,
+      "2_3": 779.315,
+      "3_3": 884.414
+    }
+  },
+  {
+    "name": "K Tann",
+    "tname": "",
+    "category": "D",
+    "times": {
+      "1_3": 648.58,
+      "2_3": 781.485,
+      "3_3": 960.868
+    }
+  },
+  {
+    "name": "Allan Ridler (SC - Army Cycling)",
+    "tname": "Army Cycling",
+    "category": "D",
+    "times": {
+      "1_3": 651.651,
+      "2_3": 815.727,
+      "3_3": 887.988
+    }
+  },
+  {
+    "name": "Rhys Thomas",
+    "tname": "COALITION",
+    "category": "D",
+    "times": {
+      "1_3": 662.44,
+      "2_3": 825.137
+    }
+  },
+  {
+    "name": "Timothy Jolly",
+    "tname": "",
+    "category": "D",
+    "times": {
+      "1_3": 694.796
+    }
+  },
+  {
+    "name": "Caspar B.",
+    "tname": "COALITION",
+    "category": "D",
+    "times": {
+      "1_3": 738.732,
+      "2_3": 922.902
+    }
+  },
+  {
+    "name": "Francesco Ravasi [INOX]",
+    "tname": "INOX",
+    "category": "D",
+    "times": {
+      "1_3": 749.264,
+      "2_3": 966.991,
+      "3_3": 1083.881
+    }
+  },
+  {
+    "name": "Ioannis Fotiou",
+    "tname": "MAGSTADT ",
+    "category": "D",
+    "times": {
+      "1_3": 871.187,
+      "2_3": 867.044,
+      "3_3": 1003.286
+    }
+  },
+  {
+    "name": "E P &#127809;",
+    "tname": "",
+    "category": "E",
+    "times": {
+      "1_3": 634.534
+    }
+  },
+  {
+    "name": "Tom Smith (CC Hackney)",
+    "tname": "",
+    "category": "E",
+    "times": {
+      "1_3": 639.575,
+      "2_3": 778.652,
+      "3_3": 886.245
+    }
+  },
+  {
+    "name": "Cristian Collesei [INOX]",
+    "tname": "INOX",
+    "category": "E",
+    "times": {
+      "1_3": 644.387,
+      "2_3": 779.172,
+      "3_3": 884.915
+    }
+  },
+  {
+    "name": "Rob McKechney",
+    "tname": "GRIT",
+    "category": "E",
+    "times": {
+      "1_3": 645.892,
+      "2_3": 781.744,
+      "3_3": 885.965
+    }
+  },
+  {
+    "name": "C lem Fandango (ART BSCC)",
+    "tname": "ART",
+    "category": "E",
+    "times": {
+      "1_3": 647.357,
+      "2_3": 857.059,
+      "3_3": 958.564
+    }
+  },
+  {
+    "name": "Paul McAllister",
+    "tname": "",
+    "category": "E",
+    "times": {
+      "1_3": 687.712,
+      "2_3": 859.588
+    }
+  },
+  {
+    "name": "Paul Rennie 4734",
+    "tname": "",
+    "category": "E",
+    "times": {
+      "1_3": 732.897,
+      "2_3": 871.699
+    }
+  },
+  {
+    "name": "Martin Coffey",
+    "tname": "A-P-V",
+    "category": "F",
+    "times": {
+      "1_3": 635.299,
+      "2_3": 772.003,
+      "3_3": 884.601
+    }
+  },
+  {
+    "name": "John Harrison [A-PEX VELO]",
+    "tname": "A-P-V",
+    "category": "F",
+    "times": {
+      "1_3": 639.456,
+      "2_3": 778.131,
+      "3_3": 1084.312
+    }
+  },
+  {
+    "name": "Sven Biermann - Team Rheinhessen",
+    "tname": "TRH (Team Rheinhessen)",
+    "category": "F",
+    "times": {
+      "1_3": 652.775,
+      "2_3": 824.487,
+      "3_3": 960.293
+    }
+  },
+  {
+    "name": "Andy Lomas [CRYO-GEN]",
+    "tname": "Team CRYO-GEN",
+    "category": "F",
+    "times": {
+      "1_3": 827.404,
+      "2_3": 1008.138,
+      "3_3": 1161.276
+    }
+  },
+  {
+    "name": "Stephen Versey 4880",
+    "tname": "",
+    "category": "F",
+    "times": {
+      "1_3": 1078.659,
+      "3_3": 1577.848
+    }
+  },
+  {
+    "name": "JPProvost",
+    "tname": "",
+    "category": "G",
+    "times": {
+      "1_3": 647.05,
+      "2_3": 812.02,
+      "3_3": 887.665
+    }
+  },
+  {
+    "name": "neil smart(OHSsrvivr)7415",
+    "tname": "",
+    "category": "G",
+    "times": {
+      "1_3": 671.929
+    }
+  },
+  {
+    "name": "T. Mac",
+    "tname": "",
+    "category": "G",
+    "times": {
+      "1_3": 710.262,
+      "2_3": 872.29,
+      "3_3": 1003.909
+    }
+  },
+  {
+    "name": "fredo P (FignonFanClub)",
+    "tname": "LAURENTFIGNON",
+    "category": "G",
+    "times": {
+      "1_3": 751.126,
+      "2_3": 990.389,
+      "3_3": 1132.59
+    }
+  },
+  {
+    "name": "Sandro Bolgan",
+    "tname": "",
+    "category": "G",
+    "times": {
+      "1_3": 844.618,
+      "3_3": 1373.021
+    }
+  },
+  {
+    "name": "Peter Baumann (Team Rheinhessen))",
+    "tname": "TRH (Team Rheinhessen)",
+    "category": "H",
+    "times": {
+      "1_3": 651.908,
+      "2_3": 851.288,
+      "3_3": 960.672
+    }
+  },
+  {
+    "name": "david benner",
+    "tname": "",
+    "category": "H",
+    "times": {
+      "1_3": 660.692,
+      "2_3": 859.027,
+      "3_3": 961.044
+    }
+  },
+  {
+    "name": "clive bednall",
+    "tname": "SISU Racing",
+    "category": "H",
+    "times": {
+      "1_3": 691.442,
+      "2_3": 871.12,
+      "3_3": 963.362
+    }
+  },
+  {
+    "name": "Dean Hardie The Wolf",
+    "tname": "TFC",
+    "category": "H",
+    "times": {
+      "1_3": 754.868,
+      "2_3": 881.866,
+      "3_3": 938.603
+    }
+  },
+  {
+    "name": "Jeff Dilks",
+    "tname": "",
+    "category": "H",
+    "times": {
+      "1_3": 822.219,
+      "2_3": 1067.579,
+      "3_3": 1164.374
+    }
+  },
+  {
+    "name": "J. Russ Miears ",
+    "tname": "RXC",
+    "category": "I",
+    "times": {
+      "1_3": 643.21,
+      "2_3": 813.111,
+      "3_3": 948.325
+    }
+  },
+  {
+    "name": "Werner   B&ouml;hrer",
+    "tname": "",
+    "category": "I",
+    "times": {
+      "1_3": 811.179
+    }
+  },
+  {
+    "name": "Phil Barthram",
+    "tname": "Westbury Wheelers",
+    "category": "I",
+    "times": {
+      "1_3": 820.908
+    }
+  },
+  {
+    "name": "Wilfried Weitz",
+    "tname": "GCA",
+    "category": "I",
+    "times": {
+      "1_3": 837.864,
+      "2_3": 1086.573,
+      "3_3": 1235.228
+    }
+  },
+  {
+    "name": "P ino 1947",
+    "tname": "",
+    "category": "J",
+    "times": {
+      "1_3": 751.534,
+      "2_3": 1035.767,
+      "3_3": 1085.466
+    }
+  },
+  {
+    "name": "Bud Duncan(USMES)",
+    "tname": "USMeS",
+    "category": "J",
+    "times": {
+      "1_3": 1042.351
+    }
+  },
+  {
+    "name": "Christian Eriksen",
+    "tname": "",
+    "category": "A",
+    "times": {
+      "2_3": 780.695
+    }
+  },
+  {
+    "name": "Sam Wilson",
+    "tname": "HISP",
+    "category": "B",
+    "times": {
+      "2_3": 1114.643
+    }
+  },
+  {
+    "name": "Jonathan See",
+    "tname": "",
+    "category": "C",
+    "times": {
+      "2_3": 781.272
+    }
+  },
+  {
+    "name": "Cristofer Ruggeri (SST) ",
+    "tname": "Scannellatori",
+    "category": "C",
+    "times": {
+      "2_3": 788.855,
+      "3_3": 894.883
+    }
+  },
+  {
+    "name": "julien BOVO5118",
+    "tname": "",
+    "category": "C",
+    "times": {
+      "2_3": 866.918
+    }
+  },
+  {
+    "name": "James Peddle",
+    "tname": "MAMGCC",
+    "category": "C",
+    "times": {
+      "2_3": 867.305
+    }
+  },
+  {
+    "name": "Luca Spinelli",
+    "tname": "",
+    "category": "C",
+    "times": {
+      "2_3": 967.995
+    }
+  },
+  {
+    "name": "Jack Harding (CRYO-GEN)",
+    "tname": "Team CRYO-GEN",
+    "category": "C",
+    "times": {
+      "2_3": 1006.942
+    }
+  },
+  {
+    "name": "Robert P.",
+    "tname": "",
+    "category": "C",
+    "times": {
+      "2_3": 1107.124,
+      "3_3": 1132.584
+    }
+  },
+  {
+    "name": "Bernd Bergmann RVST",
+    "tname": "ZRG",
+    "category": "J",
+    "times": {
+      "2_3": 1044.981,
+      "3_3": 1212.728
+    }
+  },
+  {
+    "name": "Alessandro Bond (TDM)",
+    "tname": "TDM",
+    "category": "A",
+    "times": {
+      "3_3": 970.32
+    }
+  },
+  {
+    "name": "Lucas Sch",
+    "tname": "",
+    "category": "A",
+    "times": {
+      "3_3": 1075.524
+    }
+  },
+  {
+    "name": "Christophe BINOVSKI (Foudre)",
+    "tname": "&#9889;&#65039;Foudre&#9889;&#65039;",
+    "category": "E",
+    "times": {
+      "3_3": 960.985
+    }
+  },
+  {
+    "name": "Jon Challen (FCVC)",
+    "tname": "",
+    "category": "E",
+    "times": {
+      "3_3": 1009.31
+    }
+  },
+  {
+    "name": "Neil Elden",
+    "tname": "British Cycling",
+    "category": "E",
+    "times": {
+      "3_3": 1028.113
+    }
+  },
+  {
+    "name": "Dan Martinez",
+    "tname": "",
+    "category": "E",
+    "times": {
+      "3_3": 1235.264
+    }
+  }
+]
