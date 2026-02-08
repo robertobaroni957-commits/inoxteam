@@ -111,14 +111,14 @@
         "routeLink": "https://zwiftinsider.com/route/sprinters-playground/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247687", 
         "segments": [
-            { "it": "Primo Tower Sprint Reverse FAL", "en": "First Tower Sprint Reverse FAL" },
+            { "it": "Primo Tower Sprint Reverse FTS", "en": "First Tower Sprint Reverse FTS" },
             { "it": "Primo Castle Park Sprint Reverse FAL", "en": "Second Castle Park Sprint Reverse FAL" },
             { "it": "Primo Alley Sprint FTS", "en": "Third Alley Sprint FTS" },
-            { "it": "Primo Railway Sprint FTS", "en": "Fourth Railway Sprint FTS" },
-            { "it": "Secondo Tower Sprint Reverse FAL & FTS", "en": "First Tower Sprint Reverse FAL & FTS" },
-            { "it": "Secondo Castle Park Sprint Reverse FAL & FTS", "en": "Second Castle Park Sprint Reverse FAL & FTS" },
-            { "it": "Secondo Alley Sprint FAL & FTS", "en": "Third Alley Sprint FAL & FTS" },
-            { "it": "Secondo Railway Sprint FAL & FTS", "en": "Fourth Railway Sprint FAL & FTS" }
+            { "it": "Primo Railway Sprint FAL", "en": "Fourth Railway Sprint FAL" },
+            { "it": "Secondo Tower Sprint Reverse FAL", "en": "First Tower Sprint Reverse FAL" },
+            { "it": "Secondo Castle Park Sprint Reverse FTS", "en": "Second Castle Park Sprint Reverse FTS" },
+            { "it": "Secondo Alley Sprint FAL", "en": "Third Alley Sprint FAL" },
+            { "it": "Secondo Railway Sprint FTS", "en": "Fourth Railway Sprint FTS" }
         ] 
     },
     { 
