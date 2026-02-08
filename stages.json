@@ -211,7 +211,7 @@
         "route": { "it": "Electric Loop", "en": "Electric Loop" }, 
         "type": { "it": "Point Flat", "en": "Point Flat" }, 
         "routeLink": "https://zwiftinsider.com/route/electric-loop/", 
-        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247709", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247710", 
         "segments": [] 
     },
     { 
@@ -221,7 +221,7 @@
         "route": { "it": "Ven-10", "en": "Ven-10" }, 
         "type": { "it": "Cronoscalata", "en": "Climbing TT" }, 
         "routeLink": "https://zwiftinsider.com/route/ven-10/", 
-        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247710", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247712", 
         "segments": [] 
     },
     { 
@@ -231,7 +231,7 @@
         "route": { "it": "Jarvis Seaside Sprint", "en": "Jarvis Seaside Sprint" }, 
         "type": { "it": "Point Hilly", "en": "Point Hilly" }, 
         "routeLink": "https://zwiftinsider.com/route/jarvis-seaside-sprint/", 
-        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247712", 
+        "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247713", 
         "segments": [] 
     }
 ]
