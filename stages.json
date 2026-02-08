@@ -105,12 +105,21 @@
     { 
         "id": 7, 
         "date": "2026-02-13T19:20:00", 
-        "world": { "it": "Makuri", "en": "Makuri" }, 
-        "route": { "it": "Sprinter's Playground", "en": "Sprinter's Playground" }, 
+        "world": { "it": "Makuri - Tower Sprint Reverse, Castle Park Sprint Reverse, Alley Sprint, Railway Sprint per classifica sprinter", "en": "Makuri - Tower Sprint Reverse, Castle Park Sprint Reverse, Alley Sprint, Railway Sprint for sprinter ranking" }, 
+        "route": { "it": "Sprinter's Playground (2 giri - 24.9 km - D+ 135 m)", "en": "Sprinter's Playground (2 giri - 24.9 km - D+ 135 m)" }, 
         "type": { "it": "Luna Park", "en": "Luna Park" }, 
         "routeLink": "https://zwiftinsider.com/route/sprinters-playground/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247687", 
-        "segments": [] 
+        "segments": [
+            { "it": "Primo Tower Sprint Reverse FAL", "en": "First Tower Sprint Reverse FAL" },
+            { "it": "Primo Castle Park Sprint Reverse FAL", "en": "Second Castle Park Sprint Reverse FAL" },
+            { "it": "Primo Alley Sprint FTS", "en": "Third Alley Sprint FTS" },
+            { "it": "Primo Railway Sprint FTS", "en": "Fourth Railway Sprint FTS" },
+            { "it": "Secondo Tower Sprint Reverse FAL & FTS", "en": "First Tower Sprint Reverse FAL & FTS" },
+            { "it": "Secondo Castle Park Sprint Reverse FAL & FTS", "en": "Second Castle Park Sprint Reverse FAL & FTS" },
+            { "it": "Secondo Alley Sprint FAL & FTS", "en": "Third Alley Sprint FAL & FTS" },
+            { "it": "Secondo Railway Sprint FAL & FTS", "en": "Fourth Railway Sprint FAL & FTS" }
+        ] 
     },
     { 
         "id": 8, 
