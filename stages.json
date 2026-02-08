@@ -112,13 +112,13 @@
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247687", 
         "segments": [
             { "it": "Primo Tower Sprint Reverse FTS", "en": "First Tower Sprint Reverse FTS" },
-            { "it": "Primo Castle Park Sprint Reverse FAL", "en": "Second Castle Park Sprint Reverse FAL" },
-            { "it": "Primo Alley Sprint FTS", "en": "Third Alley Sprint FTS" },
-            { "it": "Primo Railway Sprint FAL", "en": "Fourth Railway Sprint FAL" },
-            { "it": "Secondo Tower Sprint Reverse FAL", "en": "First Tower Sprint Reverse FAL" },
+            { "it": "Primo Castle Park Sprint Reverse FAL", "en": "First Castle Park Sprint Reverse FAL" },
+            { "it": "Primo Alley Sprint FTS", "en": "First Alley Sprint FTS" },
+            { "it": "Primo Railway Sprint FAL", "en": "First Railway Sprint FAL" },
+            { "it": "Secondo Tower Sprint Reverse FAL", "en": "Second Tower Sprint Reverse FAL" },
             { "it": "Secondo Castle Park Sprint Reverse FTS", "en": "Second Castle Park Sprint Reverse FTS" },
-            { "it": "Secondo Alley Sprint FAL", "en": "Third Alley Sprint FAL" },
-            { "it": "Secondo Railway Sprint FTS", "en": "Fourth Railway Sprint FTS" }
+            { "it": "Secondo Alley Sprint FAL", "en": "Second Alley Sprint FAL" },
+            { "it": "Secondo Railway Sprint FTS", "en": "Second Railway Sprint FTS" }
         ] 
     },
     { 
@@ -138,7 +138,7 @@
         "id": 9, 
         "date": "2026-02-20T19:20:00", 
         "world": { "it": "Watopia", "en": "Watopia" }, 
-        "route": { "it": "Flat Out Fast", "en": "Flat Out Fast" }, 
+        "route": { "it": "Flat Out Fast (22.3 km - D+ 49 m)", "en": "Flat Out Fast (22.3 km - D+ 49 m)" }, 
         "type": { "it": "iTT", "en": "iTT" }, 
         "routeLink": "https://zwiftinsider.com/route/flat-out-fast/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247692", 
@@ -147,12 +147,23 @@
     { 
         "id": 10, 
         "date": "2026-02-24T19:20:00", 
-        "world": { "it": "Francia", "en": "France" }, 
-        "route": { "it": "Bon Voyage", "en": "Bon Voyage" }, 
+        "world": { "it": "Francia - Dos d'Âne Sprint Reverse, Sprint du Cratère, Sprinteur Sprint Reverse e Pavé Sprint Reverse per classifica sprinter", "en": "France - Dos d'Âne Sprint Reverse, Sprint du Cratère, Sprinteur Sprint Reverse and Pavé Sprint Reverse for sprinter ranking" }, 
+        "route": { "it": "Bon Voyage (31.4 km - D+ 155 m)", "en": "Bon Voyage (31.4 km - D+ 155 m)" }, 
         "type": { "it": "Point Flat", "en": "Point Flat" }, 
         "routeLink": "https://zwiftinsider.com/route/bon-voyage/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247696", 
-        "segments": [] 
+        "segments": [
+            { "it": "Lead-in Dos d'Âne Sprint Reverse FAL", "en": "Lead-in Dos d'Âne Sprint Reverse FAL" },
+            { "it": "Primo Sprint du Cratère FTS", "en": "First Sprint du Cratère FTS" },
+            { "it": "Primo Sprinteur Sprint Reverse FTS", "en": "First Sprinteur Sprint Reverse FTS" },
+            { "it": "Secondo Dos d'Âne Sprint Reverse FTS", "en": "Second Dos d'Âne Sprint Reverse FTS" },
+            { "it": "Secondo Sprint du Cratère FAL", "en": "Second Sprint du Cratère FAL" },
+            { "it": "Secondo Sprinteur Sprint Reverse FAL", "en": "Second Sprinteur Sprint Reverse FAL" },
+            { "it": "Terzo Dos d'Âne Sprint Reverse FTS", "en": "Third Dos d'Âne Sprint Reverse FTS" },
+            { "it": "Terzo Sprint du Cratère FAL", "en": "Third Sprint du Cratère FAL" },
+            { "it": "Terzo Sprinteur Sprint Reverse FAL", "en": "Third Sprinteur Sprint Reverse FAL" },
+            { "it": "Pavé Sprint Reverse FTS", "en": "Pavé Sprint Reverse FTS" }
+        ] 
     },
     { 
         "id": 11, 
