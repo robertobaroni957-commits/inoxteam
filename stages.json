@@ -124,12 +124,15 @@
     { 
         "id": 8, 
         "date": "2026-02-17T19:20:00", 
-        "world": { "it": "Londra", "en": "London" }, 
-        "route": { "it": "London Uprising", "en": "London Uprising" }, 
+        "world": { "it": "Londra - Fox Hill KOM e Box Hill KOM per classifica scalatori", "en": "London - Fox Hill KOM and Box Hill KOM for climber ranking" }, 
+        "route": { "it": "London Uprising (20.9 km - D+ 357 m)", "en": "London Uprising (20.9 km - D+ 357 m)" }, 
         "type": { "it": "Point Mountain", "en": "Point Mountain" }, 
         "routeLink": "https://zwiftinsider.com/route/london-uprising/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247689", 
-        "segments": [] 
+        "segments": [
+            { "it": "Fox Hill KOM FAL", "en": "Fox Hill KOM FAL" },
+            { "it": "Box Hill KOM FTS", "en": "Box Hill KOM FTS" }
+        ] 
     },
     { 
         "id": 9, 
