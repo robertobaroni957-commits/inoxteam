@@ -169,7 +169,7 @@
         "id": 11, 
         "date": "2026-02-27T19:20:00", 
         "world": { "it": "Watopia", "en": "Watopia" }, 
-        "route": { "it": "Mountain Mash", "en": "Mountain Mash" }, 
+        "route": { "it": "Mountain Mash (5.9 km - D+ 335 m)", "en": "Mountain Mash (5.9 km - D+ 335 m)" }, 
         "type": { "it": "Cronoscalata", "en": "Climbing TT" }, 
         "routeLink": "https://zwiftinsider.com/route/mountain-mash/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247700", 
@@ -179,17 +179,24 @@
         "id": 12, 
         "date": "2026-03-03T19:20:00", 
         "world": { "it": "Richmond", "en": "Richmond" }, 
-        "route": { "it": "Cobbled Climbs Reverse", "en": "Cobbled Climbs Reverse" }, 
+        "route": { "it": "Cobbled Climbs Reverse (27.8 km - D+ 403 m)", "en": "Cobbled Climbs Reverse (27.8 km - D+ 403 m)" }, 
         "type": { "it": "Point Hilly", "en": "Point Hilly" }, 
         "routeLink": "https://zwiftinsider.com/route/cobbled-climbs-reverse/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247701", 
-        "segments": [] 
+        "segments": [
+            { "it": "Primo Libby Hill solo FTS", "en": "First Libby Hill only FTS" },
+            { "it": "Primo 23rd Street solo FAL", "en": "First 23rd Street only FAL" },
+            { "it": "Secondo Libby Hill solo FAL & FTS", "en": "Second Libby Hill only FAL & FTS" },
+            { "it": "Secondo 23rd Street solo FTS", "en": "Second 23rd Street only FTS" },
+            { "it": "Terzo Libby Hill solo FTS", "en": "Third Libby Hill only FTS" },
+            { "it": "Terzo 23rd Street solo FAL & FTS", "en": "Third 23rd Street only FAL & FTS" }
+        ] 
     },
     { 
         "id": 13, 
         "date": "2026-03-06T19:20:00", 
         "world": { "it": "Londra", "en": "London" }, 
-        "route": { "it": "London Flat", "en": "London Flat" }, 
+        "route": { "it": "London Flat (24.4 km - D+ 230 m)", "en": "London Flat (24.4 km - D+ 230 m)" }, 
         "type": { "it": "iTT", "en": "iTT" }, 
         "routeLink": "https://zwiftinsider.com/route/london-flat/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247703", 
