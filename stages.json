@@ -205,32 +205,52 @@
     { 
         "id": 14, 
         "date": "2026-03-10T19:20:00", 
-        "world": { "it": "New York", "en": "New York" }, 
+        "world": { "it": "New York - Center Sprint e The Peristyle Sprint per classifica sprinter, Thi Hill KOM per classifica scalatore", "en": "New York - Center Sprint and The Peristyle Sprint for sprinter ranking, The Hill KOM for climber ranking" }, 
         "route": { "it": "Toefield Tormado (30.7 km - D+ 158 m)", "en": "Toefield Tornado (30.7 km - D+ 158 m)" }, 
         "type": { "it": "Luna Park", "en": "Luna Park" }, 
         "routeLink": "https://zwiftinsider.com/route/toefield-tornado/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247705", 
-        "segments": [] 
+        "segments": [
+            { "it": "Primo Center Sprint solo FTS", "en": "First Center Sprint only FTS" },
+            { "it": "Primo The Peristyle Sprint solo FTS", "en": "First The Peristyle Sprint only FTS" },
+            { "it": "Secondo Center Sprint solo FTS", "en": "Second Center Sprint only FTS" },
+            { "it": "Primo The Hill KOM FAL & FTS", "en": "First The Hill KOM FAL & FTS" },
+            { "it": "Terzo Center Sprint solo FAL", "en": "Third Center Sprint only FAL" },
+            { "it": "Secondo The Peristyle Sprint solo FTS", "en": "Second The Peristyle Sprint only FTS" },
+            { "it": "Quarto Center Sprint solo FTS", "en": "Fourth Center Sprint only FTS" },
+            { "it": "Secondo The Hill KOM FAL & FTS", "en": "Second The Hill KOM FAL & FTS" },
+            { "it": "Quinto Center Sprint solo FTS", "en": "Fifth Center Sprint only FTS" },
+            { "it": "Terzo The Peristyle Sprint solo FAL", "en": "Third The Peristyle Sprint only FAL" },
+            { "it": "Sesto Center Sprint solo FAL", "en": "Sixth Center Sprint only FAL" },
+            { "it": "Terzo The Hill KOM FAL & FTS", "en": "Third The Hill KOM FAL & FTS" }
+        ] 
     },
     { 
         "id": 15, 
         "date": "2026-03-13T19:20:00", 
-        "world": { "it": "Watopia", "en": "Watopia" }, 
+        "world": { "it": "Watopia - Watopia Sprint reverse e Jarvis Sprint reverse per classifica sprinter, Jarvis KOM Reverse per classifica scalatore", "en": "Watopia - Watopia Sprint reverse and Jarvis Sprint reverse for sprinter ranking, Jarvis KOM Reverse for climber ranking" }, 
         "route": { "it": "Power Punches (23.7 km - D+ 205 m)", "en": "Power Punches (23.7 km - D+ 205 m)" }, 
         "type": { "it": "Point Mountain", "en": "Point Mountain" }, 
         "routeLink": "https://zwiftinsider.com/route/power-punches/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247707", 
-        "segments": [] 
+        "segments": [
+            { "it": "Watopia Sprint Reverse FAL & FTS", "en": "Watopia Sprint Reverse FAL & FTS" },
+            { "it": "Tutti i Jarvis Sprint Reverse solo FTS", "en": "All the Jarvis Sprint Reverse only FTS" },
+            { "it": "Tutti i Jarvis KOM Reverse FAL & FTS", "en": "All the Jarvis KOM Reverse FAL & FTS" }
+        ] 
     },
     { 
         "id": 16, 
         "date": "2026-03-17T19:20:00", 
-        "world": { "it": "Makuri", "en": "Makuri" }, 
+        "world": { "it": "Makuri - Alley Sprint e Tower Sprint reverse per classifca sprinter", "en": "Makuri - Alley Sprint and Tower Sprint reverse for climber ranking" }, 
         "route": { "it": "Electric Loop (26.9 km - D+ 126 m)", "en": "Electric Loop  (26.9 km - D+ 126 m)" }, 
         "type": { "it": "Point Flat", "en": "Point Flat" }, 
         "routeLink": "https://zwiftinsider.com/route/electric-loop/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247710", 
-        "segments": [] 
+        "segments": [
+            { "it": "Tutti gli Alley Sprint solo FTS", "en": "All the Alley Sprint only FTS" },
+            { "it": "Tutti i Tower Sprint reverse FAL & FTS", "en": "All the Tower Sprint reverse FAL & FTS" }
+        ] 
     },
     { 
         "id": 17, 
