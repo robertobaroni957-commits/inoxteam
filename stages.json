@@ -178,18 +178,14 @@
     { 
         "id": 12, 
         "date": "2026-03-03T19:20:00", 
-        "world": { "it": "Richmond - Libby Hill per classifica scalatore, 23rd Street per classifica sprinter", "en": "Richmond - Libby Hill for climber ranking, 23rd Street for sprinter ranking" }, 
+        "world": { "it": "Richmond - Libby Hill per classifica sprintet, 23rd Street per classifica scalatore", "en": "Richmond - Libby Hill for sprinter ranking, 23rd Street for climber ranking" }, 
         "route": { "it": "Cobbled Climbs Reverse (27.8 km - D+ 403 m)", "en": "Cobbled Climbs Reverse (27.8 km - D+ 403 m)" }, 
         "type": { "it": "Point Hilly", "en": "Point Hilly" }, 
         "routeLink": "https://zwiftinsider.com/route/cobbled-climbs-reverse/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247701", 
         "segments": [
-            { "it": "Primo Libby Hill solo FTS", "en": "First Libby Hill only FTS" },
-            { "it": "Primo 23rd Street solo FAL", "en": "First 23rd Street only FAL" },
-            { "it": "Secondo Libby Hill solo FAL & FTS", "en": "Second Libby Hill only FAL & FTS" },
-            { "it": "Secondo 23rd Street solo FTS", "en": "Second 23rd Street only FTS" },
-            { "it": "Terzo Libby Hill solo FTS", "en": "Third Libby Hill only FTS" },
-            { "it": "Terzo 23rd Street solo FAL & FTS", "en": "Third 23rd Street only FAL & FTS" }
+            { "it": "Tutti i 23rd Street FAL & FTS", "en": "All the 23rd Street FAL & FTS" },            
+            { "it": "Tutti i Libby Hill FAL & FTS", "en": "All the Libby Hill FAL & FTS" }
         ] 
     },
     { 
