@@ -238,7 +238,7 @@
     { 
         "id": 16, 
         "date": "2026-03-17T19:20:00", 
-        "world": { "it": "Makuri - Alley Sprint e Tower Sprint reverse per classifca sprinter", "en": "Makuri - Alley Sprint and Tower Sprint reverse for climber ranking" }, 
+        "world": { "it": "Makuri - Alley Sprint e Tower Sprint reverse per classifca sprinter", "en": "Makuri - Alley Sprint and Tower Sprint reverse for sprinter ranking" }, 
         "route": { "it": "Electric Loop (26.9 km - D+ 126 m)", "en": "Electric Loop  (26.9 km - D+ 126 m)" }, 
         "type": { "it": "Point Flat", "en": "Point Flat" }, 
         "routeLink": "https://zwiftinsider.com/route/electric-loop/", 
@@ -266,6 +266,14 @@
         "type": { "it": "Point Hilly", "en": "Point Hilly" }, 
         "routeLink": "https://zwiftinsider.com/route/jarvis-seaside-sprint/", 
         "registerLink": "https://www.zwift.com/eu-it/events/tag/inoxwinter/view/5247713", 
-        "segments": [] 
+        "segments": [
+            { "it": "Lead-in Watopia Sprint Reverse FAL & FTS", "en": "Lead-in Watopia Sprint Reverse FAL & FTS" },
+            { "it": "Primo Jarvis Sprint Reverse solo FTS", "en": "Primo Jarvis Sprint Reverse only FTS" },
+            { "it": "Primo Jarvis KOM Reverse FAL", "en": "First Jarvis KOM Reverse FAL" },
+            { "it": "Primo Watopia Sprint Reverse FAL & FTS", "en": "Primo Watopia Sprint Reverse FAL & FTS" },
+            { "it": "Secondo Jarvis Sprint Reverse solo FTS", "en": "Second Jarvis Sprint Reverse only FTS" },
+            { "it": "Secondo Jarvis KOM Reverse FAL", "en": "Second Jarvis KOM Reverse FAL" },
+            { "it": "Terzo Watopia Sprint Reverse FTS", "en": "Third Watopia Sprint Reverse FTS" }
+        ] 
     }
 ]
