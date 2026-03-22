@@ -261,7 +261,7 @@
     { 
         "id": 18, 
         "date": "2026-03-24T19:20:00", 
-        "world": { "it": "Watopia", "en": "Watopia" }, 
+        "world": { "it": "Watopia - Watopia Sprint reverse e Jarvis Sprint reverse per classifica sprinter, Jarvis KOM Reverse per classifica scalatore", "en": "Watopia - Watopia Sprint reverse and Jarvis Sprint reverse for sprinter ranking, Jarvis KOM Reverse for climber ranking" }, 
         "route": { "it": "Jarvis Seaside Sprint (27.8 km - D+ 226 m)", "en": "Jarvis Seaside Sprint (27.8 km - D+ 226 m)" }, 
         "type": { "it": "Point Hilly", "en": "Point Hilly" }, 
         "routeLink": "https://zwiftinsider.com/route/jarvis-seaside-sprint/", 
